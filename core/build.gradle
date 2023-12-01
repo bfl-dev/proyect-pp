@@ -1,7 +1,9 @@
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 eclipse.project.name = appName + '-core'
+sourceSets.main.java.srcDirs = [ "src/" ]
 
 dependencies {
+  implementation 'com.xenoamess:JXInput:1.0.1'
   api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   api "de.tomgrill.gdxdialogs:gdx-dialogs-core:$dialogsVersion"

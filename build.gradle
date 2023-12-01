@@ -9,8 +9,6 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-
-
   }
 }
 
@@ -40,5 +38,14 @@ subprojects {
     maven { url 'https://jitpack.io' }
   }
 }
+project(":core") {
+  apply plugin: "java-library"
 
-eclipse.project.name = 'ProyectPP' + '-parent'
+
+  dependencies {
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation 'com.xenoamess:JXInput:1.0.1'
+  }
+
+  eclipse.project.name = 'ProyectPP' + '-parent'
+}

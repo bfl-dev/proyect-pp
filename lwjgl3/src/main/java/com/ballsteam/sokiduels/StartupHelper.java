@@ -14,7 +14,7 @@
  */
 //Note, the above license and copyright applies to this file only.
 
-package ballsgg.pp.lwjgl3;
+package com.ballsteam.sokiduels;
 
 import org.lwjgl.system.macosx.LibC;
 
