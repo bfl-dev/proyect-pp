@@ -10,6 +10,8 @@ import com.ballsteam.sokiduels.Screens.Screens;
 import com.ballsteam.sokiduels.player.Player;
 import com.ballsteam.sokiduels.SokiDuels;
 
+import java.util.stream.IntStream;
+
 
 public class sokiInvadersScreen extends AbstractScreen {
     Spaceship spaceShip;
@@ -26,7 +28,7 @@ public class sokiInvadersScreen extends AbstractScreen {
         aliens = new Array<>();
         direccion = 1;
         fondo = new Sprite(new Texture("fondo.png"));
-        crearMatriz(aliens,10,5);
+        crearMatriz(aliens);
     }
 
     @Override
@@ -42,42 +44,32 @@ public class sokiInvadersScreen extends AbstractScreen {
         main.batch.begin();
         fondo.draw(main.batch);
         spaceShip.draw(main.batch);
-        for (Alien alien : aliens) {
+        aliens.forEach(alien -> {
             alien.draw(main.batch);
-            alien.posAlien.x += 100* Gdx.graphics.getDeltaTime()*direccion;
-            if (alien.posAlien.x >= Gdx.graphics.getWidth()-alien.alienSprite.getWidth()){
-                direccion = -1;
-                for (int j = 0; j < aliens.size; j++) {
-                    aliens.get(j).posAlien.y -= 10;
-                }
+            alien.posAlien.x += 100 * Gdx.graphics.getDeltaTime() * direccion;
+            if (alien.posAlien.x >= Gdx.graphics.getWidth() - alien.alienSprite.getWidth() || alien.posAlien.x <= 0) {
+                direccion = (alien.posAlien.x >= Gdx.graphics.getWidth() - alien.alienSprite.getWidth()) ? -1 : 1;
+                IntStream.range(0, aliens.size).forEach(j -> aliens.get(j).posAlien.y -= 10);
             }
-            if (alien.posAlien.x <= 0){
-                direccion = 1;
-                for (int j = 0; j < aliens.size; j++) {
-                    aliens.get(j).posAlien.y -= 10;
-                }
-            }
-            if(spaceShip.bullet.bulletSprite.getBoundingRectangle().overlaps(alien.alienSprite.getBoundingRectangle())){
+
+            if (spaceShip.bullet.bulletSprite.getBoundingRectangle().overlaps(alien.alienSprite.getBoundingRectangle())) {
                 spaceShip.bullet.bullet.y = 10000;
-                aliens.removeValue(alien,true);
+                aliens.removeValue(alien, true);
             }
 
-            if (alien.alienSprite.getBoundingRectangle().overlaps(spaceShip.shipSprite.getBoundingRectangle())){
-                main.setScreen(Screens.MENUSCREEN); // Aqui deberia ir un GameOver
+            if (alien.alienSprite.getBoundingRectangle().overlaps(spaceShip.shipSprite.getBoundingRectangle())) {
+                main.setScreen(Screens.MENUSCREEN); // Aquí debería ir un GameOver
             }
 
-            if (aliens.isEmpty()) main.setScreen(Screens.MENUSCREEN);
-        }
+            if (aliens.isEmpty()) {
+                main.setScreen(Screens.MENUSCREEN);
+            }
+        });
         main.batch.end();
     }
 
-    public static void crearMatriz(Array<Alien> aliens, int ancho, int alto){
-        for (int j = 0; j < ancho; j++) {
-            for (int k = 0; k < alto; k++) {
-                Vector2 posicion = new Vector2((j*57)+120,(k*57)+180);
-                aliens.add(new Alien(posicion));
-            }
-        }
+    public static void crearMatriz(Array<Alien> aliens){
+        IntStream.range(0, 5).forEach(i -> IntStream.range(0, 10).forEach(j -> aliens.add(new Alien(new Vector2(120 + (j * 57), 180 + (i * 57))))));
     }
 
     private void updateSpaceship(){
