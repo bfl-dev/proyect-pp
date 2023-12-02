@@ -40,29 +40,74 @@ public class Baile extends AbstractScreen  {
         fondoFlechas.draw(main.batch);
         if(TimeUtils.nanoTime() - lastDrop > 1000000000) spawnFlechas();
         drawOnscreenText();
+
         flechasArriba.forEach(flechaArriba -> flechaArriba.draw(main.batch));
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && flechasArriba.size > 0) {
-            if (flechasArriba.get(0).getPosicionArriba().y >= 0 && flechasArriba.get(0).getPosicionArriba().y <= 64) score += 10;
-            flechasArriba.removeValue(flechasArriba.get(0), true);
-        }
         flechasAbajo.forEach(flechaAbajo -> flechaAbajo.draw(main.batch));
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && flechasAbajo.size > 0) {
-            if (flechasAbajo.get(0).getPosicionAbajo().y >= 0 && flechasAbajo.get(0).getPosicionAbajo().y <= 64) score += 10;
-            flechasAbajo.removeValue(flechasAbajo.get(0), true);
-        }
         flechasIzquierda.forEach(flechaIzquierda -> flechaIzquierda.draw(main.batch));
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && flechasIzquierda.size > 0) {
-            if (flechasIzquierda.get(0).getPosicionIzquierda().x >= 0 && flechasIzquierda.get(0).getPosicionIzquierda().x <= 64) score += 10;
-            flechasIzquierda.removeValue(flechasIzquierda.get(0), true);
-        }
         flechasDerecha.forEach(flechaDerecha -> flechaDerecha.draw(main.batch));
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && flechasDerecha.size > 0) {
-            if (flechasDerecha.get(0).getPosicionDerecha().x >= 0 && flechasDerecha.get(0).getPosicionDerecha().x <= 64) {
-                score += 10;
-            }
-            flechasDerecha.removeValue(flechasDerecha.get(0), true);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.J)) {
+            flechasArriba.forEach(flechaArriba -> {
+                if (flechaArriba.getPosicionArriba().y < 100 && flechaArriba.getPosicionArriba().y > 0) {
+                    flechasArriba.removeValue(flechaArriba, true);
+                    score++;
+                }
+            });
         }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            flechasAbajo.forEach(flechaAbajo -> {
+                if (flechaAbajo.getPosicionAbajo().y < 100 && flechaAbajo.getPosicionAbajo().y > 0) {
+                    flechasAbajo.removeValue(flechaAbajo, true);
+                    score++;
+                }
+            });
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            flechasIzquierda.forEach(flechaIzquierda -> {
+                if (flechaIzquierda.getPosicionIzquierda().y < 100 && flechaIzquierda.getPosicionIzquierda().y > 0) {
+                    flechasIzquierda.removeValue(flechaIzquierda, true);
+                    score++;
+                }
+            });
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.K)) {
+            flechasDerecha.forEach(flechaDerecha -> {
+                if (flechaDerecha.getPosicionDerecha().y < 100 && flechaDerecha.getPosicionDerecha().y > 0) {
+                    flechasDerecha.removeValue(flechaDerecha, true);
+                    score++;
+                }
+            });
+        }
+
+        flechasAbajo.forEach(flechaAbajo -> {
+            if (flechaAbajo.getPosicionAbajo().y < -20) {
+                flechasAbajo.removeValue(flechaAbajo, true);
+            }
+        });
+
+        flechasArriba.forEach(flechaArriba -> {
+            if (flechaArriba.getPosicionArriba().y < -20) {
+                flechasArriba.removeValue(flechaArriba, true);
+            }
+        });
+
+        flechasIzquierda.forEach(flechaIzquierda -> {
+            if (flechaIzquierda.getPosicionIzquierda().y < -20) {
+                flechasIzquierda.removeValue(flechaIzquierda, true);
+            }
+        });
+
+        flechasDerecha.forEach(flechaDerecha -> {
+            if (flechaDerecha.getPosicionDerecha().y < -20) {
+                flechasDerecha.removeValue(flechaDerecha, true);
+            }
+        });
+
         main.batch.end();
+
     }
     public void spawnFlechas() {
         int random = (int) (Math.random() * 4);
@@ -90,6 +135,7 @@ public class Baile extends AbstractScreen  {
         flechasArriba.forEach(FlechaArriba::dispose);
         flechasAbajo.forEach(FlechaAbajo::dispose);
         flechasIzquierda.forEach(FlechaIzquierda::dispose);
+        flechasDerecha.forEach(FlechaDerecha::dispose);
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + score, 256, 20);
