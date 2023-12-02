@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.mygdx.game.AbstractScreen;
-import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Screens;
+import com.ballsteam.sokiduels.Screens.AbstractScreen;
+import com.ballsteam.sokiduels.SokiDuels;
+import com.ballsteam.sokiduels.Screens.Screens;
 
 import java.util.stream.IntStream;
 
@@ -21,7 +21,7 @@ public class  GameScreen extends AbstractScreen {
     int direccion;
     long lastDropTime;
 
-    public GameScreen(MyGdxGame main) {
+    public GameScreen(SokiDuels main) {
         super(main);
         spaceShip = new Spaceship();
         aliens = new Array<>();
@@ -51,7 +51,7 @@ public class  GameScreen extends AbstractScreen {
     @Override
     public void dispose() {
         spaceShip.dispose();
-        soki.forEach(drop -> drop.dispose());
+        soki.forEach(Alien::dispose);
         fondo.getTexture().dispose();
     }
 

@@ -6,11 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.SokiDuels;
-import com.mygdx.game.AbstractScreen;
-import com.mygdx.game.MyGdxGame;
+import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.badlogic.gdx.utils.Array;
 
-public class Baile extends AbstractScreen {
+public class Baile extends AbstractScreen  {
     Array<FlechaArriba> flechasArriba;
     Array<FlechaAbajo> flechasAbajo;
     Array<FlechaIzquierda> flechasIzquierda;
@@ -43,22 +42,22 @@ public class Baile extends AbstractScreen {
         drawOnscreenText();
         flechasArriba.forEach(flechaArriba -> flechaArriba.draw(main.batch));
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && flechasArriba.size > 0) {
-            if (flechasArriba.get(0).posicionArriba.y >= 0 && flechasArriba.get(0).posicionArriba.y <= 64) score += 10;
+            if (flechasArriba.get(0).getPosicionArriba().y >= 0 && flechasArriba.get(0).getPosicionArriba().y <= 64) score += 10;
             flechasArriba.removeValue(flechasArriba.get(0), true);
         }
         flechasAbajo.forEach(flechaAbajo -> flechaAbajo.draw(main.batch));
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && flechasAbajo.size > 0) {
-            if (flechasAbajo.get(0).posicionAbajo.y >= 0 && flechasAbajo.get(0).posicionAbajo.y <= 64) score += 10;
+            if (flechasAbajo.get(0).getPosicionAbajo().y >= 0 && flechasAbajo.get(0).getPosicionAbajo().y <= 64) score += 10;
             flechasAbajo.removeValue(flechasAbajo.get(0), true);
         }
         flechasIzquierda.forEach(flechaIzquierda -> flechaIzquierda.draw(main.batch));
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && flechasIzquierda.size > 0) {
-            if (flechasIzquierda.get(0).posicionIzquierda.x >= 0 && flechasIzquierda.get(0).posicionIzquierda.x <= 64) score += 10;
+            if (flechasIzquierda.get(0).getPosicionIzquierda().x >= 0 && flechasIzquierda.get(0).getPosicionIzquierda().x <= 64) score += 10;
             flechasIzquierda.removeValue(flechasIzquierda.get(0), true);
         }
         flechasDerecha.forEach(flechaDerecha -> flechaDerecha.draw(main.batch));
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && flechasDerecha.size > 0) {
-            if (flechasDerecha.get(0).posicionDerecha.x >= 0 && flechasDerecha.get(0).posicionDerecha.x <= 64) score += 10;
+            if (flechasDerecha.get(0).getPosicionDerecha().x >= 0 && flechasDerecha.get(0).getPosicionDerecha().x <= 64) score += 10;
             flechasDerecha.removeValue(flechasDerecha.get(0), true);
         }
         main.batch.end();

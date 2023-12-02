@@ -20,7 +20,7 @@ public class Spaceship {
         // Inicialización de la nave espacial, su sprite y la bala asociada.
         shipSprite = new Sprite(new Texture("spaceship.png"));
         spaceShip = new Vector2();
-        spaceShip.x = 800 / 2 - 64 / 2;
+        spaceShip.x = (float) 800 / 2 - (float) 64 / 2;
         spaceShip.y = 20;
         bullets = new Array<>();
         lastShot = TimeUtils.nanoTime();
