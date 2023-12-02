@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
+import com.ballsteam.sokiduels.minigames.baile.Baile;
+import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
 import com.ballsteam.sokiduels.player.KeyboardInput;
 import com.ballsteam.sokiduels.player.Player;
 import com.ballsteam.sokiduels.SokiDuels;
@@ -72,7 +74,7 @@ public class MenuScreen extends AbstractScreen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                main.setScreen(new ConfigScreen(main);
+                main.setScreen(new Baile(main));
                 dispose();
             }
         });
@@ -85,7 +87,8 @@ public class MenuScreen extends AbstractScreen {
         buttonQuit.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {return true;}
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.exit();
+                main.setScreen(new SokiInvadersScreen(main));
+                dispose();
             }
         });
         return buttonQuit;

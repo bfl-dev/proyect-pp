@@ -13,7 +13,7 @@ import com.ballsteam.sokiduels.Screens.Screens;
 
 import java.util.stream.IntStream;
 
-public class  GameScreen extends AbstractScreen {
+public class SokiInvadersScreen extends AbstractScreen {
     Spaceship spaceShip;
     Sprite fondo;
     Array<Alien> aliens;
@@ -21,7 +21,7 @@ public class  GameScreen extends AbstractScreen {
     int direccion;
     long lastDropTime;
 
-    public GameScreen(SokiDuels main) {
+    public SokiInvadersScreen(SokiDuels main) {
         super(main);
         spaceShip = new Spaceship();
         aliens = new Array<>();

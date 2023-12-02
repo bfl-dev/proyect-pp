@@ -16,6 +16,7 @@ public class SokiDuels extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
+        font = new BitmapFont();
 		camera.setToOrtho(false, 800, 480);
 		camera.update();
 		try {

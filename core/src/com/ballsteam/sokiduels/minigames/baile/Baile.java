@@ -57,7 +57,9 @@ public class Baile extends AbstractScreen  {
         }
         flechasDerecha.forEach(flechaDerecha -> flechaDerecha.draw(main.batch));
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && flechasDerecha.size > 0) {
-            if (flechasDerecha.get(0).getPosicionDerecha().x >= 0 && flechasDerecha.get(0).getPosicionDerecha().x <= 64) score += 10;
+            if (flechasDerecha.get(0).getPosicionDerecha().x >= 0 && flechasDerecha.get(0).getPosicionDerecha().x <= 64) {
+                score += 10;
+            }
             flechasDerecha.removeValue(flechasDerecha.get(0), true);
         }
         main.batch.end();

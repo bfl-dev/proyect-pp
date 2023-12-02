@@ -20,8 +20,8 @@ else {
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 mainClassName = 'ballsgg.pp.lwjgl3.Lwjgl3Launcher'
 eclipse.project.name = appName + '-lwjgl3'
-java.sourceCompatibility = 11
-java.targetCompatibility = 11
+java.sourceCompatibility = 18
+java.targetCompatibility = 18
 
 dependencies {
   implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"

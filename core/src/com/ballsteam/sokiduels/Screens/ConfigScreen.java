@@ -20,9 +20,6 @@ public class ConfigScreen extends AbstractScreen{
         main.batch.end();
     }
 
-    @Override
-    public void dispose() {
-    }
 
 }
 
