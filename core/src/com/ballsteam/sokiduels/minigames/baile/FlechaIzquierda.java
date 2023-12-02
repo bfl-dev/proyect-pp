@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class FlechaIzquierda {
-    Sprite flechaIzquierda;
-    Vector2 posicionIzquierda;
+    private final Sprite flechaIzquierda;
+    private final Vector2 posicionIzquierda;
     public FlechaIzquierda() {
         flechaIzquierda = new Sprite(new Texture("flechaIzquierda.png"));
         posicionIzquierda = new Vector2(0, 480);
@@ -23,5 +23,9 @@ public class FlechaIzquierda {
     }
     public void dispose() {
         flechaIzquierda.getTexture().dispose();
+    }
+
+    public Vector2 getPosicionIzquierda() {
+        return posicionIzquierda;
     }
 }
