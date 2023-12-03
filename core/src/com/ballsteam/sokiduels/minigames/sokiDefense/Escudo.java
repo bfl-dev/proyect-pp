@@ -44,9 +44,9 @@ public class Escudo {
         if (Gdx.input.isKeyPressed(down)){
             posEscudo.y -= 300 * Gdx.graphics.getDeltaTime();
         }
-        if (posEscudo.x > 800 - 64) posEscudo.x = 800 - 64;
+        if (posEscudo.x > 800 - escudoSprite.getWidth()) posEscudo.x = 800 - escudoSprite.getWidth();
         if (posEscudo.x < 0) posEscudo.x = 0;
-        if (posEscudo.y > 480 - 64) posEscudo.y = 480 - 64;
+        if (posEscudo.y > 480 - escudoSprite.getWidth()) posEscudo.y = 480 - escudoSprite.getWidth();
         if (posEscudo.y < 0) posEscudo.y = 0;
     }
     public void draw (SpriteBatch batch){
