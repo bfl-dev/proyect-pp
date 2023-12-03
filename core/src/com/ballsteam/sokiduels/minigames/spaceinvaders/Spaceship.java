@@ -23,12 +23,12 @@ public class Spaceship {
         // Inicialización de la nave espacial, su sprite y la bala asociada.
         shipSprite = new Sprite(new Texture("sokiInvaders/spaceship.png"));
         spaceShip = new Vector2();
-        spaceShip.x = (float) 800 / 2 - (float) 64 / 2;
+        spaceShip.x = (float) 1366 / 2 - (float) 64 / 2;
         this.isPlayerOne = isPlayerOne;
         if (isPlayerOne) {
             spaceShip.y = 20;
         } else {
-            spaceShip.y = 400;
+            spaceShip.y = 688;
             shipSprite.rotate(180);
         }
         bullets = new Array<>();
@@ -47,7 +47,7 @@ public class Spaceship {
         bullets.forEach(bullet -> {
             if (bullet.bullet.y > 480) bullets.removeValue(bullet, true);
         });
-        if (spaceShip.x > 800 - 64) spaceShip.x = 800 - 64;
+        if (spaceShip.x > 1366 - 64) spaceShip.x = 1366 - 64;
         if (spaceShip.x < 0) spaceShip.x = 0;
     }
 

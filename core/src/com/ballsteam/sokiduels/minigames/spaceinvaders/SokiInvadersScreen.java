@@ -39,6 +39,7 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
         aliens = new Array<>();
         direccion = 1;
         fondo = new Sprite(new Texture("sokiInvaders/fondo.png"));
+        fondo.setSize(getWidth(),getHeight());
         crearMatriz(aliens);
         soki = new Array<>();
         spawnSoki();
@@ -72,8 +73,10 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
         fondo.getTexture().dispose();
     }
 
-    public static void crearMatriz(Array<Alien> aliens) {
-        IntStream.range(0, 5).forEach(i -> IntStream.range(0, 10).forEach(j -> aliens.add(new Alien(new Vector2(120 + (j * 57), 180 + (i * 57))))));
+    public void crearMatriz(Array<Alien> aliens) {
+        IntStream.range(1, 5)
+            .forEach(i -> IntStream.range(0, 10)
+                .forEach(j -> aliens.add(new Alien(new Vector2(120 + (j * 57), getHeight()/5 + (i * 57))))));
     }
     public void caidaAliens(){
         soki.forEach(drop -> {
@@ -112,7 +115,7 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + spaceShip.score, 15, 20);
-        main.font.draw(main.batch, "Score: " + spaceShip2.score, 720, 460);
+        main.font.draw(main.batch, "Score: " + spaceShip2.score, getWidth()-69, getHeight()-10);
     }
     private void spawnSoki() {
         Alien enemy = new Alien(new Vector2(0, MathUtils.random(72, 370)));
