@@ -21,12 +21,6 @@ public class MenuScreen extends AbstractScreen {
     public MenuScreen(SokiDuels main) throws XInputNotLoadedException {
         super(main);
     }
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        main.batch.begin();
-        main.batch.end();
-    }
 
     @Override
     public void buildStage() {
@@ -35,21 +29,20 @@ public class MenuScreen extends AbstractScreen {
         addActor(text);
 
         //buttonPlay
-        TextButton buttonPlay = createButtonPlay();
+        TextButton buttonPlay = createButtonCachipunScreen();
         addActor(buttonPlay);
 
         //buttonConfig
-        TextButton buttonConfig = createButtonConfig();
+        TextButton buttonConfig = createButtonBaile();
         addActor(buttonConfig);
 
         //buttonQuit
-        TextButton buttonQuit = createButtonQuit();
+        TextButton buttonQuit = createButtonSokiInvaders();
         addActor(buttonQuit);
 
     }
 
-
-    private TextButton createButtonPlay(){
+    private TextButton createButtonCachipunScreen(){
         TextButton buttonPlay = createTextButton("CachipunScreen",
                 (text.getX() - 50),(text.getY() - 100));
         buttonPlay.addListener(new InputListener() {
@@ -66,8 +59,8 @@ public class MenuScreen extends AbstractScreen {
     }
 
 
-    private TextButton createButtonConfig(){
-        TextButton buttonConfig = createTextButton("DanceScreen",
+    private TextButton createButtonBaile(){
+        TextButton buttonConfig = createTextButton("BaileScreen",
                 (text.getX() - 50), (text.getY() - 150));
         buttonConfig.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -82,7 +75,7 @@ public class MenuScreen extends AbstractScreen {
         return buttonConfig;
     }
 
-    private TextButton createButtonQuit(){
+    private TextButton createButtonSokiInvaders(){
         TextButton buttonQuit = createTextButton("SokiInvadersScreen",
                 (text.getX() - 50),(text.getY() - 200));
         buttonQuit.addListener(new InputListener() {
@@ -98,11 +91,10 @@ public class MenuScreen extends AbstractScreen {
         TextButton textButton = new TextButton(title, UI_SKIN);
         textButton.setPosition(posX, posY);
         int BUTTON_WIDTH = 200;
+        int BUTTON_HEIGHT = 50;
         textButton.setWidth(BUTTON_WIDTH);
-        int BUTTON_HEIGHT = 40;
         textButton.setHeight(BUTTON_HEIGHT);
         return textButton;
     }
-
 }
 
