@@ -1,7 +1,6 @@
 package com.ballsteam.sokiduels.minigames.spaceinvaders;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
@@ -10,7 +9,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
+import com.ballsteam.sokiduels.player.Player;
+import com.ballsteam.sokiduels.player.PlayerInput;
 
+import java.util.HashMap;
 import java.util.stream.IntStream;
 
 public class SokiInvadersScreen extends AbstractScreen {
@@ -22,13 +24,21 @@ public class SokiInvadersScreen extends AbstractScreen {
     int direccion;
     long lastDropTime;
 
-    public SokiInvadersScreen(SokiDuels main) {
+    HashMap<Player, Spaceship> players = new HashMap<>();
+public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
         super(main);
-        spaceShip = new Spaceship(Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP,true);
-        spaceShip2 = new Spaceship(Input.Keys.D, Input.Keys.A, Input.Keys.W,false);
+/*
+        players.put("player1", player1);
+        players.put("player2", player2);
+*/
+    spaceShip = new Spaceship(J1.isPlayerOne());
+    spaceShip2 = new Spaceship(J2.isPlayerOne());
+        players.put(J1,spaceShip);
+        players.put(J2, spaceShip2);
+
         aliens = new Array<>();
         direccion = 1;
-        fondo = new Sprite(new Texture("fondo.png"));
+        fondo = new Sprite(new Texture("sokiInvaders/fondo.png"));
         crearMatriz(aliens);
         soki = new Array<>();
         spawnSoki();
@@ -43,6 +53,9 @@ public class SokiInvadersScreen extends AbstractScreen {
         super.render(delta);
         main.batch.begin();
         fondo.draw(main.batch);
+        for (Player player : players.keySet()) {
+            updateSpaceship(player.Input,players.get(player));
+        }
         caidaAliens();
         colisionBullet();
         if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnSoki();
@@ -105,5 +118,11 @@ public class SokiInvadersScreen extends AbstractScreen {
         Alien enemy = new Alien(new Vector2(0, MathUtils.random(72, 370)));
         soki.add(enemy);
         lastDropTime = TimeUtils.nanoTime();
+    }
+    private void updateSpaceship(PlayerInput player, Spaceship spaceShip){
+        player.update();
+        spaceShip.LEFT = player.LEFT==1;
+        spaceShip.RIGHT = player.RIGHT == 1;
+        spaceShip.SHOOT = player.A;
     }
 }
