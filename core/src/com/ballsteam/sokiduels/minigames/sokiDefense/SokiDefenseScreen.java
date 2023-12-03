@@ -1,6 +1,5 @@
 package com.ballsteam.sokiduels.minigames.sokiDefense;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -8,19 +7,25 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
+import com.ballsteam.sokiduels.player.Player;
+import java.util.HashMap;
 
-public class sokiDefenseScreen  extends AbstractScreen {
+public class SokiDefenseScreen extends AbstractScreen {
     Escudo escudo1;
     Escudo escudo2;
     Array<Bala> balas;
     long lastBulletTime;
     Array<Flag> flagsBlue;
     Array<Flag> flagsRed;
+    HashMap<Player, Escudo> players = new HashMap<>();
 
-    public sokiDefenseScreen(SokiDuels main) {
+
+    public SokiDefenseScreen(SokiDuels main, Player J1, Player J2) {
         super(main);
-        escudo1 = new Escudo(Input.Keys.D,Input.Keys.A,Input.Keys.W,Input.Keys.S,new Texture("shield1.png"),new Texture("shield2.png"),new Texture("shield3.png"));
-        escudo2 = new Escudo(Input.Keys.RIGHT,Input.Keys.LEFT,Input.Keys.UP,Input.Keys.DOWN,new Texture("shield4.png"),new Texture("shield5.png"),new Texture("shield6.png"));
+        escudo1 = new Escudo(new Texture("shield1.png"),new Texture("shield2.png"),new Texture("shield3.png"));
+        escudo2 = new Escudo(new Texture("shield4.png"),new Texture("shield5.png"),new Texture("shield6.png"));
+        players.put(J1,escudo1);
+        players.put(J2,escudo2);
         balas = new Array<>();
         flagsBlue = new Array<>();
         flagsRed = new Array<>();
@@ -43,6 +48,7 @@ public class sokiDefenseScreen  extends AbstractScreen {
         if(TimeUtils.nanoTime() - lastBulletTime > 500000000) spawnBullet();
         flagsRed.forEach(flag -> flag.draw(main.batch));
         flagsBlue.forEach(flag -> flag.draw(main.batch));
+        players.forEach(this::updateSpaceship);
         escudo1.draw(main.batch);
         escudo2.draw(main.batch);
         drawBullets();
@@ -104,5 +110,13 @@ public class sokiDefenseScreen  extends AbstractScreen {
                 flagsBlue.removeValue(flag, true);
             }
         });
+    }
+
+    private void updateSpaceship(Player player, Escudo escudo){
+        player.Input.update();
+        escudo.UP = player.Input.UP==1;
+        escudo.DOWN = player.Input.DOWN==1;
+        escudo.LEFT = player.Input.LEFT==1;
+        escudo.RIGHT = player.Input.RIGHT==1;
     }
 }

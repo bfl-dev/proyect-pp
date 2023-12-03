@@ -12,38 +12,27 @@ public class Escudo {
     Texture texture;
     Texture texture2;
     Texture texture3;
-    int right;
-    int left;
-    int up;
-    int down;
+    protected boolean UP;
+    protected boolean DOWN;
+    protected boolean LEFT;
+    protected boolean RIGHT;
     int damage;
     int score;
-    public Escudo (int right, int left, int up, int down,Texture Texture,Texture Texture2,Texture Texture3){
+    public Escudo (Texture Texture,Texture Texture2,Texture Texture3){
         this.texture = Texture;
         this.texture2 = Texture2;
         this.texture3 = Texture3;
         escudoSprite = new Sprite(texture);
         escudoSprite.setSize(32,32);
         posEscudo = new Vector2(0,0);
-        this.right = right;
-        this.left = left;
-        this.up = up;
-        this.down = down;
         damage = 1;
     }
     public void motion(){
-        if (Gdx.input.isKeyPressed(right)){
-            posEscudo.x += 300 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(left)){
-            posEscudo.x -= 300 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(up)){
-            posEscudo.y += 300 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(down)){
-            posEscudo.y -= 300 * Gdx.graphics.getDeltaTime();
-        }
+        if (UP) posEscudo.y += 300 * Gdx.graphics.getDeltaTime();
+        if (DOWN) posEscudo.y -= 300 * Gdx.graphics.getDeltaTime();
+        if (RIGHT) posEscudo.x += 300 * Gdx.graphics.getDeltaTime();
+        if (LEFT) posEscudo.x -= 300 * Gdx.graphics.getDeltaTime();
+
         if (posEscudo.x > 800 - escudoSprite.getWidth()) posEscudo.x = 800 - escudoSprite.getWidth();
         if (posEscudo.x < 0) posEscudo.x = 0;
         if (posEscudo.y > 480 - escudoSprite.getWidth()) posEscudo.y = 480 - escudoSprite.getWidth();

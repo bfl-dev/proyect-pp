@@ -13,7 +13,7 @@ public class Bullet {
 
     public Bullet(boolean isPlayerOne) {
         // Inicialización de la bala y su sprite.
-        if (isPlayerOne) bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/laserBullet.png")));
+        if (isPlayerOne) bulletSprite = new Sprite(new Texture(Gdx.files.internal("laserBullet.png")));
         else bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/boice.png")));
         bulletSprite.setScale(0.5f);
         bullet = new Vector2();

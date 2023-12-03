@@ -23,16 +23,15 @@ public class SokiInvadersScreen extends AbstractScreen {
     Array<Alien> soki;
     int direccion;
     long lastDropTime;
-
     HashMap<Player, Spaceship> players = new HashMap<>();
-public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
+    public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
         super(main);
 /*
         players.put("player1", player1);
         players.put("player2", player2);
 */
-    spaceShip = new Spaceship(J1.isPlayerOne());
-    spaceShip2 = new Spaceship(J2.isPlayerOne());
+        spaceShip = new Spaceship(J1.isPlayerOne());
+        spaceShip2 = new Spaceship(J2.isPlayerOne());
         players.put(J1,spaceShip);
         players.put(J2, spaceShip2);
 
