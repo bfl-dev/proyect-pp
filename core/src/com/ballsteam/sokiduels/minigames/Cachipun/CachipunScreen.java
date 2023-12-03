@@ -23,7 +23,8 @@ public class CachipunScreen extends AbstractScreen {
         super(main);
         player1Sprite = new Sprite(new Texture("soki.png"));
         player2Sprite = new Sprite(new Texture("soki.png"));
-        D_PAD_CONTROLLS = new Sprite(new Texture("Xbox_DPad.png"));
+        D_PAD_CONTROLLS = new Sprite(new Texture("ControllerCachipun.png"));
+        KEYBOARD_CONTROLS = new Sprite(new Texture("KeyboardCachipun.png"));
         fondo = new Sprite(new Texture("cachipunBackground.png"));
         music_background = Gdx.audio.newMusic(Gdx.files.internal("background_music.mp3"));
         music_background.setLooping(true);
@@ -46,6 +47,8 @@ public class CachipunScreen extends AbstractScreen {
         player2Sprite.draw(main.batch);
         player1Sprite.setPosition(SCREEN_WIDTH/3,SCREEN_HEIGHT/2);
         player2Sprite.setPosition((SCREEN_WIDTH/3)*2,SCREEN_HEIGHT/2);
+        KEYBOARD_CONTROLS.draw(main.batch);
+        KEYBOARD_CONTROLS.setPosition(player1Sprite.getX(), player1Sprite.getY()+50);
         main.batch.end();
     }
 }
