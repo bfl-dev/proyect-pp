@@ -25,7 +25,7 @@ public class ControllerInput extends PlayerInput {
     @Override
     public boolean interacted(){
         poll();
-        return anyPressed();
+        return hasPlayer?false:anyPressed();
     }
     public void setVibration(int leftMotor, int rightMotor){
         //determina el valor usando el siguiente criterio:
@@ -33,7 +33,7 @@ public class ControllerInput extends PlayerInput {
         DEVICE.setVibration(margin(leftMotor),margin(rightMotor));
     }
     private boolean anyPressed(){
-        return BUTTONS.b|| BUTTONS.a|| BUTTONS.right|| BUTTONS.left||leftStickX()!=0;
+        return BUTTONS.b|| BUTTONS.a|| BUTTONS.right|| BUTTONS.left||leftStickX()!=0||leftStickY()!=0|| BUTTONS.up|| BUTTONS.down;
     }
     private void setInputValues() {
         A = BUTTONS_DELTA.isPressed(XInputButton.A);

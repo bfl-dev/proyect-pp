@@ -36,15 +36,15 @@ public class KeyboardInput extends PlayerInput {
             KEY_RIGHT = Keys.D;
             KEY_UP = Keys.W;
             KEY_DOWN = Keys.S;
-            KEY_A = Keys.E;
-            KEY_B = Keys.SPACE;
+            KEY_A = Keys.C;
+            KEY_B = Keys.V;
         } else {
             KEY_LEFT = Keys.J;
             KEY_RIGHT = Keys.L;
             KEY_UP = Keys.I;
             KEY_DOWN = Keys.K;
-            KEY_A = Keys.U;
-            KEY_B = Keys.M;
+            KEY_A = Keys.O;
+            KEY_B = Keys.P;
         }
 
     }
@@ -55,7 +55,7 @@ public class KeyboardInput extends PlayerInput {
     }
     @Override
     public boolean interacted(){
-        return key(Keys.ANY_KEY);
+            return hasPlayer?false:key(KEY_A)||key(KEY_B)||key(KEY_UP)||key(KEY_DOWN)||key(KEY_LEFT)||key(KEY_RIGHT);
     }
     private void setInputValues(){
         LEFT_RIGHT = valueDeltaX();

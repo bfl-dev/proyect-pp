@@ -19,7 +19,9 @@ public class Player {
     public void update(){Input.update();}
 
     public void setInput(PlayerInput input) {
+
         Input = input;
+        Input.hasPlayer=true;
     }
 
     public boolean isPlayerOne() {

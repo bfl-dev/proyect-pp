@@ -81,7 +81,11 @@ public class MenuScreen extends AbstractScreen {
         buttonQuit.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {return true;}
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                main.setScreen(new SokiInvadersScreen(main,main.player1,main.player2));
+                try {
+                    main.setScreen(new PlayerSetScreen(main));
+                } catch (XInputNotLoadedException e) {
+                    throw new RuntimeException(e);
+                }
                 dispose();
             }
         });
