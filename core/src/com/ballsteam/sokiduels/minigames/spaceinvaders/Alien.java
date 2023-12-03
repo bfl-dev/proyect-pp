@@ -9,7 +9,7 @@ public class Alien {
     Sprite alienSprite;
     Vector2 posAlien;
     public Alien (Vector2 vector2){
-        alienSprite = new Sprite(new Texture("boice.png"));
+        alienSprite = new Sprite(new Texture("soki.png"));
         alienSprite.setScale(0.5f);
         posAlien = vector2;
     }

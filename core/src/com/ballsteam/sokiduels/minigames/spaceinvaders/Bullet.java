@@ -9,24 +9,28 @@ import com.badlogic.gdx.math.Vector2;
 public class Bullet {
     Vector2 bullet;
     Sprite bulletSprite;
+    boolean isPlayerOne;
 
-    public Bullet() {
+    public Bullet(boolean isPlayerOne) {
         // Inicialización de la bala y su sprite.
         bulletSprite = new Sprite(new Texture(Gdx.files.internal("laserBullet.png")));
         bulletSprite.setScale(0.5f);
         bullet = new Vector2();
         bullet.x = 0;
         bullet.y = 10000;
+        this.isPlayerOne = isPlayerOne;
     }
 
-    public void motion(float space) {
-        bullet.y += Gdx.graphics.getDeltaTime() * 400;
+    public void motion() {
+        if (isPlayerOne)
+            bullet.y += Gdx.graphics.getDeltaTime() * 400;
+        else bullet.y -= Gdx.graphics.getDeltaTime() * 400;
     }
 
     public void draw(SpriteBatch batch) {
         // Método para dibujar la bala.
         bulletSprite.setPosition(bullet.x, bullet.y);
         bulletSprite.draw(batch);
-        motion(bullet.y);
+        motion();
     }
 }
