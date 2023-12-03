@@ -48,7 +48,7 @@ public class SokiDefenseScreen extends AbstractScreen {
         if(TimeUtils.nanoTime() - lastBulletTime > 500000000) spawnBullet();
         flagsRed.forEach(flag -> flag.draw(main.batch));
         flagsBlue.forEach(flag -> flag.draw(main.batch));
-        players.forEach(this::updateSpaceship);
+        players.forEach(this::updateShield);
         escudo1.draw(main.batch);
         escudo2.draw(main.batch);
         drawBullets();
@@ -112,11 +112,9 @@ public class SokiDefenseScreen extends AbstractScreen {
         });
     }
 
-    private void updateSpaceship(Player player, Escudo escudo){
+    private void updateShield(Player player, Escudo escudo){
         player.Input.update();
-        escudo.UP = player.Input.UP==1;
-        escudo.DOWN = player.Input.DOWN==1;
-        escudo.LEFT = player.Input.LEFT==1;
-        escudo.RIGHT = player.Input.RIGHT==1;
+        escudo.UP_DOWN = Integer.compare((int) player.Input.UP, (int) player.Input.DOWN);
+        escudo.LEFT_RIGHT = Integer.compare((int) player.Input.RIGHT, (int) player.Input.LEFT);
     }
 }

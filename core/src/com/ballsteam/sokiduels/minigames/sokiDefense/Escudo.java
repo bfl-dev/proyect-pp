@@ -12,10 +12,8 @@ public class Escudo {
     Texture texture;
     Texture texture2;
     Texture texture3;
-    protected boolean UP;
-    protected boolean DOWN;
-    protected boolean LEFT;
-    protected boolean RIGHT;
+    protected int UP_DOWN;
+    protected int LEFT_RIGHT;
     int damage;
     int score;
     public Escudo (Texture Texture,Texture Texture2,Texture Texture3){
@@ -28,11 +26,7 @@ public class Escudo {
         damage = 1;
     }
     public void motion(){
-        if (UP) posEscudo.y += 300 * Gdx.graphics.getDeltaTime();
-        if (DOWN) posEscudo.y -= 300 * Gdx.graphics.getDeltaTime();
-        if (RIGHT) posEscudo.x += 300 * Gdx.graphics.getDeltaTime();
-        if (LEFT) posEscudo.x -= 300 * Gdx.graphics.getDeltaTime();
-
+        posEscudo.add(new Vector2(LEFT_RIGHT*3,UP_DOWN*3).clamp(0,3));
         if (posEscudo.x > 800 - escudoSprite.getWidth()) posEscudo.x = 800 - escudoSprite.getWidth();
         if (posEscudo.x < 0) posEscudo.x = 0;
         if (posEscudo.y > 480 - escudoSprite.getWidth()) posEscudo.y = 480 - escudoSprite.getWidth();
