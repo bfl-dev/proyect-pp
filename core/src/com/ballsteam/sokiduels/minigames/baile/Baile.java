@@ -25,7 +25,8 @@ public class Baile extends AbstractScreen  {
     Array<Flecha> flechasAbajo;
     Array<Flecha> flechasIzquierda;
     Array<Flecha> flechasDerecha;
-    Array<Array<Flecha>> flechas;
+    Array<Array<Flecha>> flechasJ1;
+
     Sprite fondoFlechas;
     //No se que es mejor esa wea u 8 bools pq si
     boolean[] J1_ARROWS = new boolean[]{false,false,false,false};
@@ -49,11 +50,11 @@ public class Baile extends AbstractScreen  {
         flechasArriba = new Array<>();
         flechasDerecha = new Array<>();
 
-        flechas = new Array<>();
-        flechas.add(flechasIzquierda);
-        flechas.add(flechasAbajo);
-        flechas.add(flechasArriba);
-        flechas.add(flechasDerecha);
+        flechasJ1 = new Array<>();
+        flechasJ1.add(flechasIzquierda);
+        flechasJ1.add(flechasAbajo);
+        flechasJ1.add(flechasArriba);
+        flechasJ1.add(flechasDerecha);
 
         fondoFlechas = new Sprite(new Texture("flechas.png"));
         spawnFlechas();
@@ -74,10 +75,7 @@ public class Baile extends AbstractScreen  {
         if(TimeUtils.nanoTime() - lastDrop > 1000000000) spawnFlechas();
         drawOnscreenText();
 
-        flechasArriba.forEach(flechaArriba -> flechaArriba.draw(main.batch));
-        flechasAbajo.forEach(flechaAbajo -> flechaAbajo.draw(main.batch));
-        flechasIzquierda.forEach(flechaIzquierda -> flechaIzquierda.draw(main.batch));
-        flechasDerecha.forEach(flechaDerecha -> flechaDerecha.draw(main.batch));
+        flechasJ1.forEach(flechas1 -> flechas1.forEach(flecha -> flecha.draw(main.batch)));
 
         //TODO: Agregar J2 plssssss
 
@@ -96,7 +94,7 @@ public class Baile extends AbstractScreen  {
             addPoints(flechasDerecha);
         }
 
-        flechas.forEach(this::minusPoints);
+        flechasJ1.forEach(this::minusPoints);
         main.batch.end();
     }
     private void addPoints(Array<Flecha> flechas){
@@ -160,10 +158,7 @@ public class Baile extends AbstractScreen  {
         lastDrop = TimeUtils.nanoTime();
     }
     public void dispose() {
-        flechasArriba.forEach(Flecha::dispose);
-        flechasAbajo.forEach(Flecha::dispose);
-        flechasIzquierda.forEach(Flecha::dispose);
-        flechasDerecha.forEach(Flecha::dispose);
+        flechasJ1.forEach(flechas -> flechas.forEach(Flecha::dispose));
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + score, 256, 20);
