@@ -12,7 +12,6 @@ import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
 import com.ballsteam.sokiduels.minigames.baile.Baile;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
 import com.ballsteam.sokiduels.player.Player;
-import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 
 
 public class MenuScreen extends AbstractScreen {
@@ -73,7 +72,7 @@ public class MenuScreen extends AbstractScreen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                main.setScreen(new Baile(J1.Input, J2.Input, main));
+                main.setScreen(new Baile(J1, J2, main));
                 dispose();
             }
         });

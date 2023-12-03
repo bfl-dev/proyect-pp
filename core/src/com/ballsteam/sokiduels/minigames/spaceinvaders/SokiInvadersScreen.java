@@ -121,8 +121,8 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     }
     private void updateSpaceship(PlayerInput player, Spaceship spaceShip){
         player.update();
-        spaceShip.LEFT = player.LEFT_RIGHT==-1;
-        spaceShip.RIGHT = player.LEFT_RIGHT == 1;
+        spaceShip.LEFT = player.LEFT==1;
+        spaceShip.RIGHT = player.RIGHT == 1;
         spaceShip.SHOOT = player.A;
     }
 }

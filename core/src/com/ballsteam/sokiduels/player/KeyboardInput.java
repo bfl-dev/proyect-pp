@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
 public class KeyboardInput extends PlayerInput {
-    private boolean hasConfigOne;
+    private final boolean hasConfigOne;
     private int KEY_LEFT;
     private int KEY_RIGHT;
     private int KEY_UP;
@@ -46,19 +46,15 @@ public class KeyboardInput extends PlayerInput {
             return !hasPlayer && (key(KEY_A) || key(KEY_B) || key(KEY_UP) || key(KEY_DOWN) || key(KEY_LEFT) || key(KEY_RIGHT));
     }
     private void setInputValues(){
-        LEFT_RIGHT = valueDeltaX();
-        UP_DOWN = valueDeltaY();
+        LEFT = key(KEY_LEFT)?1:0;
+        RIGHT = key(KEY_RIGHT)?1:0;
+        UP = key(KEY_UP)?1:0;
+        DOWN = key(KEY_DOWN)?1:0;
         A = key(KEY_A);
         B = key(KEY_B);
     }
     private boolean key(int keyValue){
         return Gdx.input.isKeyPressed(keyValue);
-    }
-    private int valueDeltaX(){
-        return Boolean.compare(key(KEY_RIGHT),key(KEY_LEFT));
-    }
-    private int valueDeltaY(){
-        return Boolean.compare(key(KEY_UP),key(KEY_DOWN));
     }
     private void mapping(){
         if (hasConfigOne){
