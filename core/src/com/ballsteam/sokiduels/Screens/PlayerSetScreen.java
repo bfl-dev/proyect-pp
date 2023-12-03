@@ -4,15 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
-import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
+import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.player.ControllerInput;
 import com.ballsteam.sokiduels.player.KeyboardInput;
-import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.player.Player;
 import com.ballsteam.sokiduels.player.PlayerInput;
-
 import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
-
 
 import java.util.List;
 
@@ -52,19 +49,17 @@ public class PlayerSetScreen extends AbstractScreen {
         text.setPosition(getWidth() / 2f, 440, Align.center);
         addActor(text);
         inputs.forEach(PlayerInput::update);
-        if (player1.Input.getClass()!=ControllerInput.class
-            && player1.Input.getClass()!=KeyboardInput.class){
-            if (inputs.stream().anyMatch(PlayerInput::interacted)){
-                player1.setInput(inputs.stream().filter(PlayerInput::interacted).findFirst().get());
-                text.setText("J2");
-            }
-        } else if (player2.Input.getClass()!=ControllerInput.class
-            && player2.Input.getClass()!=KeyboardInput.class){
-            if (inputs.stream().anyMatch(PlayerInput::interacted)){
-                player2.setInput(inputs.stream().filter(PlayerInput::interacted).findFirst().get());
-                main.setScreen(new MenuScreen(player1, player2, main));
-            }
+        if (isPlayerInputDefined(player1) && (inputs.stream().anyMatch(PlayerInput::interacted))){
+            player1.setInput(inputs.stream().filter(PlayerInput::interacted).findFirst().get());
+            text.setText("J2");
+        } else if (isPlayerInputDefined(player2) && (inputs.stream().anyMatch(PlayerInput::interacted))){
+            player2.setInput(inputs.stream().filter(PlayerInput::interacted).findFirst().get());
+            main.setScreen(new MenuScreen(player1, player2, main));
         }
+    }
+
+    private boolean isPlayerInputDefined(Player player) {
+        return player.Input.getClass() != ControllerInput.class && player.Input.getClass() != KeyboardInput.class;
     }
 
 }

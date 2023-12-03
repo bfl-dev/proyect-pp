@@ -84,26 +84,22 @@ public class Baile extends AbstractScreen  {
 
         //Tiene que haber una forma de hacer esta wea con funcional
         if (J1_ARROWS[0]) {
-            laCONCHADELALORA(flechasIzquierda);
+            addPoints(flechasIzquierda);
         }
         if (J1_ARROWS[1]) {
-            laCONCHADELALORA(flechasAbajo);
+            addPoints(flechasAbajo);
         }
         if (J1_ARROWS[2]) {
-            laCONCHADELALORA(flechasArriba);
+            addPoints(flechasArriba);
         }
         if (J1_ARROWS[3]) {
-            laCONCHADELALORA(flechasDerecha);
+            addPoints(flechasDerecha);
         }
 
-        flechas.forEach(this::repentSINNER);
-
-
+        flechas.forEach(this::minusPoints);
         main.batch.end();
-
     }
-    //TODO: refactor name of laCONCHADELALORA
-    private void laCONCHADELALORA(Array<Flecha> flechas){
+    private void addPoints(Array<Flecha> flechas){
         flechas.forEach(flecha -> {
             if (flecha.getPosition().y<100&&flecha.getPosition().y>-5){
                 flechas.removeValue(flecha, true);
@@ -112,15 +108,15 @@ public class Baile extends AbstractScreen  {
         });
     }
 
-    //TODO: refactor name of repentSINNER
-    private void repentSINNER(Array<Flecha> flechas){
+    private void minusPoints(Array<Flecha> flechas){
         flechas.forEach(flecha -> {
             if (flecha.getPosition().y< -20){
                 flechas.removeValue(flecha,true);
+                score--;
             }
         });
-
     }
+
     private void updatePlayerArrows(Player player){
         player.Input.update();
         if (player.Input.getClass()== ControllerInput.class){
