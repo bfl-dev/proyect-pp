@@ -16,8 +16,6 @@ public class Player {
         this.Input = InputMethod;
     }
 
-    public void update(){Input.update();}
-
     public void setInput(PlayerInput input) {
 
         Input = input;

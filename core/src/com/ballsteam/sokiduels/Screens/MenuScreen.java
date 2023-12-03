@@ -11,15 +11,20 @@ import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
 import com.ballsteam.sokiduels.minigames.baile.Baile;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
+import com.ballsteam.sokiduels.player.Player;
 import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 
 
 public class MenuScreen extends AbstractScreen {
     private final Label text = new Label("Proyecto PP", new Skin(Gdx.files.internal("ui/uiskin.json")));
     private final Skin UI_SKIN = new Skin(Gdx.files.internal("ui/uiskin.json"));
+    private Player J1;
+    private Player J2;
 
-    public MenuScreen(SokiDuels main) throws XInputNotLoadedException {
+    public MenuScreen(Player J1, Player J2, SokiDuels main) {
         super(main);
+        this.J1=J1;
+        this.J2=J2;
     }
 
     @Override
@@ -68,7 +73,7 @@ public class MenuScreen extends AbstractScreen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                main.setScreen(new Baile(main));
+                main.setScreen(new Baile(J1.Input, J2.Input, main));
                 dispose();
             }
         });
@@ -81,11 +86,7 @@ public class MenuScreen extends AbstractScreen {
         buttonQuit.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {return true;}
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                try {
-                    main.setScreen(new PlayerSetScreen(main));
-                } catch (XInputNotLoadedException e) {
-                    throw new RuntimeException(e);
-                }
+                main.setScreen(new SokiInvadersScreen(main,J1,J2));
                 dispose();
             }
         });

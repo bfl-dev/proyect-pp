@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
-import com.ballsteam.sokiduels.player.KeyboardInput;
 import com.ballsteam.sokiduels.player.Player;
+import com.ballsteam.sokiduels.player.PlayerInput;
 
 import java.util.HashMap;
 import java.util.stream.IntStream;
@@ -24,17 +24,18 @@ public class SokiInvadersScreen extends AbstractScreen {
     int direccion;
     long lastDropTime;
 
-    HashMap<String, Player> players = new HashMap<>();
-public SokiInvadersScreen(SokiDuels main, Player player1, Player player2) {
+    HashMap<Player, Spaceship> players = new HashMap<>();
+public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
         super(main);
 /*
         players.put("player1", player1);
         players.put("player2", player2);
 */
-        players.put("player1", new Player(true,new KeyboardInput(true)));
-        players.put("player2", new Player(false,new KeyboardInput(false)));
-        spaceShip = new Spaceship(true);
-        spaceShip2 = new Spaceship(false);
+    spaceShip = new Spaceship(J1.isPlayerOne());
+    spaceShip2 = new Spaceship(J2.isPlayerOne());
+        players.put(J1,spaceShip);
+        players.put(J2, spaceShip2);
+
         aliens = new Array<>();
         direccion = 1;
         fondo = new Sprite(new Texture("sokiInvaders/fondo.png"));
@@ -52,8 +53,8 @@ public SokiInvadersScreen(SokiDuels main, Player player1, Player player2) {
         super.render(delta);
         main.batch.begin();
         fondo.draw(main.batch);
-        for (Player player : players.values()) {
-            updateSpaceship(player);
+        for (Player player : players.keySet()) {
+            updateSpaceship(player.Input,players.get(player));
         }
         caidaAliens();
         colisionBullet();
@@ -118,16 +119,10 @@ public SokiInvadersScreen(SokiDuels main, Player player1, Player player2) {
         soki.add(enemy);
         lastDropTime = TimeUtils.nanoTime();
     }
-    private void updateSpaceship(Player player){
+    private void updateSpaceship(PlayerInput player, Spaceship spaceShip){
         player.update();
-        if (player.isPlayerOne()) {
-            spaceShip.LEFT = player.Input.LEFT_RIGHT==-1;
-            spaceShip.RIGHT = player.Input.LEFT_RIGHT==1;
-            spaceShip.SHOT = player.Input.A;
-        } else {
-            spaceShip2.LEFT = player.Input.LEFT_RIGHT==-1;
-            spaceShip2.RIGHT = player.Input.LEFT_RIGHT==1;
-            spaceShip2.SHOT = player.Input.A;
-        }
+        spaceShip.LEFT = player.LEFT_RIGHT==-1;
+        spaceShip.RIGHT = player.LEFT_RIGHT == 1;
+        spaceShip.SHOOT = player.A;
     }
 }

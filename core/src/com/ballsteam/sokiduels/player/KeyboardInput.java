@@ -4,12 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
 public class KeyboardInput extends PlayerInput {
-    private final int KEY_LEFT;
-    private final int KEY_RIGHT;
-    private final int KEY_UP;
-    private final int KEY_DOWN;
-    private final int KEY_A;
-    private final int KEY_B;
+    private boolean hasConfigOne;
+    private int KEY_LEFT;
+    private int KEY_RIGHT;
+    private int KEY_UP;
+    private int KEY_DOWN;
+    private int KEY_A;
+    private int KEY_B;
 
     /*
         public KeyboardInput(){
@@ -30,22 +31,9 @@ public class KeyboardInput extends PlayerInput {
         }
     }*/
 
-        public KeyboardInput(boolean isPlayerOne){
-        if (isPlayerOne){
-            KEY_LEFT = Keys.A;
-            KEY_RIGHT = Keys.D;
-            KEY_UP = Keys.W;
-            KEY_DOWN = Keys.S;
-            KEY_A = Keys.C;
-            KEY_B = Keys.V;
-        } else {
-            KEY_LEFT = Keys.J;
-            KEY_RIGHT = Keys.L;
-            KEY_UP = Keys.I;
-            KEY_DOWN = Keys.K;
-            KEY_A = Keys.O;
-            KEY_B = Keys.P;
-        }
+    public KeyboardInput(boolean configOne){
+        this.hasConfigOne = configOne;
+        mapping();
 
     }
 
@@ -55,7 +43,7 @@ public class KeyboardInput extends PlayerInput {
     }
     @Override
     public boolean interacted(){
-            return hasPlayer?false:key(KEY_A)||key(KEY_B)||key(KEY_UP)||key(KEY_DOWN)||key(KEY_LEFT)||key(KEY_RIGHT);
+            return !hasPlayer && (key(KEY_A) || key(KEY_B) || key(KEY_UP) || key(KEY_DOWN) || key(KEY_LEFT) || key(KEY_RIGHT));
     }
     private void setInputValues(){
         LEFT_RIGHT = valueDeltaX();
@@ -71,5 +59,22 @@ public class KeyboardInput extends PlayerInput {
     }
     private int valueDeltaY(){
         return Boolean.compare(key(KEY_UP),key(KEY_DOWN));
+    }
+    private void mapping(){
+        if (hasConfigOne){
+            KEY_LEFT = Keys.A;
+            KEY_RIGHT = Keys.D;
+            KEY_UP = Keys.W;
+            KEY_DOWN = Keys.S;
+            KEY_A = Keys.C;
+            KEY_B = Keys.V;
+        } else {
+            KEY_LEFT = Keys.J;
+            KEY_RIGHT = Keys.L;
+            KEY_UP = Keys.I;
+            KEY_DOWN = Keys.K;
+            KEY_A = Keys.O;
+            KEY_B = Keys.P;
+        }
     }
 }

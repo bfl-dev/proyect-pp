@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ballsteam.sokiduels.Screens.MenuScreen;
+import com.ballsteam.sokiduels.Screens.PlayerSetScreen;
 import com.ballsteam.sokiduels.player.Player;
 import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 
@@ -24,7 +25,7 @@ public class SokiDuels extends Game {
 		camera.setToOrtho(false, 800, 480);
 		camera.update();
         try {
-            setScreen(new MenuScreen(this));
+            setScreen(new PlayerSetScreen(this));
         } catch (XInputNotLoadedException e) {
             throw new RuntimeException(e);
         }

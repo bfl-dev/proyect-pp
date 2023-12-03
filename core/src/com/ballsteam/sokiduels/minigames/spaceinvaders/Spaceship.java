@@ -15,7 +15,7 @@ public class Spaceship {
     boolean isPlayerOne;
     protected boolean LEFT;
     protected boolean RIGHT;
-    boolean SHOT;
+    boolean SHOOT;
     int score;
     long lastShot;
 
@@ -38,9 +38,9 @@ public class Spaceship {
 
     public void motion() {
         // Lógica de movimiento de la nave y disparo de la bala.
-        if (LEFT) spaceShip.x += 400 * Gdx.graphics.getDeltaTime();
-        if (RIGHT) spaceShip.x -= 400 * Gdx.graphics.getDeltaTime();
-        if (SHOT && TimeUtils.nanoTime() - lastShot > 500000000) {
+        if (LEFT) spaceShip.x -= 400 * Gdx.graphics.getDeltaTime();
+        if (RIGHT) spaceShip.x += 400 * Gdx.graphics.getDeltaTime();
+        if (SHOOT && TimeUtils.nanoTime() - lastShot > 500000000) {
             shoot();
             lastShot = TimeUtils.nanoTime();
         }

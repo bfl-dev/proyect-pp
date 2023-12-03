@@ -8,4 +8,5 @@ public abstract class PlayerInput {
     public boolean B;
     public void update(){}
     public boolean interacted(){return false;}
+
 }

@@ -62,7 +62,7 @@ public class PlayerSetScreen extends AbstractScreen {
             && player2.Input.getClass()!=KeyboardInput.class){
             if (inputs.stream().anyMatch(PlayerInput::interacted)){
                 player2.setInput(inputs.stream().filter(PlayerInput::interacted).findFirst().get());
-                main.setScreen(new CachipunScreen(main));
+                main.setScreen(new MenuScreen(player1, player2, main));
             }
         }
     }

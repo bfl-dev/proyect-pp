@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.badlogic.gdx.utils.Array;
+import com.ballsteam.sokiduels.player.Player;
+import com.ballsteam.sokiduels.player.PlayerInput;
 
 public class Baile extends AbstractScreen  {
     Array<FlechaArriba> flechasArriba;
@@ -17,7 +19,7 @@ public class Baile extends AbstractScreen  {
     Sprite fondoFlechas;
     long lastDrop;
     int score;
-    public Baile(SokiDuels main) {
+    public Baile(PlayerInput J1, PlayerInput J2, SokiDuels main) {
         super(main);
         flechasArriba = new Array<>();
         flechasAbajo = new Array<>();
