@@ -9,19 +9,19 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Spaceship {
-    Sprite shipSprite;
-    Vector2 spaceShip;
+    protected Sprite shipSprite;
+    private final Vector2 spaceShip;
     Array<Bullet>  bullets;
     boolean isPlayerOne;
-    int right;
-    int left;
-    int shoot;
+    protected boolean LEFT;
+    protected boolean RIGHT;
+    boolean SHOT;
     int score;
     long lastShot;
 
-    public Spaceship(int right, int left, int shoot,boolean isPlayerOne) {
+    public Spaceship(boolean isPlayerOne) {
         // Inicialización de la nave espacial, su sprite y la bala asociada.
-        shipSprite = new Sprite(new Texture("spaceship.png"));
+        shipSprite = new Sprite(new Texture("sokiInvaders/spaceship.png"));
         spaceShip = new Vector2();
         spaceShip.x = (float) 800 / 2 - (float) 64 / 2;
         this.isPlayerOne = isPlayerOne;
@@ -34,16 +34,13 @@ public class Spaceship {
         bullets = new Array<>();
         lastShot = TimeUtils.nanoTime();
         score = 0;
-        this.right = right;
-        this.left = left;
-        this.shoot = shoot;
     }
 
     public void motion() {
         // Lógica de movimiento de la nave y disparo de la bala.
-        if (Gdx.input.isKeyPressed(right)) spaceShip.x += 400 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(left)) spaceShip.x -= 400 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(shoot) && TimeUtils.nanoTime() - lastShot > 500000000) {
+        if (LEFT) spaceShip.x += 400 * Gdx.graphics.getDeltaTime();
+        if (RIGHT) spaceShip.x -= 400 * Gdx.graphics.getDeltaTime();
+        if (SHOT && TimeUtils.nanoTime() - lastShot > 500000000) {
             shoot();
             lastShot = TimeUtils.nanoTime();
         }
