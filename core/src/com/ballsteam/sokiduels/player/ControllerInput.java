@@ -52,10 +52,10 @@ public class ControllerInput extends PlayerInput {
         DEVICE.poll();}
     private void leftRight(){
         if (valueDeltaX()>0){
-            RIGHT = leftStickX();
+            RIGHT = valueDeltaX();
             LEFT = 0;
         } else if (valueDeltaX()<0) {
-            LEFT = valueDeltaX();
+            LEFT = -valueDeltaX();
             RIGHT = 0;
         } else {
             LEFT = 0;
@@ -64,10 +64,10 @@ public class ControllerInput extends PlayerInput {
     }
     private void upDown(){
         if (valueDeltaY()>0){
-            UP = leftStickY();
+            UP = valueDeltaY();
             DOWN = 0;
         } else if (valueDeltaY()<0) {
-            DOWN = valueDeltaY();
+            DOWN = -valueDeltaY();
             UP = 0;
         } else {
             UP = 0;
