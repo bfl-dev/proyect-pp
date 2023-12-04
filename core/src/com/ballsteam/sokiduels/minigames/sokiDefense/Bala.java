@@ -13,7 +13,7 @@ public class Bala {
 
     public Bala(Vector2 vector2,int dirrecion) {
         // Inicialización de la bala y su sprite.
-        bulletSprite = new Sprite(new Texture(Gdx.files.internal("laserBullet.png")));
+        bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokidefense/laserBullet.png")));
         bulletSprite.setScale(0.5f);
         bulletSprite.rotate(90*dirrecion);
         this.posBullet = vector2;
