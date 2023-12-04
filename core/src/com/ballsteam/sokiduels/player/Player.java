@@ -20,7 +20,7 @@ public class Player {
         this.isPlayerOne = isPlayerOne;
         this.health = 300;
         this.bar = new Sprite(new Texture("green.png"));
-        playerAction = new Sprite(new Texture("KeyboardCachipun.png"));
+        this.playerAction = new Sprite(new Texture("ControllerCachipun.png"));
     }
     public Player(boolean isPlayerOne, PlayerInput InputMethod){
         this.isPlayerOne = isPlayerOne;
@@ -28,7 +28,6 @@ public class Player {
     }
 
     public void setInput(PlayerInput input) {
-
         Input = input;
         Input.hasPlayer=true;
     }

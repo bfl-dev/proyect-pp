@@ -6,12 +6,10 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
 import com.ballsteam.sokiduels.player.ControllerInput;
-import com.ballsteam.sokiduels.player.KeyboardInput;
 import com.ballsteam.sokiduels.player.Player;
 
 import java.util.HashMap;
@@ -30,7 +28,11 @@ public class CachipunScreen extends AbstractScreen {
     Player J1;
     Player J2;
     Texture [] choicheTexture;
-    long timeOut;
+    Texture READY = new Texture("ready.png");
+    Texture CONTROLLER = new Texture("ControllerCachipun.png");
+    Texture KEYBOARD = new Texture("KeyboardCachipun.png");
+    boolean set = true;
+    long timeout;
     HashMap<Player, boolean[]> players = new HashMap<>();
     HashMap<Player, Integer> choice = new HashMap<>();
     public CachipunScreen(SokiDuels main, Player J1, Player J2) {
@@ -57,113 +59,83 @@ public class CachipunScreen extends AbstractScreen {
         music_background.play();
         player1Sprite.setPosition(SCREEN_WIDTH/3,SCREEN_HEIGHT-300);
         player2Sprite.setPosition((SCREEN_WIDTH/3)*2,SCREEN_HEIGHT-300);
+        J1.setPlayerAction(J1.Input.getClass()==ControllerInput.class?CONTROLLER:KEYBOARD);
+        J2.setPlayerAction(J2.Input.getClass()==ControllerInput.class?CONTROLLER:KEYBOARD);
     }
     @Override
     public void render(float delta) {
         super.render(delta);
         main.batch.begin();
         fondo.draw(main.batch);
-        updatePlayerArrows(J1);
-        updatePlayerArrows(J2);
         action(J1);
         action(J2);
         player1Sprite.draw(main.batch);
         player2Sprite.draw(main.batch);
-        determineWinner(J1,J2);
-        J2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+        if (choice.get(J1)!=0 && choice.get(J2)!=0 && set){
+            set = false;
+            timeout = System.currentTimeMillis();
+            J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
+            J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
+        }
+
+        if (!set && System.currentTimeMillis()-timeout>3000){
+            determineWinner(J1, J2);
+        }
         J1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+        J2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+
         main.batch.end();
     }
     public void action(Player player){
+        player.Input.update();
         if(choice.get(player)==0) {
-            if (players.get(player)[0]) {
-                player.setPlayerAction(new Texture("ready.png"));
+            if (player.Input.LEFT==1) {
                 choice.replace(player, 1);
             }
-            if (players.get(player)[1]) {
-                player.setPlayerAction(new Texture("ready.png"));
+            if (player.Input.DOWN==1) {
                 choice.replace(player, MathUtils.random(1, 3));
             }
-            if (players.get(player)[2]) {
-                player.setPlayerAction(new Texture("ready.png"));
+            if (player.Input.UP==1) {
                 choice.replace(player, 2);
             }
-            if (players.get(player)[3]) {
-                player.setPlayerAction(new Texture("ready.png"));
+            if (player.Input.RIGHT==1) {
                 choice.replace(player, 3);
             }
-        }else {if (players.get(player)[4]) {
-            player.setPlayerAction(new Texture("KeyboardCachipun.png"));
-            choice.put(player, 0);
+            if (choice.get(player)!=0){
+                player.setPlayerAction(READY);
             }
+        }else if (player.Input.B) {
+            player.setPlayerAction(player.Input.getClass()==ControllerInput.class?CONTROLLER:KEYBOARD);
+            choice.put(player, 0);
         }
     }
     public void determineWinner(Player J1,Player J2){
-        if (choice.get(J1)!=0 && choice.get(J2)!=0) {
             if (choice.get(J1) == choice.get(J2)) {
-                J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
-                J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
+
             }
             if (choice.get(J1) == 1 && choice.get(J2) == 2) {
-                J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
-                J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
-                    try {
-                        Thread.sleep(10000);
-                        enterGame(J1,J2,new SokiInvadersScreen(main, J1, J2));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    enterGame(J1,J2,new SokiInvadersScreen(main, J1, J2));
+                enterGame(J1,J2,new SokiInvadersScreen(main, J1, J2));
             }
             if (choice.get(J1) == 1 && choice.get(J2) == 3) {
-                J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
-                J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
                 //main.setScreen(new sokidefense(main, J2, J1));
             }
             if (choice.get(J1) == 2 && choice.get(J2) == 1) {
-                J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
-                J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
+
                 enterGame(J2,J1,new SokiInvadersScreen(main, J2, J1));
             }
             if (choice.get(J1) == 2 && choice.get(J2) == 3) {
-                J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
-                J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
+
                 //main.setScreen(new baile(main, J2, J1));
             }
             if (choice.get(J1) == 3 && choice.get(J2) == 1) {
-                J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
-                J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
+
                 //main.setScreen(new sokidefense(main, J2, J1));
             }
             if (choice.get(J1) == 3 && choice.get(J2) == 2) {
-                J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
-                J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
                 //main.setScreen(new baile(main, J2, J1));
             }
-        }
     }
     public void enterGame(Player win,Player lose,AbstractScreen screen){
         main.setScreen(screen);
-    }
-    private void updatePlayerArrows(Player player){
-        player.Input.update();
-        if (player.Input.getClass()== ControllerInput.class){
-            updateByController(player);
-        } else if (player.Input.getClass()== KeyboardInput.class){
-            updateByKeyboard(player);
-        }
-    }
-    private void updateByController(Player player){
-        players.get(player)[0] = ((ControllerInput)player.Input).LT;
-        players.get(player)[1] = ((ControllerInput)player.Input).LB;
-        players.get(player)[2] = ((ControllerInput)player.Input).RB;
-        players.get(player)[3] = ((ControllerInput)player.Input).RT;
-    }
-    private void updateByKeyboard(Player player){
-        players.get(player)[0] = player.Input.LEFT==1;
-        players.get(player)[1] = player.Input.DOWN==1;
-        players.get(player)[2] = player.Input.UP==1;
-        players.get(player)[3] = player.Input.RIGHT==1;
-        players.get(player)[4] = player.Input.A;
     }
 }
