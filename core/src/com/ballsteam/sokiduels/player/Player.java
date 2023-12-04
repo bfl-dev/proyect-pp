@@ -57,4 +57,7 @@ public class Player {
         }
         batch.draw(bar, bar.getX(), bar.getY(), health, 20);
     }
+    public void setPlayerAction(Texture texture){
+        this.playerAction.setTexture(texture);
+    }
 }
