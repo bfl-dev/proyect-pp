@@ -100,9 +100,9 @@ public class DanceScreen extends AbstractScreen  {
         updatePlayerArrows(J2);
 
         fondoFlechas.draw(main.batch);
-        fondoFlechas.setPosition(0,0);
+        fondoFlechas.setPosition(256,0);
         fondoFlechas2.draw(main.batch);
-        fondoFlechas2.setPosition(256*2,0);
+        fondoFlechas2.setPosition((256)+(256*2),0);
 
         if(TimeUtils.nanoTime() - lastDrop > 500000000) spawnFlechas();
         drawOnscreenText();
@@ -144,11 +144,11 @@ public class DanceScreen extends AbstractScreen  {
     }
     private void addPoints(Array<Flecha> flechas, boolean isPlayerOne){
         flechas.forEach(flecha -> {
-            if (flecha.getPosition().y < 100 && flecha.getPosition().y > -5 && flecha.getPosition().x < 256 && isPlayerOne){
+            if (flecha.getPosition().y < 100 && flecha.getPosition().y > -5 && flecha.getPosition().x < (256)+256 && isPlayerOne){
                 flechas.removeValue(flecha, true);
                 scoreJ1++;
                 sonidoPuntos.play(1,2,1);
-            } else if (flecha.getPosition().y < 100 && flecha.getPosition().y > -5 && flecha.getPosition().x >= 256*2 && !isPlayerOne){
+            } else if (flecha.getPosition().y < 100 && flecha.getPosition().y > -5 && flecha.getPosition().x >= (256)+256*2 && !isPlayerOne){
                 flechas.removeValue(flecha, true);
                 scoreJ2++;
                 sonidoPuntos.play();
@@ -158,10 +158,10 @@ public class DanceScreen extends AbstractScreen  {
 
     private void minusPoints(Array<Flecha> flechas){
         flechas.forEach(flecha -> {
-            if (flecha.getPosition().y< -20 && flecha.getPosition().y>-100 && flecha.getPosition().x<256){
+            if (flecha.getPosition().y< -20 && flecha.getPosition().y>-100 && flecha.getPosition().x<(256)+256){
                 flechas.removeValue(flecha,true);
                 scoreJ1--;
-            } else if (flecha.getPosition().y< -20 && flecha.getPosition().y>-100 && flecha.getPosition().x>256*2){
+            } else if (flecha.getPosition().y< -20 && flecha.getPosition().y>-100 && flecha.getPosition().x>(256)+256*2){
                 flechas.removeValue(flecha,true);
                 scoreJ2--;
             }
@@ -193,27 +193,27 @@ public class DanceScreen extends AbstractScreen  {
         int random = (int) (Math.random() * 4);
         switch (random) {
             case 0 -> {
-                Flecha flechaArribaJ1 = new Flecha(FLECHA_ARRIBA,new Vector2(128, getHeight()));
+                Flecha flechaArribaJ1 = new Flecha(FLECHA_ARRIBA,new Vector2((256)+128, getHeight()));
                 flechasArriba.add(flechaArribaJ1);
-                Flecha flechaArribaJ2 = new Flecha(FLECHA_ARRIBA,new Vector2((128+256*2), getHeight()));
+                Flecha flechaArribaJ2 = new Flecha(FLECHA_ARRIBA,new Vector2((256)+(128+256*2), getHeight()));
                 flechasArriba.add(flechaArribaJ2);
             }
             case 1 -> {
-                Flecha flechaAbajoJ1 = new Flecha(FLECHA_ABAJO,new Vector2(64, getHeight()));
+                Flecha flechaAbajoJ1 = new Flecha(FLECHA_ABAJO,new Vector2((256)+64, getHeight()));
                 flechasAbajo.add(flechaAbajoJ1);
-                Flecha flechaAbajoJ2 = new Flecha(FLECHA_ABAJO,new Vector2(64+ (256*2), getHeight()));
+                Flecha flechaAbajoJ2 = new Flecha(FLECHA_ABAJO,new Vector2((256)+64+ (256*2), getHeight()));
                 flechasAbajo.add(flechaAbajoJ2);
             }
             case 2 -> {
-                Flecha flechaIzquierdaJ1 = new Flecha(FLECHA_IZQUIERDA,new Vector2(0, getHeight()));
+                Flecha flechaIzquierdaJ1 = new Flecha(FLECHA_IZQUIERDA,new Vector2((256), getHeight()));
                 flechasIzquierda.add(flechaIzquierdaJ1);
-                Flecha flechaIzquierdaJ2 = new Flecha(FLECHA_IZQUIERDA,new Vector2((512), getHeight()));
+                Flecha flechaIzquierdaJ2 = new Flecha(FLECHA_IZQUIERDA,new Vector2(((256)+512), getHeight()));
                 flechasIzquierda.add(flechaIzquierdaJ2);
             }
             case 3 -> {
-                Flecha flechaDerechaJ1 = new Flecha(FLECHA_DERECHA,new Vector2(192, getHeight()));
+                Flecha flechaDerechaJ1 = new Flecha(FLECHA_DERECHA,new Vector2((256)+192, getHeight()));
                 flechasDerecha.add(flechaDerechaJ1);
-                Flecha flechaDerechaJ2 = new Flecha(FLECHA_DERECHA,new Vector2(192+ (256*2), getHeight()));
+                Flecha flechaDerechaJ2 = new Flecha(FLECHA_DERECHA,new Vector2((256)+192+ (256*2), getHeight()));
                 flechasDerecha.add(flechaDerechaJ2);
             }
         }
@@ -224,11 +224,11 @@ public class DanceScreen extends AbstractScreen  {
         flechasJ2.forEach(flechas -> flechas.forEach(Flecha::dispose));
     }
     private void drawOnscreenText() {
-        main.font.draw(main.batch, "Score: " + scoreJ1, 256, 20);
-        main.font.draw(main.batch, "Score: " + scoreJ2, 256*3, 20);
+        main.font.draw(main.batch, "Score: " + scoreJ1, (256)+256, 20);
+        main.font.draw(main.batch, "Score: " + scoreJ2, (256)+256*3, 20);
     }
 
     private void drawPointMessage(boolean isPlayerOne){
-        main.font.draw(main.batch, "Punto!", isPlayerOne?0:256, 20);
+        main.font.draw(main.batch, "Punto!", isPlayerOne?(256):(256)+256, 20);
     }
 }
