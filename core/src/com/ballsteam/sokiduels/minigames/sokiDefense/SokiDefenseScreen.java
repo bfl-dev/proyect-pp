@@ -97,7 +97,7 @@ public class SokiDefenseScreen extends AbstractScreen {
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + escudo1.score, 15, 20);
-        main.font.draw(main.batch, "Score: " + escudo2.score, 700, 20);
+        main.font.draw(main.batch, "Score: " + escudo2.score, getWidth()-100, 20);
     }
     public void colisionFlag(Array<Flag> flagsBlue, Escudo escudo1, Escudo escudo2) {
         flagsBlue.forEach(flag -> {
