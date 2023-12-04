@@ -47,8 +47,10 @@ public class Player {
      public void draw(SpriteBatch batch, float width, float height){
         if (isPlayerOne) {
             bar.setPosition((width/3)-125, (height-100));
+            playerAction.setPosition((width/3)-110,height-700);
         } else {
             bar.setPosition((((width/3)*2)-125), (height-100));
+            playerAction.setPosition(((width/3)*2)-110,height-700);
         }
         if(health < 25) {
             bar.setTexture(new Texture("red.png"));
@@ -56,6 +58,7 @@ public class Player {
             bar.setTexture(new Texture("yellow.png"));
         }
         batch.draw(bar, bar.getX(), bar.getY(), health, 20);
+        batch.draw(playerAction, playerAction.getX(), playerAction.getY());
     }
     public void setPlayerAction(Texture texture){
         this.playerAction.setTexture(texture);
