@@ -20,8 +20,8 @@ public class Duelist {
         this.textures = new HashMap<>();
         this.health = 300;
         poblarHashmap();
-        this.bar = new Sprite(new Texture("green.png"));
-        this.playerAction = new Sprite(new Texture("ControllerCachipun.png"));
+        this.bar = new Sprite(new Texture("cachipun/green.png"));
+        this.playerAction = new Sprite(new Texture("cachipun/ControllerCachipun.png"));
     }
 
     public void draw(SpriteBatch batch, float width, float height){
@@ -33,9 +33,9 @@ public class Duelist {
             playerAction.setPosition(((width/3)*2)-110,height-700);
         }
         if(health < 25) {
-            bar.setTexture(new Texture("red.png"));
+            bar.setTexture(new Texture("cachipun/red.png"));
         }else if(health < 50) {
-            bar.setTexture(new Texture("yellow.png"));
+            bar.setTexture(new Texture("cachipun/yellow.png"));
         }
         batch.draw(bar, bar.getX(), bar.getY(), health, 20);
         batch.draw(playerAction, playerAction.getX(), playerAction.getY());
@@ -46,12 +46,12 @@ public class Duelist {
         });
     }
     private void poblarHashmap(){
-        textures.put("KeyboardCachipun",new Sprite(new Texture("KeyboardCachipun.png")));
-        textures.put("ControllerCachipun",new Sprite(new Texture("ControllerCachipun.png")));
-        textures.put("Sword",new Sprite(new Texture("sword.png")));
-        textures.put("Shield",new Sprite(new Texture("shield.png")));
-        textures.put("Dance",new Sprite(new Texture("jojo.png")));
-        textures.put("Ready",new Sprite(new Texture("ready.png")));
+        textures.put("KeyboardCachipun",new Sprite(new Texture("cachipun/KeyboardCachipun.png")));
+        textures.put("ControllerCachipun",new Sprite(new Texture("cachipun/ControllerCachipun.png")));
+        textures.put("Sword",new Sprite(new Texture("cachipun/sword.png")));
+        textures.put("Shield",new Sprite(new Texture("cachipun/shield.png")));
+        textures.put("Dance",new Sprite(new Texture("cachipun/jojo.png")));
+        textures.put("Ready",new Sprite(new Texture("cachipun/ready.png")));
     }
     public void setDuelistAction(String texture){
         playerAction = textures.get(texture);

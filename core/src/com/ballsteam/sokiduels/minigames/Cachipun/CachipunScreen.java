@@ -47,9 +47,9 @@ public class CachipunScreen extends AbstractScreen {
         choice.put(duelist2,0);
         player1Sprite = new Sprite(new Texture("soki.png"));
         player2Sprite = new Sprite(new Texture("soki.png"));
-        fondo = new Sprite(new Texture("cachipunBackground.png"));
+        fondo = new Sprite(new Texture("cachipun/cachipunBackground.png"));
         fondo.setSize(getWidth(),getHeight());
-        music_background = Gdx.audio.newMusic(Gdx.files.internal("background_music.mp3"));
+        music_background = Gdx.audio.newMusic(Gdx.files.internal("cachipun/background_music.mp3"));
         music_background.setLooping(true);
         this.J1=J1;
         this.J2=J2;
