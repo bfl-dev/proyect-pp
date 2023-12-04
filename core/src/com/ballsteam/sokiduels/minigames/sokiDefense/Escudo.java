@@ -15,7 +15,6 @@ public class Escudo {
     protected int UP_DOWN;
     protected int LEFT_RIGHT;
     int damage;
-    int score;
     public Escudo (Texture Texture,Texture Texture2,Texture Texture3){
         this.texture = Texture;
         this.texture2 = Texture2;
@@ -49,7 +48,6 @@ public class Escudo {
         damage++;
         if(damage > 3){
             damage = 1;
-            score -= 10;
         }
     }
     public void dispose(){

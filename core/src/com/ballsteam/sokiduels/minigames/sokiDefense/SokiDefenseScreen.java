@@ -18,12 +18,15 @@ public class SokiDefenseScreen extends AbstractScreen {
     Array<Flag> flagsBlue;
     Array<Flag> flagsRed;
     HashMap<Player, Escudo> players = new HashMap<>();
-
+    Player J1;
+    Player J2;
 
     public SokiDefenseScreen(SokiDuels main, Player J1, Player J2) {
         super(main);
-        escudo1 = new Escudo(new Texture("shield1.png"),new Texture("shield2.png"),new Texture("shield3.png"));
-        escudo2 = new Escudo(new Texture("shield4.png"),new Texture("shield5.png"),new Texture("shield6.png"));
+        this.J1 = J1;
+        this.J2 = J2;
+        escudo1 = new Escudo(new Texture("sokidefense/shield1.png"),new Texture("sokidefense/shield2.png"),new Texture("sokidefense/shield3.png"));
+        escudo2 = new Escudo(new Texture("sokidefense/shield4.png"),new Texture("sokidefense/shield5.png"),new Texture("sokidefense/shield6.png"));
         players.put(J1,escudo1);
         players.put(J2,escudo2);
         balas = new Array<>();
@@ -53,8 +56,8 @@ public class SokiDefenseScreen extends AbstractScreen {
         escudo2.draw(main.batch);
         drawBullets();
         colisionBullet();
-        colisionFlag(flagsBlue, escudo1, escudo2);
-        colisionFlag(flagsRed, escudo2, escudo1);
+        colisionFlag(flagsBlue, escudo1, escudo2,J1);
+        colisionFlag(flagsRed, escudo2, escudo1,J2);
         drawOnscreenText();
         main.batch.end();
     }
@@ -77,11 +80,11 @@ public class SokiDefenseScreen extends AbstractScreen {
         });
     }
     public void spawnFlagBlue() {
-        Flag flagBlue = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"flagBlue.png");
+        Flag flagBlue = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"sokidefense/flagBlue.png");
         flagsBlue.add(flagBlue);
     }
     public  void  spawnFlagRed() {
-        Flag flagRed = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"flagRed.png");
+        Flag flagRed = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"sokidefense/flagRed.png");
         flagsRed.add(flagRed);
     }
     private void spawnBullet() {
@@ -96,14 +99,14 @@ public class SokiDefenseScreen extends AbstractScreen {
         lastBulletTime = TimeUtils.nanoTime();
     }
     private void drawOnscreenText() {
-        main.font.draw(main.batch, "Score: " + escudo1.score, 15, 20);
-        main.font.draw(main.batch, "Score: " + escudo2.score, 700, 20);
+        main.font.draw(main.batch, "Score: " + J1.score, 15, 20);
+        main.font.draw(main.batch, "Score: " + J2.score, getWidth()-100, 20);
     }
-    public void colisionFlag(Array<Flag> flagsBlue, Escudo escudo1, Escudo escudo2) {
+    public void colisionFlag(Array<Flag> flagsBlue, Escudo escudo1, Escudo escudo2, Player player) {
         flagsBlue.forEach(flag -> {
             if (flag.flagSprite.getBoundingRectangle().overlaps(escudo1.escudoSprite.getBoundingRectangle())) {
                 flagsBlue.removeValue(flag, true);
-                escudo1.score += 10;
+                player.score += 10;
                 escudo1.damage = 1;
             }
             if (flag.flagSprite.getBoundingRectangle().overlaps(escudo2.escudoSprite.getBoundingRectangle())) {

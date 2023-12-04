@@ -1,6 +1,7 @@
 package com.ballsteam.sokiduels.minigames.spaceinvaders;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
+import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
 import com.ballsteam.sokiduels.player.Player;
 import com.ballsteam.sokiduels.player.PlayerInput;
 
@@ -22,16 +24,19 @@ public class SokiInvadersScreen extends AbstractScreen {
     Array<Alien> soki;
     int direccion;
     long lastDropTime;
-
+    Player J1;
+    Player J2;
+    Music music_background;
     HashMap<Player, Spaceship> players = new HashMap<>();
 public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     super(main);
+    this.J1 = J1;
+    this.J2 = J2;
+    music_background = Gdx.audio.newMusic(Gdx.files.internal("sokiInvaders/InvadersMusic.mp3"));
     spaceShip = new Spaceship(J1.isPlayerOne());
     spaceShip2 = new Spaceship(J2.isPlayerOne());
     players.put(J1,spaceShip);
     players.put(J2, spaceShip2);
-
-
     direccion = 1;
     fondo = new Sprite(new Texture("sokiInvaders/fondo.png"));
     fondo.setSize(getWidth(),getHeight());
@@ -41,7 +46,9 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     }
     @Override
     public void buildStage() {
-
+    music_background.setVolume(0.05f);
+    music_background.setLooping(true);
+    music_background.play();
     }
 
     @Override
@@ -64,8 +71,10 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     @Override
     public void dispose() {
         spaceShip.dispose();
+        spaceShip2.dispose();
         soki.forEach(Alien::dispose);
         fondo.getTexture().dispose();
+        music_background.dispose();
     }
 
     public void caidaAliens(){
@@ -73,18 +82,18 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
             drop.draw(main.batch);
             drop.posAlien.x += 150 * Gdx.graphics.getDeltaTime();
             if (drop.posAlien.y + 64 < 0) soki.removeValue(drop, true);
-            colisionBulletAlien(drop, spaceShip);
-            colisionBulletAlien(drop, spaceShip2);
+            colisionBulletAlien(drop, spaceShip,J1);
+            colisionBulletAlien(drop, spaceShip2,J2);
         });
     }
 
-    public void colisionBulletAlien(Alien drop, Spaceship spaceShip) {
+    public void colisionBulletAlien(Alien drop, Spaceship spaceShip,Player player) {
         spaceShip.bullets.forEach(bullet -> {
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(drop.alienSprite.getBoundingRectangle())) {
                 soki.removeValue(drop, true);
                 drop.dispose();
                 spaceShip.bullets.removeValue(bullet, true);
-                spaceShip.score++;
+                player.score++;
             }
         });
     }
@@ -93,19 +102,19 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
         spaceShip.bullets.forEach(bullet -> {
                 if (bullet.bulletSprite.getBoundingRectangle().overlaps(spaceShip2.shipSprite.getBoundingRectangle())) {
                     spaceShip.bullets.removeValue(bullet, true);
-                    spaceShip2.score--;
+                    J2.score--;
                 }
         });
         spaceShip2.bullets.forEach(bullet -> {
                 if (bullet.bulletSprite.getBoundingRectangle().overlaps(spaceShip.shipSprite.getBoundingRectangle())) {
                     spaceShip2.bullets.removeValue(bullet, true);
-                    spaceShip.score--;
+                    J1.score--;
                 }
         });
     }
     private void drawOnscreenText() {
-        main.font.draw(main.batch, "Score: " + spaceShip.score, 15, 20);
-        main.font.draw(main.batch, "Score: " + spaceShip2.score, getWidth()-69, getHeight()-10);
+        main.font.draw(main.batch, "Score: " + J1.score, 15, 20);
+        main.font.draw(main.batch, "Score: " + J2.score, getWidth()-69, getHeight()-10);
     }
     private void spawnSoki() {
         Alien enemy = new Alien(new Vector2(0, MathUtils.random(getHeight()/5, (4*getHeight()/5))));

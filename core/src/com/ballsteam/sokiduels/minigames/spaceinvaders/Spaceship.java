@@ -16,7 +16,6 @@ public class Spaceship {
     protected boolean LEFT;
     protected boolean RIGHT;
     boolean SHOOT;
-    int score;
     long lastShot;
 
     public Spaceship(boolean isPlayerOne) {
@@ -33,7 +32,6 @@ public class Spaceship {
         }
         bullets = new Array<>();
         lastShot = TimeUtils.nanoTime();
-        score = 0;
     }
 
     public void motion() {
