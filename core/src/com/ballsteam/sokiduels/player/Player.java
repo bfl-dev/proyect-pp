@@ -45,4 +45,18 @@ public class Player {
         upFuse = Input.UP!=1;
         rightFuse = Input.RIGHT!=1;
     }
+
+     public void draw(SpriteBatch batch, float width, float height){
+        if (isPlayerOne) {
+            bar.setPosition((width/3)-125, (height-100));
+        } else {
+            bar.setPosition((((width/3)*2)-125), (height-100));
+        }
+        if(health < 25) {
+            bar.setTexture(new Texture("red.png"));
+        }else if(health < 50) {
+            bar.setTexture(new Texture("yellow.png"));
+        }
+        batch.draw(bar, bar.getX(), bar.getY(), health, 20);
+    }
 }
