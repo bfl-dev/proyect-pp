@@ -25,8 +25,8 @@ public class SokiDefenseScreen extends AbstractScreen {
         super(main);
         this.J1 = J1;
         this.J2 = J2;
-        escudo1 = new Escudo(new Texture("shield1.png"),new Texture("shield2.png"),new Texture("shield3.png"));
-        escudo2 = new Escudo(new Texture("shield4.png"),new Texture("shield5.png"),new Texture("shield6.png"));
+        escudo1 = new Escudo(new Texture("sokidefense/shield1.png"),new Texture("sokidefense/shield2.png"),new Texture("sokidefense/shield3.png"));
+        escudo2 = new Escudo(new Texture("sokidefense/shield4.png"),new Texture("sokidefense/shield5.png"),new Texture("sokidefense/shield6.png"));
         players.put(J1,escudo1);
         players.put(J2,escudo2);
         balas = new Array<>();
@@ -80,11 +80,11 @@ public class SokiDefenseScreen extends AbstractScreen {
         });
     }
     public void spawnFlagBlue() {
-        Flag flagBlue = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"flagBlue.png");
+        Flag flagBlue = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"sokidefense/flagBlue.png");
         flagsBlue.add(flagBlue);
     }
     public  void  spawnFlagRed() {
-        Flag flagRed = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"flagRed.png");
+        Flag flagRed = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"sokidefense/flagRed.png");
         flagsRed.add(flagRed);
     }
     private void spawnBullet() {

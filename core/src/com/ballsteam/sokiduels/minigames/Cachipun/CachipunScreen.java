@@ -30,9 +30,9 @@ public class CachipunScreen extends AbstractScreen {
     Player J1;
     Player J2;
     Texture [] choicheTexture;
-    Texture READY = new Texture("ready.png");
-    Texture CONTROLLER = new Texture("ControllerCachipun.png");
-    Texture KEYBOARD = new Texture("KeyboardCachipun.png");
+    Texture READY = new Texture("cachipun/ready.png");
+    Texture CONTROLLER = new Texture("cachipun/ControllerCachipun.png");
+    Texture KEYBOARD = new Texture("cachipun/KeyboardCachipun.png");
     boolean set = true;
     long timeout;
     HashMap<Player, boolean[]> players = new HashMap<>();
@@ -43,12 +43,12 @@ public class CachipunScreen extends AbstractScreen {
         players.put(J2,J2_ACTION);
         choice.put(J1,0);
         choice.put(J2,0);
-        choicheTexture = new Texture[]{new Texture("sword.png"),new Texture("jojo.png"),new Texture("shield.png")};
+        choicheTexture = new Texture[]{new Texture("cachipun/sword.png"),new Texture("cachipun/jojo.png"),new Texture("cachipun/shield.png")};
         player1Sprite = new Sprite(new Texture("soki.png"));
         player2Sprite = new Sprite(new Texture("soki.png"));
-        fondo = new Sprite(new Texture("cachipunBackground.png"));
+        fondo = new Sprite(new Texture("cachipun/cachipunBackground.png"));
         fondo.setSize(getWidth(),getHeight());
-        music_background = Gdx.audio.newMusic(Gdx.files.internal("background_music.mp3"));
+        music_background = Gdx.audio.newMusic(Gdx.files.internal("cachipun/background_music.mp3"));
         music_background.setLooping(true);
         this.J1=J1;
         this.J2=J2;

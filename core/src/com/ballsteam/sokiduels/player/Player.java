@@ -25,8 +25,8 @@ public class Player {
         this.score = 0;
         this.isPlayerOne = isPlayerOne;
         this.health = 300;
-        this.bar = new Sprite(new Texture("green.png"));
-        this.playerAction = new Sprite(new Texture("ControllerCachipun.png"));
+        this.bar = new Sprite(new Texture("cachipun/green.png"));
+        this.playerAction = new Sprite(new Texture("cachipun/ControllerCachipun.png"));
     }
 
     public void setInput(PlayerInput input) {
@@ -54,9 +54,9 @@ public class Player {
             playerAction.setPosition(((width/3)*2)-110,height-700);
         }
         if(health < 25) {
-            bar.setTexture(new Texture("red.png"));
+            bar.setTexture(new Texture("cachipun/red.png"));
         }else if(health < 50) {
-            bar.setTexture(new Texture("yellow.png"));
+            bar.setTexture(new Texture("cachipun/yellow.png"));
         }
         batch.draw(bar, bar.getX(), bar.getY(), health, 20);
         batch.draw(playerAction, playerAction.getX(), playerAction.getY());
