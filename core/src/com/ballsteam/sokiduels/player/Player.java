@@ -1,6 +1,5 @@
 package com.ballsteam.sokiduels.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,22 +11,21 @@ public class Player {
     public boolean rightFuse = true;
 
     private final boolean isPlayerOne;
-    private int health;
-    private Sprite bar;
+    protected int health;
+    private final Sprite bar;
+
     public PlayerInput Input = new PlayerInput() {
         @Override
         public void update() {
             super.update();
         }
     };
+    public Sprite playerAction;
     public Player(boolean isPlayerOne){
         this.isPlayerOne = isPlayerOne;
         this.health = 300;
         this.bar = new Sprite(new Texture("green.png"));
-    }
-    public Player(boolean isPlayerOne, PlayerInput InputMethod){
-        this.isPlayerOne = isPlayerOne;
-        this.Input = InputMethod;
+        this.playerAction = new Sprite(new Texture("ControllerCachipun.png"));
     }
 
     public void setInput(PlayerInput input) {
