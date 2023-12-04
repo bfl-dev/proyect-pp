@@ -16,7 +16,7 @@ public class SokiDuels extends Game {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
         font = new BitmapFont();
-		camera.setToOrtho(false, 800, 480);
+		camera.setToOrtho(false, 1366, 768);
 		camera.update();
         try {
             setScreen(new PlayerSetScreen(this));

@@ -23,24 +23,22 @@ public class SokiInvadersScreen extends AbstractScreen {
     Array<Alien> soki;
     int direccion;
     long lastDropTime;
-    HashMap<Player, Spaceship> players = new HashMap<>();
-    public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
-        super(main);
-/*
-        players.put("player1", player1);
-        players.put("player2", player2);
-*/
-        spaceShip = new Spaceship(J1.isPlayerOne());
-        spaceShip2 = new Spaceship(J2.isPlayerOne());
-        players.put(J1,spaceShip);
-        players.put(J2, spaceShip2);
 
-        aliens = new Array<>();
-        direccion = 1;
-        fondo = new Sprite(new Texture("sokiInvaders/fondo.png"));
-        crearMatriz(aliens);
-        soki = new Array<>();
-        spawnSoki();
+    HashMap<Player, Spaceship> players = new HashMap<>();
+public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
+    super(main);
+    spaceShip = new Spaceship(J1.isPlayerOne());
+    spaceShip2 = new Spaceship(J2.isPlayerOne());
+    players.put(J1,spaceShip);
+    players.put(J2, spaceShip2);
+
+
+    direccion = 1;
+    fondo = new Sprite(new Texture("sokiInvaders/fondo.png"));
+    fondo.setSize(getWidth(),getHeight());
+
+    soki = new Array<>();
+    spawnSoki();
     }
     @Override
     public void buildStage() {
@@ -71,9 +69,6 @@ public class SokiInvadersScreen extends AbstractScreen {
         fondo.getTexture().dispose();
     }
 
-    public static void crearMatriz(Array<Alien> aliens) {
-        IntStream.range(0, 5).forEach(i -> IntStream.range(0, 10).forEach(j -> aliens.add(new Alien(new Vector2(120 + (j * 57), 180 + (i * 57))))));
-    }
     public void caidaAliens(){
         soki.forEach(drop -> {
             drop.draw(main.batch);
