@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
 import com.ballsteam.sokiduels.minigames.baile.Baile;
+import com.ballsteam.sokiduels.minigames.sokiDefense.SokiDefenseScreen;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
 import com.ballsteam.sokiduels.player.Player;
 
@@ -32,24 +33,43 @@ public class MenuScreen extends AbstractScreen {
         text.setPosition(getWidth() / 2f, 440, Align.center);
         addActor(text);
 
-        //buttonPlay
-        TextButton buttonPlay = createButtonCachipunScreen();
-        addActor(buttonPlay);
+        //buttonCachipunScreen
+        TextButton buttonCachipunScreen = createButtonCachipunScreen();
+        addActor(buttonCachipunScreen);
 
-        //buttonConfig
-        TextButton buttonConfig = createButtonBaile();
-        addActor(buttonConfig);
+        //buttonBaile
+        TextButton buttonBaile = createButtonBaile();
+        addActor(buttonBaile);
 
-        //buttonQuit
-        TextButton buttonQuit = createButtonSokiInvaders();
-        addActor(buttonQuit);
+        //buttonSokiInvaders
+        TextButton buttonSokiInvaders = createButtonSokiInvaders();
+        addActor(buttonSokiInvaders);
+
+        TextButton buttonSokiDefense = createButtonSokiDefense();
+        addActor(buttonSokiDefense);
 
     }
 
+    private TextButton createButtonSokiDefense(){
+        TextButton buttonSokiDefense = createTextButton("SokiDefenseScreen",
+            (text.getX() - 50),(text.getY() - 250));
+        buttonSokiDefense.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                main.setScreen(new SokiDefenseScreen(main, J1, J2));
+                dispose();
+            }
+        });
+        return buttonSokiDefense;
+    };
+
     private TextButton createButtonCachipunScreen(){
-        TextButton buttonPlay = createTextButton("CachipunScreen",
+        TextButton buttonCachipun = createTextButton("CachipunScreen",
                 (text.getX() - 50),(text.getY() - 100));
-        buttonPlay.addListener(new InputListener() {
+        buttonCachipun.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
@@ -59,14 +79,14 @@ public class MenuScreen extends AbstractScreen {
                 dispose();
             }
         });
-        return buttonPlay;
+        return buttonCachipun;
     }
 
 
     private TextButton createButtonBaile(){
-        TextButton buttonConfig = createTextButton("BaileScreen",
+        TextButton buttonBaile = createTextButton("BaileScreen",
                 (text.getX() - 50), (text.getY() - 150));
-        buttonConfig.addListener(new InputListener() {
+        buttonBaile.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
@@ -76,20 +96,20 @@ public class MenuScreen extends AbstractScreen {
                 dispose();
             }
         });
-        return buttonConfig;
+        return buttonBaile;
     }
 
     private TextButton createButtonSokiInvaders(){
-        TextButton buttonQuit = createTextButton("SokiInvadersScreen",
+        TextButton buttonSokiInvaders = createTextButton("SokiInvadersScreen",
                 (text.getX() - 50),(text.getY() - 200));
-        buttonQuit.addListener(new InputListener() {
+        buttonSokiInvaders.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {return true;}
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 main.setScreen(new SokiInvadersScreen(main,J1,J2));
                 dispose();
             }
         });
-        return buttonQuit;
+        return buttonSokiInvaders;
     }
     private TextButton createTextButton(String title, float posX, float posY){
         TextButton textButton = new TextButton(title, UI_SKIN);

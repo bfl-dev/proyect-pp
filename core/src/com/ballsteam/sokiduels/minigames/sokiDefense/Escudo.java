@@ -21,15 +21,15 @@ public class Escudo {
         this.texture2 = Texture2;
         this.texture3 = Texture3;
         escudoSprite = new Sprite(texture);
-        escudoSprite.setSize(32,32);
+        escudoSprite.setSize(45,45);
         posEscudo = new Vector2(0,0);
         damage = 1;
     }
     public void motion(){
-        posEscudo.add(new Vector2(LEFT_RIGHT*3,UP_DOWN*3).clamp(0,3));
-        if (posEscudo.x > 800 - escudoSprite.getWidth()) posEscudo.x = 800 - escudoSprite.getWidth();
+        posEscudo.add(new Vector2(LEFT_RIGHT*4,UP_DOWN*4).clamp(0,4));
+        if (posEscudo.x > 1366 - escudoSprite.getWidth()) posEscudo.x = 1366 - escudoSprite.getWidth();
         if (posEscudo.x < 0) posEscudo.x = 0;
-        if (posEscudo.y > 480 - escudoSprite.getWidth()) posEscudo.y = 480 - escudoSprite.getWidth();
+        if (posEscudo.y > 768 - escudoSprite.getWidth()) posEscudo.y = 768 - escudoSprite.getWidth();
         if (posEscudo.y < 0) posEscudo.y = 0;
     }
     public void draw (SpriteBatch batch){

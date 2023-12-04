@@ -28,7 +28,7 @@ public class Spaceship {
         if (isPlayerOne) {
             spaceShip.y = 20;
         } else {
-            spaceShip.y = 688;
+            spaceShip.y = 768-shipSprite.getHeight()-20;
             shipSprite.rotate(180);
         }
         bullets = new Array<>();

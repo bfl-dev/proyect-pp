@@ -10,7 +10,7 @@ public class Flag {
     Vector2 vector2;
     public Flag (Vector2 vector2,String texture){
         flagSprite = new Sprite(new Texture(texture));
-        flagSprite.setSize(24,24);
+        flagSprite.setSize(35,35);
         this.vector2 = vector2;
     }
     public void draw (SpriteBatch batch){

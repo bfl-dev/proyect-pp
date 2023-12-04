@@ -73,26 +73,26 @@ public class SokiDefenseScreen extends AbstractScreen {
     public void drawBullets(){
         balas.forEach(bala -> {
             bala.draw(main.batch);
-            if (bala.posBullet.y > 480 || bala.posBullet.y < 0 || bala.posBullet.x > 800 || bala.posBullet.x < 0) balas.removeValue(bala,true);
+            if (bala.posBullet.y > getHeight() || bala.posBullet.y < 0 || bala.posBullet.x > getWidth() || bala.posBullet.x < 0) balas.removeValue(bala,true);
         });
     }
     public void spawnFlagBlue() {
-        Flag flagBlue = new Flag(new Vector2(MathUtils.random(32, 768),MathUtils.random(32, 448)),"flagBlue.png");
+        Flag flagBlue = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"flagBlue.png");
         flagsBlue.add(flagBlue);
     }
     public  void  spawnFlagRed() {
-        Flag flagRed = new Flag(new Vector2(MathUtils.random(32, 768),MathUtils.random(32, 448)),"flagRed.png");
+        Flag flagRed = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"flagRed.png");
         flagsRed.add(flagRed);
     }
     private void spawnBullet() {
-        Bala balaDown = new Bala(new Vector2(MathUtils.random(32, 768),0 ),0);
-        Bala balaLeft = new Bala(new Vector2(800,MathUtils.random(32, 448)),1);
-        Bala balaUp = new Bala(new Vector2(MathUtils.random(32, 768), 480),2);
-        Bala balaRight = new Bala(new Vector2(0,MathUtils.random(32, 448)),3);
-        balas.add(balaDown);
-        balas.add(balaUp);
-        balas.add(balaRight);
-        balas.add(balaLeft);
+        Bala balaFromDown = new Bala(new Vector2(MathUtils.random(32, getWidth()-32),0 ),0);
+        Bala balaFromRight = new Bala(new Vector2(getWidth(),MathUtils.random(32, getHeight()-32)),1);
+        Bala balaFromUp = new Bala(new Vector2(MathUtils.random(32, getWidth()-32), getHeight()),2);
+        Bala balaFromLeft = new Bala(new Vector2(0,MathUtils.random(32, getHeight()-32)),3);
+        balas.add(balaFromDown);
+        balas.add(balaFromUp);
+        balas.add(balaFromLeft);
+        balas.add(balaFromRight);
         lastBulletTime = TimeUtils.nanoTime();
     }
     private void drawOnscreenText() {
