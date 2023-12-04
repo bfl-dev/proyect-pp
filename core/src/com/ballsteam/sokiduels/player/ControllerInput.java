@@ -5,7 +5,7 @@ import com.github.strikerx3.jxinput.enums.XInputButton;
 import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 
 
-public class ControllerInput extends PlayerInput {
+public class ControllerInput extends PlayerInput { //TODO: JUN ESTE eS TU CODIGO REVISALO PORFAVOR
     private final double DEAD_ZONE = 0.133;
     private final XInputDevice DEVICE;
     private final XInputAxes AXES;

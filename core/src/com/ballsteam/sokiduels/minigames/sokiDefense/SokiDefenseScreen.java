@@ -11,7 +11,7 @@ import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
 import com.ballsteam.sokiduels.player.Player;
 import java.util.HashMap;
 
-public class SokiDefenseScreen extends AbstractScreen {
+public class SokiDefenseScreen extends AbstractScreen { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Escudo escudo1;
     Escudo escudo2;
     Array<Bala> balas;

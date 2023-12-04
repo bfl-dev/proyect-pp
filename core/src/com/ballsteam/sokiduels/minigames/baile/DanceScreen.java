@@ -20,7 +20,7 @@ import java.util.HashMap;
  * Los jugadores deben seguir las flechas que aparecen en la pantalla utilizando
  * sus respectivos controles para ganar puntos.
  */
-public class DanceScreen extends AbstractScreen  {
+public class DanceScreen extends AbstractScreen  { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     private final Sprite FLECHA_ABAJO = new Sprite(new Texture("baile/flechaAbajo.png"));
     private final Sprite FLECHA_ARRIBA = new Sprite(new Texture("baile/flechaArriba.png"));
     private final Sprite FLECHA_DERECHA = new Sprite(new Texture("baile/flechaDerecha.png"));
@@ -53,7 +53,7 @@ public class DanceScreen extends AbstractScreen  {
      * @param J2    Jugador 2.
      * @param main  Instancia principal del juego SokiDuels.
      */
-    public DanceScreen(SokiDuels main,Player J1, Player J2) {
+    public DanceScreen(SokiDuels main,Player J1, Player J2) { //TODO: IMPLEMENT CACHIPUN SCREEN CONECTION
         super(main);
         this.J1 = J1;
         this.J2 = J2;
@@ -156,7 +156,7 @@ public class DanceScreen extends AbstractScreen  {
         });
     }
 
-    private void minusPoints(Array<Flecha> flechas){
+    private void minusPoints(Array<Flecha> flechas){ // TODO: LEFT ARROW BUG, FIX IT!
         flechas.forEach(flecha -> {
             if (flecha.getPosition().y< -20 && flecha.getPosition().y>-100 && flecha.getPosition().x<(256)+256){
                 flechas.removeValue(flecha,true);

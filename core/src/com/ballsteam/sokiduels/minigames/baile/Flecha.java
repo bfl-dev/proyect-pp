@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Flecha {
+public class Flecha { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     private final Sprite flecha;
     private final Vector2 position;
     public Flecha(Sprite sprite, Vector2 vector2) {

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Escudo {
+public class Escudo { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Sprite escudoSprite;
     Vector2 posEscudo;
     Texture texture;

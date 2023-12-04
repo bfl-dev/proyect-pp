@@ -19,7 +19,7 @@ import com.ballsteam.sokiduels.player.PlayerInput;
 
 import java.util.HashMap;
 
-public class SokiInvadersScreen extends AbstractScreen {
+public class SokiInvadersScreen extends AbstractScreen { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Spaceship spaceShip;
     Spaceship spaceShip2;
     Sprite fondo;

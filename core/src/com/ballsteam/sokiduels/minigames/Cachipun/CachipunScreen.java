@@ -37,6 +37,7 @@ public class CachipunScreen extends AbstractScreen {
 
     HashMap<Player, boolean[]> players = new HashMap<>();
     HashMap<Duelist, Integer> choice = new HashMap<>();
+    //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     public CachipunScreen(SokiDuels main, Player J1, Player J2) {
         super(main);
         players.put(J1,J1_ACTION);
@@ -93,7 +94,7 @@ public class CachipunScreen extends AbstractScreen {
         duelist2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
         main.batch.end();
     }
-    public void action(Player player,Duelist duelist){
+    public void action(Player player,Duelist duelist){ //TODO: Explain this method
         player.Input.update();
         if(choice.get(duelist)==0) {
             if (player.Input.LEFT==1) {
@@ -116,7 +117,7 @@ public class CachipunScreen extends AbstractScreen {
             choice.put(duelist, 0);
         }
     }
-    public void determineWinner(Duelist duelist1,Duelist duelist2){
+    public void determineWinner(Duelist duelist1,Duelist duelist2){ // TODO: REFACTOR ALL THIS SHIT
         if(!Objects.equals(choice.get(duelist1), choice.get(duelist2))) {
             duelist1.winner = ((choice.get(duelist1).equals(1) && choice.get(duelist2).equals(2))||
                 (choice.get(duelist1).equals(2)&&choice.get(duelist2).equals(3))||
@@ -137,7 +138,7 @@ public class CachipunScreen extends AbstractScreen {
             }
         }
     }
-    public void determineDamageWin(Duelist win,Duelist lose) {
+    public void determineDamageWin(Duelist win,Duelist lose) { //TODO: REMAKE THIS SHIT
         System.out.println(win.score + "segundo" + lose.score);
         if (win.score > lose.score) {
             lose.health -= 100;
