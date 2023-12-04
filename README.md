@@ -2,7 +2,7 @@
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff).
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws a simple GUI on the screen.
+"No hay nada mas permanente que una solución temporal."
 
 ## Platforms
 
