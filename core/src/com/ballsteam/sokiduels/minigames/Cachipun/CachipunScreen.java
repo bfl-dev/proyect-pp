@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
-import com.ballsteam.sokiduels.minigames.baile.Baile;
+import com.ballsteam.sokiduels.minigames.baile.DanceScreen;
 import com.ballsteam.sokiduels.minigames.sokiDefense.SokiDefenseScreen;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
 import com.ballsteam.sokiduels.player.ControllerInput;
@@ -126,13 +126,13 @@ public class CachipunScreen extends AbstractScreen {
                 main.setScreen(new SokiInvadersScreen(main, J1, J2));
             }
             if (choice.get(J1) == 2 && choice.get(J2) == 3) {
-                main.setScreen(new Baile(main, J1, J2));
+                main.setScreen(new DanceScreen(main, J1, J2));
             }
             if (choice.get(J1) == 3 && choice.get(J2) == 1) {
                 main.setScreen(new SokiDefenseScreen(main, J1, J2));
             }
             if (choice.get(J1) == 3 && choice.get(J2) == 2) {
-                main.setScreen(new Baile(main, J1,J2));
+                main.setScreen(new DanceScreen(main, J1,J2));
             }
     }
 }

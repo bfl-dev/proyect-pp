@@ -53,7 +53,7 @@ public class DanceScreen extends AbstractScreen  {
      * @param J2    Jugador 2.
      * @param main  Instancia principal del juego SokiDuels.
      */
-    public DanceScreen(Player J1, Player J2, SokiDuels main) {
+    public DanceScreen(SokiDuels main,Player J1, Player J2) {
         super(main);
         this.J1 = J1;
         this.J2 = J2;
