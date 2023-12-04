@@ -16,6 +16,7 @@ import com.ballsteam.sokiduels.player.Player;
 
 import java.util.HashMap;
 
+
 public class Baile extends AbstractScreen  {
     Sprite FLECHA_ABAJO = new Sprite(new Texture("flechaAbajo.png"));
     Sprite FLECHA_ARRIBA = new Sprite(new Texture("flechaArriba.png"));

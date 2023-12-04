@@ -84,7 +84,6 @@ public class CachipunScreen extends AbstractScreen {
         }
         J1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
         J2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
-
         main.batch.end();
     }
     public void action(Player player){
