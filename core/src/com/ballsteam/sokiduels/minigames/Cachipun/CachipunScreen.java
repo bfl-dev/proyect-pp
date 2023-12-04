@@ -112,6 +112,7 @@ public class CachipunScreen extends AbstractScreen {
         }
     }
     public void determineWinner(Player J1,Player J2){
+        music_background.pause();
             if (choice.get(J1) == choice.get(J2)) {
 
             }

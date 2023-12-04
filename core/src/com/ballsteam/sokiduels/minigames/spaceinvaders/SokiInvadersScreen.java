@@ -1,6 +1,7 @@
 package com.ballsteam.sokiduels.minigames.spaceinvaders;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
+import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
 import com.ballsteam.sokiduels.player.Player;
 import com.ballsteam.sokiduels.player.PlayerInput;
 
@@ -24,12 +26,13 @@ public class SokiInvadersScreen extends AbstractScreen {
     long lastDropTime;
     Player J1;
     Player J2;
-
+    Music music_background;
     HashMap<Player, Spaceship> players = new HashMap<>();
 public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     super(main);
     this.J1 = J1;
     this.J2 = J2;
+    music_background = Gdx.audio.newMusic(Gdx.files.internal("sokiInvaders/InvadersMusic.mp3"));
     spaceShip = new Spaceship(J1.isPlayerOne());
     spaceShip2 = new Spaceship(J2.isPlayerOne());
     players.put(J1,spaceShip);
@@ -43,7 +46,9 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     }
     @Override
     public void buildStage() {
-
+    music_background.setVolume(0.05f);
+    music_background.setLooping(true);
+    music_background.play();
     }
 
     @Override
@@ -66,8 +71,10 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     @Override
     public void dispose() {
         spaceShip.dispose();
+        spaceShip2.dispose();
         soki.forEach(Alien::dispose);
         fondo.getTexture().dispose();
+        music_background.dispose();
     }
 
     public void caidaAliens(){
