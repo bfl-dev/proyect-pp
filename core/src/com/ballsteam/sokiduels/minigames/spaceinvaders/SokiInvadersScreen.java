@@ -9,13 +9,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
+import com.ballsteam.sokiduels.Screens.Screens;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
 import com.ballsteam.sokiduels.player.Player;
 import com.ballsteam.sokiduels.player.PlayerInput;
 
 import java.util.HashMap;
-import java.util.stream.IntStream;
 
 public class SokiInvadersScreen extends AbstractScreen {
     Spaceship spaceShip;
@@ -27,11 +27,13 @@ public class SokiInvadersScreen extends AbstractScreen {
     Player J1;
     Player J2;
     Music music_background;
+    long timeGame;
     HashMap<Player, Spaceship> players = new HashMap<>();
 public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     super(main);
     this.J1 = J1;
     this.J2 = J2;
+    timeGame = System.currentTimeMillis();
     music_background = Gdx.audio.newMusic(Gdx.files.internal("sokiInvaders/InvadersMusic.mp3"));
     spaceShip = new Spaceship(J1.isPlayerOne());
     spaceShip2 = new Spaceship(J2.isPlayerOne());
@@ -40,9 +42,9 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
     direccion = 1;
     fondo = new Sprite(new Texture("sokiInvaders/fondo.png"));
     fondo.setSize(getWidth(),getHeight());
-
     soki = new Array<>();
     spawnSoki();
+
     }
     @Override
     public void buildStage() {
@@ -56,15 +58,21 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
         super.render(delta);
         main.batch.begin();
         fondo.draw(main.batch);
-        for (Player player : players.keySet()) {
-            updateSpaceship(player.Input,players.get(player));
+        if (timeGame + 5000 > System.currentTimeMillis()) {
+            for (Player player : players.keySet()) {
+                updateSpaceship(player.Input, players.get(player));
+            }
+            caidaAliens();
+            colisionBullet();
+            if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnSoki();
+            drawOnscreenText();
+            spaceShip.draw(main.batch);
+            spaceShip2.draw(main.batch);
+        }else if (timeGame + 6000 > System.currentTimeMillis()) {
+            drawOnScreenFinalText();
+        }else {
+            main.setScreen(Screens.cachipunScreen);
         }
-        caidaAliens();
-        colisionBullet();
-        if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnSoki();
-        drawOnscreenText();
-        spaceShip.draw(main.batch);
-        spaceShip2.draw(main.batch);
         main.batch.end();
     }
 
@@ -102,15 +110,19 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2) {
         spaceShip.bullets.forEach(bullet -> {
                 if (bullet.bulletSprite.getBoundingRectangle().overlaps(spaceShip2.shipSprite.getBoundingRectangle())) {
                     spaceShip.bullets.removeValue(bullet, true);
-                    J2.score--;
+                    J2.setScore(J2.score-1);
                 }
         });
         spaceShip2.bullets.forEach(bullet -> {
                 if (bullet.bulletSprite.getBoundingRectangle().overlaps(spaceShip.shipSprite.getBoundingRectangle())) {
                     spaceShip2.bullets.removeValue(bullet, true);
-                    J1.score--;
+                    J1.setScore(J1.score-1);
                 }
         });
+    }
+    private void drawOnScreenFinalText() {
+        main.font.draw(main.batch, "Score: " + J1.score, 20, 20);
+        main.font.draw(main.batch, "Score: " + J2.score, getWidth()-69, getHeight()-10);
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + J1.score, 15, 20);

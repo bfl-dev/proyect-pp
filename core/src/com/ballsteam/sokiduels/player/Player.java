@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.stream.IntStream;
+
 public class Player {
     public boolean leftFuse = true;
     public boolean downFuse = true;
@@ -11,7 +13,7 @@ public class Player {
     public boolean rightFuse = true;
     public int score;
     private final boolean isPlayerOne;
-    protected int health;
+    public int health;
     private final Sprite bar;
 
     public PlayerInput Input = new PlayerInput() {
@@ -61,7 +63,15 @@ public class Player {
         batch.draw(bar, bar.getX(), bar.getY(), health, 20);
         batch.draw(playerAction, playerAction.getX(), playerAction.getY());
     }
+    public void damage(int damage){
+        IntStream.range(0, damage).forEach(i -> {
+                health--;
+        });
+    }
     public void setPlayerAction(Texture texture){
         this.playerAction.setTexture(texture);
+    }
+    public void setScore(int score){
+        this.score = score;
     }
 }

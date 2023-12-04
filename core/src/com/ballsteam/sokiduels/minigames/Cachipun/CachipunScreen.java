@@ -117,7 +117,9 @@ public class CachipunScreen extends AbstractScreen {
 
             }
             if (choice.get(J1) == 1 && choice.get(J2) == 2) {
+                J1.score ++;
                 main.setScreen(new SokiInvadersScreen(main, J1, J2));
+                determineDamageWin(J1,J2);
             }
             if (choice.get(J1) == 1 && choice.get(J2) == 3) {
                 main.setScreen(new SokiDefenseScreen(main, J1, J2));
@@ -134,6 +136,16 @@ public class CachipunScreen extends AbstractScreen {
             if (choice.get(J1) == 3 && choice.get(J2) == 2) {
                 main.setScreen(new Baile(main, J1,J2));
             }
+    }
+    public void determineDamageWin(Player win,Player lose){
+        System.out.println(win.score+"segundo"+lose.score);
+        if (lose.score > win.score){
+            lose.health -= 50;
+        }
+        choice.replace(J1, 0);
+        choice.replace(J2, 0);
+        win.score = 0;
+        lose.score = 0;
     }
 }
 

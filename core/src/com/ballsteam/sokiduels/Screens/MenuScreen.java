@@ -75,7 +75,8 @@ public class MenuScreen extends AbstractScreen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                main.setScreen(new CachipunScreen(main, J1, J2));
+                Screens.cachipunScreen = new CachipunScreen(main, J1, J2);
+                main.setScreen(Screens.cachipunScreen);
                 dispose();
             }
         });
