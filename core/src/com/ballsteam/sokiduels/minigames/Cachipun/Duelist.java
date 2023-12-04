@@ -11,7 +11,7 @@ public class Duelist {
     public int health;
     public boolean winner;
     private final Sprite bar;
-    private HashMap<String,Sprite> textures;
+    private final HashMap<String,Sprite> textures;
     public Sprite playerAction;
     private final boolean isPlayerOne;
     public Duelist(boolean isPlayerOne){
@@ -41,9 +41,7 @@ public class Duelist {
         batch.draw(playerAction, playerAction.getX(), playerAction.getY());
     }
     public void damage(int damage){
-        IntStream.range(0, damage).forEach(i -> {
-            health--;
-        });
+        IntStream.range(0, damage).forEach(i -> health--);
     }
     private void poblarHashmap(){
         textures.put("KeyboardCachipun",new Sprite(new Texture("cachipun/KeyboardCachipun.png")));
