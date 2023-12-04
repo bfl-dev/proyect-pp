@@ -38,7 +38,7 @@ public class Baile extends AbstractScreen  {
     Player J2;
     HashMap<Player, boolean[]> players = new HashMap<>();
 
-    public Baile(Player J1, Player J2, SokiDuels main) {
+    public Baile(SokiDuels main, Player J1, Player J2) {
         super(main);
         this.J1 = J1;
         this.J2 = J2;

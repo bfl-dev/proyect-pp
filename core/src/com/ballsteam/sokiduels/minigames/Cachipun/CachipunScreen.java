@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
+import com.ballsteam.sokiduels.minigames.baile.Baile;
+import com.ballsteam.sokiduels.minigames.sokiDefense.SokiDefenseScreen;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
 import com.ballsteam.sokiduels.player.ControllerInput;
 import com.ballsteam.sokiduels.player.Player;
@@ -114,29 +116,23 @@ public class CachipunScreen extends AbstractScreen {
 
             }
             if (choice.get(J1) == 1 && choice.get(J2) == 2) {
-                enterGame(J1,J2,new SokiInvadersScreen(main, J1, J2));
+                main.setScreen(new SokiInvadersScreen(main, J1, J2));
             }
             if (choice.get(J1) == 1 && choice.get(J2) == 3) {
-                //main.setScreen(new sokidefense(main, J2, J1));
+                main.setScreen(new SokiDefenseScreen(main, J1, J2));
             }
             if (choice.get(J1) == 2 && choice.get(J2) == 1) {
-
-                enterGame(J2,J1,new SokiInvadersScreen(main, J2, J1));
+                main.setScreen(new SokiInvadersScreen(main, J1, J2));
             }
             if (choice.get(J1) == 2 && choice.get(J2) == 3) {
-
-                //main.setScreen(new baile(main, J2, J1));
+                main.setScreen(new Baile(main, J1, J2));
             }
             if (choice.get(J1) == 3 && choice.get(J2) == 1) {
-
-                //main.setScreen(new sokidefense(main, J2, J1));
+                main.setScreen(new SokiDefenseScreen(main, J1, J2));
             }
             if (choice.get(J1) == 3 && choice.get(J2) == 2) {
-                //main.setScreen(new baile(main, J2, J1));
+                main.setScreen(new Baile(main, J1,J2));
             }
-    }
-    public void enterGame(Player win,Player lose,AbstractScreen screen){
-        main.setScreen(screen);
     }
 }
 

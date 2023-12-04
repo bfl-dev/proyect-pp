@@ -9,7 +9,7 @@ public class Player {
     public boolean downFuse = true;
     public boolean upFuse = true;
     public boolean rightFuse = true;
-
+    public int score;
     private final boolean isPlayerOne;
     protected int health;
     private final Sprite bar;
@@ -22,6 +22,7 @@ public class Player {
     };
     public Sprite playerAction;
     public Player(boolean isPlayerOne){
+        this.score = 0;
         this.isPlayerOne = isPlayerOne;
         this.health = 300;
         this.bar = new Sprite(new Texture("green.png"));
