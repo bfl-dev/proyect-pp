@@ -131,28 +131,29 @@ public class Baile extends AbstractScreen  {
         players.get(player)[3] = ((ControllerInput)player.Input).RT;
     }
     private void updateByKeyboard(Player player){
-        players.get(player)[0] = player.Input.LEFT==1;
-        players.get(player)[1] = player.Input.DOWN==1;
-        players.get(player)[2] = player.Input.UP==1;
-        players.get(player)[3] = player.Input.RIGHT==1;
+        players.get(player)[0] = player.Input.LEFT==1&&player.leftFuse;
+        players.get(player)[1] = player.Input.DOWN==1&&player.downFuse;
+        players.get(player)[2] = player.Input.UP==1&&player.upFuse;
+        players.get(player)[3] = player.Input.RIGHT==1&&player.rightFuse;
+        player.danceFuses();
     }
     public void spawnFlechas() {
         int random = (int) (Math.random() * 4);
         switch (random) {
             case 0 -> {
-                Flecha flechaArriba = new Flecha(FLECHA_ARRIBA,new Vector2(128, 480));
+                Flecha flechaArriba = new Flecha(FLECHA_ARRIBA,new Vector2(128, getHeight()));
                 flechasArriba.add(flechaArriba);
             }
             case 1 -> {
-                Flecha flechaAbajo = new Flecha(FLECHA_ABAJO,new Vector2(64, 480));
+                Flecha flechaAbajo = new Flecha(FLECHA_ABAJO,new Vector2(64, getHeight()));
                 flechasAbajo.add(flechaAbajo);
             }
             case 2 -> {
-                Flecha flechaIzquierda = new Flecha(FLECHA_IZQUIERDA,new Vector2(0, 480));
+                Flecha flechaIzquierda = new Flecha(FLECHA_IZQUIERDA,new Vector2(0, getHeight()));
                 flechasIzquierda.add(flechaIzquierda);
             }
             case 3 -> {
-                Flecha flechaDerecha = new Flecha(FLECHA_DERECHA,new Vector2(192, 480));
+                Flecha flechaDerecha = new Flecha(FLECHA_DERECHA,new Vector2(192, getHeight()));
                 flechasDerecha.add(flechaDerecha);
             }
         }
