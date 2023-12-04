@@ -15,10 +15,8 @@ public class Bullet {
         // Inicialización de la bala y su sprite.
         if (isPlayerOne) bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/laserBullet.png")));
         else bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/boice.png")));
-        bulletSprite.setScale(0.5f);
-        bullet = new Vector2();
-        bullet.x = 0;
-        bullet.y = 10000;
+        bulletSprite.setScale(0.69f);
+        bullet = new Vector2(0,10000);
         this.isPlayerOne = isPlayerOne;
     }
 
