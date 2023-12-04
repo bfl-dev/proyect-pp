@@ -16,14 +16,16 @@ public class Bullet {
         if (isPlayerOne) bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/laserBullet.png")));
         else bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/boice.png")));
         bulletSprite.setScale(0.69f);
-        bullet = new Vector2(0,10000);
+        bullet = new Vector2(0,0);
         this.isPlayerOne = isPlayerOne;
     }
 
     public void motion() {
-        if (isPlayerOne)
+        if (isPlayerOne){
             bullet.y += Gdx.graphics.getDeltaTime() * 400;
-        else bullet.y -= Gdx.graphics.getDeltaTime() * 400;
+        } else {
+            bullet.y -= Gdx.graphics.getDeltaTime() * 400;
+        }
     }
 
     public void draw(SpriteBatch batch) {

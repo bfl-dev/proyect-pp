@@ -45,7 +45,7 @@ public class Spaceship {
             lastShot = TimeUtils.nanoTime();
         }
         bullets.forEach(bullet -> {
-            if (bullet.bullet.y > 480) bullets.removeValue(bullet, true);
+            if (bullet.bullet.y > 1366) bullets.removeValue(bullet, true);
         });
         if (spaceShip.x > 1366 - 64) spaceShip.x = 1366 - 64;
         if (spaceShip.x < 0) spaceShip.x = 0;
