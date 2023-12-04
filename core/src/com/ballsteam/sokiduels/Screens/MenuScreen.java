@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
-import com.ballsteam.sokiduels.minigames.baile.Baile;
+import com.ballsteam.sokiduels.minigames.baile.DanceScreen;
 import com.ballsteam.sokiduels.minigames.sokiDefense.SokiDefenseScreen;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
 import com.ballsteam.sokiduels.player.Player;
@@ -18,8 +18,8 @@ import com.ballsteam.sokiduels.player.Player;
 public class MenuScreen extends AbstractScreen {
     private final Label text = new Label("Proyecto PP", new Skin(Gdx.files.internal("ui/uiskin.json")));
     private final Skin UI_SKIN = new Skin(Gdx.files.internal("ui/uiskin.json"));
-    private Player J1;
-    private Player J2;
+    private final Player J1;
+    private final Player J2;
 
     public MenuScreen(Player J1, Player J2, SokiDuels main) {
         super(main);
@@ -64,7 +64,7 @@ public class MenuScreen extends AbstractScreen {
             }
         });
         return buttonSokiDefense;
-    };
+    }
 
     private TextButton createButtonCachipunScreen(){
         TextButton buttonCachipun = createTextButton("CachipunScreen",
@@ -92,7 +92,7 @@ public class MenuScreen extends AbstractScreen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                main.setScreen(new Baile(J1, J2, main));
+                main.setScreen(new DanceScreen(J1, J2, main));
                 dispose();
             }
         });
