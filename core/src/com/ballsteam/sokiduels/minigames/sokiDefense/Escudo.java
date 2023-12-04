@@ -25,7 +25,7 @@ public class Escudo {
         damage = 1;
     }
     public void motion(){
-        posEscudo.add(new Vector2(LEFT_RIGHT*4,UP_DOWN*4).clamp(0,4));
+        posEscudo.add(new Vector2(LEFT_RIGHT*10,UP_DOWN*10).clamp(0,10));
         if (posEscudo.x > 1366 - escudoSprite.getWidth()) posEscudo.x = 1366 - escudoSprite.getWidth();
         if (posEscudo.x < 0) posEscudo.x = 0;
         if (posEscudo.y > 768 - escudoSprite.getWidth()) posEscudo.y = 768 - escudoSprite.getWidth();

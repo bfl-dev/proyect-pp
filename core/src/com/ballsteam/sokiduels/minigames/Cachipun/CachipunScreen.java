@@ -15,6 +15,7 @@ import com.ballsteam.sokiduels.player.ControllerInput;
 import com.ballsteam.sokiduels.player.Player;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class CachipunScreen extends AbstractScreen {
 
@@ -29,21 +30,21 @@ public class CachipunScreen extends AbstractScreen {
     Sprite player2Sprite;
     Player J1;
     Player J2;
-    Texture [] choicheTexture;
-    Texture READY = new Texture("ready.png");
-    Texture CONTROLLER = new Texture("ControllerCachipun.png");
-    Texture KEYBOARD = new Texture("KeyboardCachipun.png");
+    Duelist duelist1;
+    Duelist duelist2;
     boolean set = true;
     long timeout;
+
     HashMap<Player, boolean[]> players = new HashMap<>();
-    HashMap<Player, Integer> choice = new HashMap<>();
+    HashMap<Duelist, Integer> choice = new HashMap<>();
     public CachipunScreen(SokiDuels main, Player J1, Player J2) {
         super(main);
         players.put(J1,J1_ACTION);
         players.put(J2,J2_ACTION);
-        choice.put(J1,0);
-        choice.put(J2,0);
-        choicheTexture = new Texture[]{new Texture("sword.png"),new Texture("jojo.png"),new Texture("shield.png")};
+        duelist1 = new Duelist(J1.isPlayerOne());
+        duelist2 = new Duelist(J2.isPlayerOne());
+        choice.put(duelist1,0);
+        choice.put(duelist2,0);
         player1Sprite = new Sprite(new Texture("soki.png"));
         player2Sprite = new Sprite(new Texture("soki.png"));
         fondo = new Sprite(new Texture("cachipunBackground.png"));
@@ -62,90 +63,94 @@ public class CachipunScreen extends AbstractScreen {
         music_background.play();
         player1Sprite.setPosition(SCREEN_WIDTH/3,SCREEN_HEIGHT-300);
         player2Sprite.setPosition((SCREEN_WIDTH/3)*2,SCREEN_HEIGHT-300);
-        J1.setPlayerAction(J1.Input.getClass()==ControllerInput.class?CONTROLLER:KEYBOARD);
-        J2.setPlayerAction(J2.Input.getClass()==ControllerInput.class?CONTROLLER:KEYBOARD);
+        duelist1.setDuelistAction(J1.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
+        duelist2.setDuelistAction(J2.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
+        if (duelist1.score != 0 || duelist2.score != 0) {
+            determineDamageWin(duelist1, duelist2);
+        }
     }
     @Override
     public void render(float delta) {
         super.render(delta);
         main.batch.begin();
         fondo.draw(main.batch);
-        action(J1);
-        action(J2);
+        action(J1,duelist1);
+        action(J2,duelist2);
         player1Sprite.draw(main.batch);
         player2Sprite.draw(main.batch);
-        if (choice.get(J1)!=0 && choice.get(J2)!=0 && set){
+        if (choice.get(duelist1)!=0 && choice.get(duelist2)!=0 && set){
             set = false;
             timeout = System.currentTimeMillis();
-            J1.setPlayerAction(choicheTexture[choice.get(J1) - 1]);
-            J2.setPlayerAction(choicheTexture[choice.get(J2) - 1]);
+            duelist1.setDuelistAction(choice.get(duelist1)==1?"Sword":choice.get(duelist1)==3?"Shield":"Dance");
+            duelist2.setDuelistAction(choice.get(duelist2)==1?"Sword":choice.get(duelist2)==3?"Shield":"Dance");
         }
 
         if (!set && System.currentTimeMillis()-timeout>3000){
-            determineWinner(J1, J2);
+            determineWinner(duelist1,duelist2);
+            set = true;
         }
-        J1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
-        J2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+        duelist1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+        duelist2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
         main.batch.end();
     }
-    public void action(Player player){
+    public void action(Player player,Duelist duelist){
         player.Input.update();
-        if(choice.get(player)==0) {
+        if(choice.get(duelist)==0) {
             if (player.Input.LEFT==1) {
-                choice.replace(player, 1);
+                choice.replace(duelist, 1);
             }
             if (player.Input.DOWN==1) {
-                choice.replace(player, MathUtils.random(1, 3));
+                choice.replace(duelist, MathUtils.random(1, 3));
             }
             if (player.Input.UP==1) {
-                choice.replace(player, 2);
+                choice.replace(duelist, 2);
             }
             if (player.Input.RIGHT==1) {
-                choice.replace(player, 3);
+                choice.replace(duelist, 3);
             }
-            if (choice.get(player)!=0){
-                player.setPlayerAction(READY);
+            if (choice.get(duelist)!=0){
+                duelist.setDuelistAction("Ready");
             }
         }else if (player.Input.B) {
-            player.setPlayerAction(player.Input.getClass()==ControllerInput.class?CONTROLLER:KEYBOARD);
-            choice.put(player, 0);
+            duelist.setDuelistAction(player.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
+            choice.put(duelist, 0);
         }
     }
-    public void determineWinner(Player J1,Player J2){
-        music_background.pause();
-            if (choice.get(J1) == choice.get(J2)) {
-
+    public void determineWinner(Duelist duelist1,Duelist duelist2){
+        if(!Objects.equals(choice.get(duelist1), choice.get(duelist2))) {
+            duelist1.winner = ((choice.get(duelist1).equals(1) && choice.get(duelist2).equals(2))||
+                (choice.get(duelist1).equals(2)&&choice.get(duelist2).equals(3))||
+                choice.get(duelist1).equals(3)&&choice.get(duelist2).equals(1));
+            duelist2.winner = !duelist1.winner;
+            if (duelist1.winner){
+                switch (choice.get(duelist1)) {
+                    case 1 -> main.setScreen(new SokiInvadersScreen(main, J1, J2, duelist1, duelist2));
+                    case 2 -> main.setScreen(new DanceScreen(main, J1, J2));
+                    case 3 -> main.setScreen(new SokiDefenseScreen(main, J1, J2, duelist1, duelist2));
+                }
+            }else {
+                switch (choice.get(duelist2)) {
+                    case 1 -> main.setScreen(new SokiInvadersScreen(main, J1, J2, duelist1, duelist2));
+                    case 2 -> main.setScreen(new DanceScreen(main, J1, J2));
+                    case 3 -> main.setScreen(new SokiDefenseScreen(main, J1, J2, duelist1, duelist2));
+                }
             }
-            if (choice.get(J1) == 1 && choice.get(J2) == 2) {
-                J1.score ++;
-                main.setScreen(new SokiInvadersScreen(main, J1, J2));
-                determineDamageWin(J1,J2);
-            }
-            if (choice.get(J1) == 1 && choice.get(J2) == 3) {
-                main.setScreen(new SokiDefenseScreen(main, J1, J2));
-            }
-            if (choice.get(J1) == 2 && choice.get(J2) == 1) {
-                main.setScreen(new SokiInvadersScreen(main, J1, J2));
-            }
-            if (choice.get(J1) == 2 && choice.get(J2) == 3) {
-                main.setScreen(new DanceScreen(main, J1, J2));
-            }
-            if (choice.get(J1) == 3 && choice.get(J2) == 1) {
-                main.setScreen(new SokiDefenseScreen(main, J1, J2));
-            }
-            if (choice.get(J1) == 3 && choice.get(J2) == 2) {
-                main.setScreen(new DanceScreen(main, J1,J2));
-            }
-    }
-    public void determineDamageWin(Player win,Player lose){
-        System.out.println(win.score+"segundo"+lose.score);
-        if (lose.score > win.score){
-            lose.health -= 50;
         }
-        choice.replace(J1, 0);
-        choice.replace(J2, 0);
+    }
+    public void determineDamageWin(Duelist win,Duelist lose) {
+        System.out.println(win.score + "segundo" + lose.score);
+        if (win.score > lose.score) {
+            lose.health -= 100;
+            System.out.println("bienbien");
+        }
+        System.out.println("malmal");
+        choice.replace(duelist1, 0);
+        choice.replace(duelist2, 0);
         win.score = 0;
         lose.score = 0;
     }
+    @Override
+    public void hide() {
+        music_background.pause();
+    }
 }
-

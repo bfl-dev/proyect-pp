@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.SokiDuels;
+import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
 import com.ballsteam.sokiduels.player.Player;
 import java.util.HashMap;
 
@@ -18,13 +19,12 @@ public class SokiDefenseScreen extends AbstractScreen {
     Array<Flag> flagsBlue;
     Array<Flag> flagsRed;
     HashMap<Player, Escudo> players = new HashMap<>();
-    Player J1;
-    Player J2;
-
-    public SokiDefenseScreen(SokiDuels main, Player J1, Player J2) {
+    Duelist duelist1;
+    Duelist duelist2;
+    public SokiDefenseScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1, Duelist duelist2) {
         super(main);
-        this.J1 = J1;
-        this.J2 = J2;
+        this.duelist1 = duelist1;
+        this.duelist2 = duelist2;
         escudo1 = new Escudo(new Texture("shield1.png"),new Texture("shield2.png"),new Texture("shield3.png"));
         escudo2 = new Escudo(new Texture("shield4.png"),new Texture("shield5.png"),new Texture("shield6.png"));
         players.put(J1,escudo1);
@@ -56,8 +56,8 @@ public class SokiDefenseScreen extends AbstractScreen {
         escudo2.draw(main.batch);
         drawBullets();
         colisionBullet();
-        colisionFlag(flagsBlue, escudo1, escudo2,J1);
-        colisionFlag(flagsRed, escudo2, escudo1,J2);
+        colisionFlag(flagsBlue, escudo1, escudo2,duelist1);
+        colisionFlag(flagsRed, escudo2, escudo1,duelist2);
         drawOnscreenText();
         main.batch.end();
     }
@@ -99,14 +99,14 @@ public class SokiDefenseScreen extends AbstractScreen {
         lastBulletTime = TimeUtils.nanoTime();
     }
     private void drawOnscreenText() {
-        main.font.draw(main.batch, "Score: " + J1.score, 15, 20);
-        main.font.draw(main.batch, "Score: " + J2.score, getWidth()-100, 20);
+        main.font.draw(main.batch, "Score: " + duelist1.score, 15, 20);
+        main.font.draw(main.batch, "Score: " + duelist1.score, getWidth()-100, 20);
     }
-    public void colisionFlag(Array<Flag> flagsBlue, Escudo escudo1, Escudo escudo2, Player player) {
+    public void colisionFlag(Array<Flag> flagsBlue, Escudo escudo1, Escudo escudo2,Duelist duelist) {
         flagsBlue.forEach(flag -> {
             if (flag.flagSprite.getBoundingRectangle().overlaps(escudo1.escudoSprite.getBoundingRectangle())) {
                 flagsBlue.removeValue(flag, true);
-                player.score += 10;
+                duelist.score += 10;
                 escudo1.damage = 1;
             }
             if (flag.flagSprite.getBoundingRectangle().overlaps(escudo2.escudoSprite.getBoundingRectangle())) {
