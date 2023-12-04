@@ -10,7 +10,7 @@ public class Alien {
     Vector2 posAlien;
     public Alien (Vector2 vector2){
         alienSprite = new Sprite(new Texture("soki.png"));
-        alienSprite.setScale(0.5f);
+        alienSprite.setScale(1f);
         posAlien = vector2;
     }
     public void draw (SpriteBatch a){
