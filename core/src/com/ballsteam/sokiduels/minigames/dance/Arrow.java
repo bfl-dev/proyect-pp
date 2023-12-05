@@ -1,15 +1,15 @@
-package com.ballsteam.sokiduels.minigames.baile;
+package com.ballsteam.sokiduels.minigames.dance;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Flecha { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
-    private final Sprite flecha;
+public class Arrow {
+    private final Sprite arrow;
     private final Vector2 position;
-    public Flecha(Sprite sprite, Vector2 vector2) {
-        flecha = sprite;
+    public Arrow(Sprite sprite, Vector2 vector2) {
+        arrow = sprite;
         position = vector2;
     }
     public void motion() {
@@ -17,11 +17,11 @@ public class Flecha { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     }
     public void draw(SpriteBatch batch){
         motion();
-        flecha.setPosition(position.x, position.y);
-        flecha.draw(batch);
+        arrow.setPosition(position.x, position.y);
+        arrow.draw(batch);
     }
     public void dispose() {
-        flecha.getTexture().dispose();
+        arrow.getTexture().dispose();
     }
 
     public Vector2 getPosition() {

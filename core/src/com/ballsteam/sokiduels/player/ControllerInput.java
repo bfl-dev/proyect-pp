@@ -5,8 +5,9 @@ import com.github.strikerx3.jxinput.enums.XInputButton;
 import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 
 
-public class ControllerInput extends PlayerInput { //TODO: JUN ESTE eS TU CODIGO REVISALO PORFAVOR
+public class ControllerInput extends PlayerInput {
     private final double DEAD_ZONE = 0.133;
+    private final double TRIGGER_DEAD_ZONE = 0.3;
     private final XInputDevice DEVICE;
     private final XInputAxes AXES;
     private final XInputButtons BUTTONS;
@@ -27,26 +28,26 @@ public class ControllerInput extends PlayerInput { //TODO: JUN ESTE eS TU CODIGO
     public void update(){
         poll();
         setInputValues();
-        setTriggers();
     }
     @Override
     public boolean interacted(){
         poll();
         return !hasPlayer && anyPressed();
     }
-    public void setVibration(int leftMotor, int rightMotor){
-        //determina el valor usando el siguiente criterio:
-        //El número mayor entre 0 y (el número menor entre 65535 y la entrada)
+    public void setVibration(int leftMotor, int rightMotor){ //TODO: Usar esta wea o borrarla (usar en ESCUDO?)
         DEVICE.setVibration(margin(leftMotor),margin(rightMotor));
     }
     private boolean anyPressed(){
-        return BUTTONS.b|| BUTTONS.a|| BUTTONS.right|| BUTTONS.left||leftStickX()!=0||leftStickY()!=0|| BUTTONS.up|| BUTTONS.down;
+        return
+            BUTTONS.b||BUTTONS.a||BUTTONS.x||BUTTONS.y|| BUTTONS.rShoulder || BUTTONS.lShoulder ||
+                valueDeltaY()!=0 || valueDeltaX()!=0 || AXES.lt>= TRIGGER_DEAD_ZONE || AXES.rt>= TRIGGER_DEAD_ZONE;
     }
     private void setInputValues() {
         A = BUTTONS_DELTA.isPressed(XInputButton.A);
         B = BUTTONS_DELTA.isPressed(XInputButton.B);
         leftRight();
         upDown();
+        triggers();
     }
     private void poll(){
         DEVICE.poll();}
@@ -73,11 +74,9 @@ public class ControllerInput extends PlayerInput { //TODO: JUN ESTE eS TU CODIGO
             UP = 0;
             DOWN = 0;
         }
-
     }
 
-    private void setTriggers(){
-        double TRIGGER_DEAD_ZONE = 0.3;
+    private void triggers(){
         LB = BUTTONS_DELTA.isPressed(XInputButton.LEFT_SHOULDER);
 
         LT = leftTriggerFuse && AXES.lt>= TRIGGER_DEAD_ZONE;
@@ -85,9 +84,8 @@ public class ControllerInput extends PlayerInput { //TODO: JUN ESTE eS TU CODIGO
 
         RB = BUTTONS_DELTA.isPressed(XInputButton.RIGHT_SHOULDER);
 
-        RT = rightTriggerFuse&&AXES.rt>= TRIGGER_DEAD_ZONE;
-        rightTriggerFuse = !RT&&AXES.rt< TRIGGER_DEAD_ZONE;
-
+        RT = rightTriggerFuse && AXES.rt >= TRIGGER_DEAD_ZONE;
+        rightTriggerFuse = !RT && AXES.rt < TRIGGER_DEAD_ZONE;
     }
     private int margin(int motorValue){return Math.max(Math.min(motorValue,65535),0);}
     private float valueDeltaX(){return dPadX()!=0? dPadX():leftStickX();}
@@ -95,5 +93,5 @@ public class ControllerInput extends PlayerInput { //TODO: JUN ESTE eS TU CODIGO
     private float dPadY(){return Boolean.compare(BUTTONS.up, BUTTONS.down);}
     private float dPadX(){return Boolean.compare(BUTTONS.right, BUTTONS.left);}
     private float leftStickX() {return Math.abs(AXES.lx) > DEAD_ZONE ? AXES.lx : 0;}
-    private float leftStickY(){return Math.abs(AXES.ly)>DEAD_ZONE? AXES.ly:0;}
+    private float leftStickY() {return Math.abs(AXES.ly) > DEAD_ZONE ? AXES.ly : 0;}
 }
