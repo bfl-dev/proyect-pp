@@ -27,7 +27,6 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
     Duelist duelist1;
     Duelist duelist2;
     long timeGame;
-
     Music music_background;
     public SokiDefenseScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1, Duelist duelist2) {
         super(main);
