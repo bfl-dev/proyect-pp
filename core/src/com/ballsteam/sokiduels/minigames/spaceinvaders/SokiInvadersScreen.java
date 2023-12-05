@@ -22,7 +22,8 @@ public class SokiInvadersScreen extends AbstractScreen implements GameState {
     Spaceship spaceShip;
     Spaceship spaceShip2;
     Sprite background;
-    Array<Alien> aliens;
+    Array<Alien> aliensLeft;
+    Array<Alien> aliensRight;
     int direction;
     long lastDropTime;
     Music music_background;
@@ -42,8 +43,8 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
     players.put(P2, spaceShip2);
     direction = 1;
     background = new Sprite(new Texture("sokiInvaders/fondo.png"));
-    aliens = new Array<>();
-
+    aliensLeft = new Array<>();
+    aliensRight = new Array<>();
     }
     @Override
     public void buildStage() {
@@ -66,16 +67,23 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
     }
 
     public void aliensFall(){
-        aliens.forEach(drop -> {
+        aliensLeft.forEach(drop -> {
             drop.draw(main.batch);
             drop.posAlien.x += 150 * Gdx.graphics.getDeltaTime();
-            if (drop.posAlien.y + 64 < 0) aliens.removeValue(drop, true);
-            colisionBulletAlien(drop, spaceShip,duelist1);
-            colisionBulletAlien(drop, spaceShip2,duelist2);
+            if (drop.posAlien.x  > getWidth()) aliensLeft.removeValue(drop, true);
+            colisionBulletAlien(drop, spaceShip,duelist1,aliensLeft);
+            colisionBulletAlien(drop, spaceShip2,duelist2,aliensLeft);
+        });
+        aliensRight.forEach(drop -> {
+            drop.draw(main.batch);
+            drop.posAlien.x -= 150 * Gdx.graphics.getDeltaTime();
+            if (drop.posAlien.x + 64 < 0) aliensRight.removeValue(drop, true);
+            colisionBulletAlien(drop, spaceShip,duelist1,aliensRight);
+            colisionBulletAlien(drop, spaceShip2,duelist2,aliensRight);
         });
     }
 
-    public void colisionBulletAlien(Alien drop, Spaceship spaceShip,Duelist duelist){
+    public void colisionBulletAlien(Alien drop, Spaceship spaceShip,Duelist duelist,Array <Alien> aliens){
         spaceShip.bullets.forEach(bullet -> {
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(drop.alienSprite.getBoundingRectangle())) {
                 aliens.removeValue(drop, true);
@@ -110,8 +118,10 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
         main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-100, getHeight()-10);
     }
     private void spawnAlien() {
-        Alien enemy = new Alien(new Vector2(0, MathUtils.random(getHeight()/5, (4*getHeight()/5))));
-        aliens.add(enemy);
+        Alien enemyLeft = new Alien(new Vector2(0, MathUtils.random(getHeight()/5, (4*getHeight()/5))));
+        aliensLeft.add(enemyLeft);
+        Alien enemyRigth = new Alien(new Vector2(getWidth(), MathUtils.random(getHeight()/5, (4*getHeight()/5))));
+        aliensRight.add(enemyRigth);
         lastDropTime = TimeUtils.nanoTime();
     }
     private void updateSpaceship(PlayerInput player, Spaceship spaceShip){
@@ -124,7 +134,8 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
     public void dispose() {
         spaceShip.dispose();
         spaceShip2.dispose();
-        aliens.forEach(Alien::dispose);
+        aliensLeft.forEach(Alien::dispose);
+        aliensRight.forEach(Alien::dispose);
         background.getTexture().dispose();
         music_background.dispose();
     }
