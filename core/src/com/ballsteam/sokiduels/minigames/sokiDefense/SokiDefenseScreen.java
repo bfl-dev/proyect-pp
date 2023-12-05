@@ -1,5 +1,7 @@
 package com.ballsteam.sokiduels.minigames.sokiDefense;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -25,6 +27,8 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
     Duelist duelist1;
     Duelist duelist2;
     long timeGame;
+
+    Music music_background;
     public SokiDefenseScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1, Duelist duelist2) {
         super(main);
         this.duelist1 = duelist1;
@@ -36,6 +40,8 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
         bullets = new Array<>();
         flagsBlue = new Array<>();
         flagsRed = new Array<>();
+        music_background = Gdx.audio.newMusic(Gdx.files.internal("sokidefense/defense.mp3"));
+        music_background.setVolume(0.05f);
     }
 
     @Override
@@ -43,6 +49,7 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
         spawnBullet();
         spawnFlagBlue();
         spawnFlagRed();
+        music_background.play();
         timeGame = System.currentTimeMillis();
     }
 
@@ -156,6 +163,7 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
     @Override
     public void closure(long timeEnd) {
         if (timeGame + timeEnd < System.currentTimeMillis()) {
+            music_background.dispose();
             main.setScreen(Screens.cachipunScreen);
         }
     }
