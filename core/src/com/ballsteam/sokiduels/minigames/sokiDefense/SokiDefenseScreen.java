@@ -6,12 +6,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
+import com.ballsteam.sokiduels.Screens.Screens;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
+import com.ballsteam.sokiduels.minigames.GameState;
 import com.ballsteam.sokiduels.player.Player;
+
 import java.util.HashMap;
 
-public class SokiDefenseScreen extends AbstractScreen { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
+public class SokiDefenseScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Escudo escudo1;
     Escudo escudo2;
     Array<Bala> balas;
@@ -21,12 +24,14 @@ public class SokiDefenseScreen extends AbstractScreen { //TODO: RENAME ALL THE V
     HashMap<Player, Escudo> players = new HashMap<>();
     Duelist duelist1;
     Duelist duelist2;
+    long timeGame;
     public SokiDefenseScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1, Duelist duelist2) {
         super(main);
+        timeGame = System.currentTimeMillis();
         this.duelist1 = duelist1;
         this.duelist2 = duelist2;
-        escudo1 = new Escudo(new Texture("shield1.png"),new Texture("shield2.png"),new Texture("shield3.png"));
-        escudo2 = new Escudo(new Texture("shield4.png"),new Texture("shield5.png"),new Texture("shield6.png"));
+        escudo1 = new Escudo(new Texture("sokidefense/shield1.png"),new Texture("sokidefense/shield2.png"),new Texture("sokidefense/shield3.png"));
+        escudo2 = new Escudo(new Texture("sokidefense/shield4.png"),new Texture("sokidefense/shield5.png"),new Texture("sokidefense/shield6.png"));
         players.put(J1,escudo1);
         players.put(J2,escudo2);
         balas = new Array<>();
@@ -46,19 +51,7 @@ public class SokiDefenseScreen extends AbstractScreen { //TODO: RENAME ALL THE V
     public void render(float delta) {
         super.render(delta);
         main.batch.begin();
-        if (flagsBlue.size < 1) spawnFlagBlue();
-        if (flagsRed.size < 1) spawnFlagRed();
-        if(TimeUtils.nanoTime() - lastBulletTime > 500000000) spawnBullet();
-        flagsRed.forEach(flag -> flag.draw(main.batch));
-        flagsBlue.forEach(flag -> flag.draw(main.batch));
-        players.forEach(this::updateShield);
-        escudo1.draw(main.batch);
-        escudo2.draw(main.batch);
-        drawBullets();
-        colisionBullet();
-        colisionFlag(flagsBlue, escudo1, escudo2,duelist1);
-        colisionFlag(flagsRed, escudo2, escudo1,duelist2);
-        drawOnscreenText();
+        action(30000);
         main.batch.end();
     }
     public void colisionBullet(){
@@ -80,11 +73,11 @@ public class SokiDefenseScreen extends AbstractScreen { //TODO: RENAME ALL THE V
         });
     }
     public void spawnFlagBlue() {
-        Flag flagBlue = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"flagBlue.png");
+        Flag flagBlue = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"sokidefense/flagBlue.png");
         flagsBlue.add(flagBlue);
     }
     public  void  spawnFlagRed() {
-        Flag flagRed = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"flagRed.png");
+        Flag flagRed = new Flag(new Vector2(MathUtils.random(32, getWidth()-32),MathUtils.random(32, getHeight()-32)),"sokidefense/flagRed.png");
         flagsRed.add(flagRed);
     }
     private void spawnBullet() {
@@ -119,5 +112,38 @@ public class SokiDefenseScreen extends AbstractScreen { //TODO: RENAME ALL THE V
         player.Input.update();
         escudo.UP_DOWN = Integer.compare((int) player.Input.UP, (int) player.Input.DOWN);
         escudo.LEFT_RIGHT = Integer.compare((int) player.Input.RIGHT, (int) player.Input.LEFT);
+    }
+
+    @Override
+    public void action(long timeEnd) {
+        if(timeGame + timeEnd > System.currentTimeMillis()) {
+            if (flagsBlue.size < 1) spawnFlagBlue();
+            if (flagsRed.size < 1) spawnFlagRed();
+            if (TimeUtils.nanoTime() - lastBulletTime > 500000000) spawnBullet();
+            flagsRed.forEach(flag -> flag.draw(main.batch));
+            flagsBlue.forEach(flag -> flag.draw(main.batch));
+            players.forEach(this::updateShield);
+            escudo1.draw(main.batch);
+            escudo2.draw(main.batch);
+            drawBullets();
+            colisionBullet();
+            colisionFlag(flagsBlue, escudo1, escudo2, duelist1);
+            colisionFlag(flagsRed, escudo2, escudo1, duelist2);
+            drawOnscreenText();
+        }
+    }
+
+    @Override
+    public void result(long timeStart, Long timeEnd) {
+        if (timeGame + timeStart < System.currentTimeMillis() && timeGame + timeEnd > System.currentTimeMillis()) {
+
+        }
+    }
+
+    @Override
+    public void closure(long timeEnd) {
+        if (timeGame + timeEnd < System.currentTimeMillis()) {
+            main.setScreen(Screens.cachipunScreen);
+        }
     }
 }

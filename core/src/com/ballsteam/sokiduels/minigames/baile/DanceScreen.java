@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.ballsteam.sokiduels.Screens.Screens;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.badlogic.gdx.utils.Array;
+import com.ballsteam.sokiduels.minigames.GameState;
 import com.ballsteam.sokiduels.player.ControllerInput;
 import com.ballsteam.sokiduels.player.KeyboardInput;
 import com.ballsteam.sokiduels.player.Player;
@@ -20,7 +22,7 @@ import java.util.HashMap;
  * Los jugadores deben seguir las flechas que aparecen en la pantalla utilizando
  * sus respectivos controles para ganar puntos.
  */
-public class DanceScreen extends AbstractScreen  { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
+public class DanceScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     private final Sprite FLECHA_ABAJO = new Sprite(new Texture("baile/flechaAbajo.png"));
     private final Sprite FLECHA_ARRIBA = new Sprite(new Texture("baile/flechaArriba.png"));
     private final Sprite FLECHA_DERECHA = new Sprite(new Texture("baile/flechaDerecha.png"));
@@ -44,6 +46,7 @@ public class DanceScreen extends AbstractScreen  { //TODO: RENAME ALL THE VARIAB
     private int scoreJ2;
     private final Player J1;
     private final Player J2;
+    long timeGame;
     private final HashMap<Player, boolean[]> players = new HashMap<>();
 
     /**
@@ -57,6 +60,8 @@ public class DanceScreen extends AbstractScreen  { //TODO: RENAME ALL THE VARIAB
         super(main);
         this.J1 = J1;
         this.J2 = J2;
+
+        timeGame = System.currentTimeMillis();
 
         players.put(J1,J1_ARROWS);
         players.put(J2,J2_ARROWS);
@@ -95,51 +100,9 @@ public class DanceScreen extends AbstractScreen  { //TODO: RENAME ALL THE VARIAB
     public void render(float delta) {
         super.render(delta);
         main.batch.begin();
-
-        updatePlayerArrows(J1);
-        updatePlayerArrows(J2);
-
-        fondoFlechas.draw(main.batch);
-        fondoFlechas.setPosition(256,0);
-        fondoFlechas2.draw(main.batch);
-        fondoFlechas2.setPosition((256)+(256*2),0);
-
-        if(TimeUtils.nanoTime() - lastDrop > 500000000) spawnFlechas();
-        drawOnscreenText();
-
-        flechasJ1.forEach(flechas1 -> flechas1.forEach(flecha -> flecha.draw(main.batch)));
-        flechasJ2.forEach(flechas2 -> flechas2.forEach(flecha -> flecha.draw(main.batch)));
-
-        //Tiene que haber una forma de hacer esta wea con funcional
-        if (J1_ARROWS[0]) {
-            addPoints(flechasIzquierda, true);
-        }
-        if (J1_ARROWS[1]) {
-            addPoints(flechasAbajo, true);
-        }
-        if (J1_ARROWS[2]) {
-            addPoints(flechasArriba, true);
-        }
-        if (J1_ARROWS[3]) {
-            addPoints(flechasDerecha, true);
-        }
-
-        if (J2_ARROWS[0]) {
-            addPoints(flechasIzquierda, false);
-        }
-        if (J2_ARROWS[1]) {
-            addPoints(flechasAbajo, false);
-        }
-        if (J2_ARROWS[2]) {
-            addPoints(flechasArriba, false);
-        }
-        if (J2_ARROWS[3]) {
-            addPoints(flechasDerecha, false);
-        }
-
-        flechasJ1.forEach(this::minusPoints);
-        flechasJ2.forEach(this::minusPoints);
-
+        action(30000);
+        result(30000, 35000L);
+        closure(35000);
         main.batch.end();
     }
     private void addPoints(Array<Flecha> flechas, boolean isPlayerOne){
@@ -230,5 +193,69 @@ public class DanceScreen extends AbstractScreen  { //TODO: RENAME ALL THE VARIAB
 
     private void drawPointMessage(boolean isPlayerOne){
         main.font.draw(main.batch, "Punto!", isPlayerOne?(256):(256)+256, 20);
+    }
+
+    @Override
+    public void action(long timeEnd) {
+        if (timeGame + timeEnd > System.currentTimeMillis()) {
+
+            updatePlayerArrows(J1);
+            updatePlayerArrows(J2);
+
+            fondoFlechas.draw(main.batch);
+            fondoFlechas.setPosition(256,0);
+            fondoFlechas2.draw(main.batch);
+            fondoFlechas2.setPosition((256)+(256*2),0);
+
+            if(TimeUtils.nanoTime() - lastDrop > 500000000) spawnFlechas();
+            drawOnscreenText();
+
+            flechasJ1.forEach(flechas1 -> flechas1.forEach(flecha -> flecha.draw(main.batch)));
+            flechasJ2.forEach(flechas2 -> flechas2.forEach(flecha -> flecha.draw(main.batch)));
+
+            //Tiene que haber una forma de hacer esta wea con funcional
+            if (J1_ARROWS[0]) {
+                addPoints(flechasIzquierda, true);
+            }
+            if (J1_ARROWS[1]) {
+                addPoints(flechasAbajo, true);
+            }
+            if (J1_ARROWS[2]) {
+                addPoints(flechasArriba, true);
+            }
+            if (J1_ARROWS[3]) {
+                addPoints(flechasDerecha, true);
+            }
+
+            if (J2_ARROWS[0]) {
+                addPoints(flechasIzquierda, false);
+            }
+            if (J2_ARROWS[1]) {
+                addPoints(flechasAbajo, false);
+            }
+            if (J2_ARROWS[2]) {
+                addPoints(flechasArriba, false);
+            }
+            if (J2_ARROWS[3]) {
+                addPoints(flechasDerecha, false);
+            }
+
+            flechasJ1.forEach(this::minusPoints);
+            flechasJ2.forEach(this::minusPoints);
+
+        }
+    }
+
+    @Override
+    public void result(long timeStart, Long timeEnd) {
+        if (timeGame + timeStart < System.currentTimeMillis() && timeGame + timeEnd > System.currentTimeMillis()) {
+        }
+    }
+
+    @Override
+    public void closure(long timeEnd) {
+        if (timeGame + timeEnd < System.currentTimeMillis()) {
+            main.setScreen(Screens.cachipunScreen);
+        }
     }
 }

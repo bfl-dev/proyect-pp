@@ -67,7 +67,8 @@ public class CachipunScreen extends AbstractScreen {
         duelist1.setDuelistAction(J1.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
         duelist2.setDuelistAction(J2.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
         if (duelist1.score != 0 || duelist2.score != 0) {
-            determineDamageWin(duelist1, duelist2);
+            determineDamageWin();
+            assignLoads();
         }
     }
     @Override
@@ -138,17 +139,30 @@ public class CachipunScreen extends AbstractScreen {
             }
         }
     }
-    public void determineDamageWin(Duelist win,Duelist lose) { //TODO: REMAKE THIS SHIT
-        System.out.println(win.score + "segundo" + lose.score);
-        if (win.score > lose.score) {
-            lose.health -= 100;
-            System.out.println("bienbien");
+    public void determineDamageWin() { //TODO: REMAKE THIS SHIT
+        if(winDuelist().score>loseDuelist().score){
+            loseDuelist().health -= 30* winDuelist().loads[choice.get(winDuelist())];
         }
-        System.out.println("malmal");
         choice.replace(duelist1, 0);
         choice.replace(duelist2, 0);
-        win.score = 0;
-        lose.score = 0;
+        duelist1.score = 0;
+        duelist2.score = 0;
+    }
+    public void assignLoads(){
+        winDuelist().addLoad(choice.get(winDuelist()));
+        loseDuelist().subtractLoad(choice.get(loseDuelist()));
+    }
+    public Duelist winDuelist(){
+        if(duelist1.winner){
+            return duelist1;
+        }
+        return duelist2;
+    }
+    public Duelist loseDuelist(){
+        if (!duelist1.winner){
+            return duelist1;
+        }
+        return duelist2;
     }
     @Override
     public void hide() {

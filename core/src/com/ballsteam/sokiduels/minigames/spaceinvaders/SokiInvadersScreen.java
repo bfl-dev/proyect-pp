@@ -1,7 +1,6 @@
 package com.ballsteam.sokiduels.minigames.spaceinvaders;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,14 +11,14 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.Screens.Screens;
 import com.ballsteam.sokiduels.SokiDuels;
-import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
 import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
+import com.ballsteam.sokiduels.minigames.GameState;
 import com.ballsteam.sokiduels.player.Player;
 import com.ballsteam.sokiduels.player.PlayerInput;
 
 import java.util.HashMap;
 
-public class SokiInvadersScreen extends AbstractScreen { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
+public class SokiInvadersScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Spaceship spaceShip;
     Spaceship spaceShip2;
     Sprite fondo;
@@ -60,22 +59,9 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
         super.render(delta);
         main.batch.begin();
         fondo.draw(main.batch);
-        if (timeGame + 30000 > System.currentTimeMillis()) {
-            for (Player player : players.keySet()) {
-                updateSpaceship(player.Input, players.get(player));
-            }
-            caidaAliens();
-            colisionBullet();
-            if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnSoki();
-            drawOnscreenText();
-            spaceShip.draw(main.batch);
-            spaceShip2.draw(main.batch);
-        }else if (timeGame + 35000 > System.currentTimeMillis()) {
-            drawOnScreenFinalText();
-        }else {
-            main.setScreen(Screens.cachipunScreen);
-            music_background.dispose();
-        }
+        action(30000);
+        result(30000, 35000L);
+        closure(35000);
         main.batch.end();
     }
 
@@ -138,6 +124,35 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
         player.update();
         spaceShip.LEFT = player.LEFT==1;
         spaceShip.RIGHT = player.RIGHT == 1;
-        spaceShip.SHOOT = player.A;
+        spaceShip.SHOOT = player.UP== 1;
+    }
+    @Override
+    public void action(long timeEnd) {
+        if (timeGame + timeEnd > System.currentTimeMillis()) {
+            for (Player player : players.keySet()) {
+                updateSpaceship(player.Input, players.get(player));
+            }
+            caidaAliens();
+            colisionBullet();
+            if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnSoki();
+            drawOnscreenText();
+            spaceShip.draw(main.batch);
+            spaceShip2.draw(main.batch);
+        }
+    }
+
+    @Override
+    public void result(long timeStart, Long timeEnd) {
+        if (timeGame + timeStart < System.currentTimeMillis() && timeGame + timeEnd > System.currentTimeMillis()) {
+            drawOnScreenFinalText();
+        }
+    }
+
+    @Override
+    public void closure(long timeEnd) {
+        if (timeGame + timeEnd < System.currentTimeMillis()) {
+            main.setScreen(Screens.cachipunScreen);
+            music_background.dispose();
+        }
     }
 }
