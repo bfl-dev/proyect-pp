@@ -99,12 +99,14 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
                 if (bullet.bulletSprite.getBoundingRectangle().overlaps(spaceShip2.shipSprite.getBoundingRectangle())) {
                     spaceShip.bullets.removeValue(bullet, true);
                     duelist2.subtractScore();
+                    duelist1.addScore();
                 }
         });
         spaceShip2.bullets.forEach(bullet -> {
                 if (bullet.bulletSprite.getBoundingRectangle().overlaps(spaceShip.shipSprite.getBoundingRectangle())) {
                     spaceShip2.bullets.removeValue(bullet, true);
                     duelist1.subtractScore();
+                    duelist2.addScore();
                 }
         });
     }

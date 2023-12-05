@@ -205,8 +205,8 @@ public class CachipunScreen extends AbstractScreen {
             player2Sprite.setTexture(new Texture("cachipun/lose.png"));
         }
     }
-    public void finishGame(){//TODO : ARREGLAR CRIMEN DE GUERRA2
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+    public void finishGame(){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)){
             main.setScreen(new MenuScreen(P1, P2,main));
         }
     }
