@@ -34,9 +34,6 @@ public class ControllerInput extends PlayerInput {
         poll();
         return !hasPlayer && anyPressed();
     }
-    public void setVibration(int leftMotor, int rightMotor){ //TODO: Usar esta wea o borrarla (usar en ESCUDO?)
-        DEVICE.setVibration(margin(leftMotor),margin(rightMotor));
-    }
     private boolean anyPressed(){
         return
             BUTTONS.b||BUTTONS.a||BUTTONS.x||BUTTONS.y|| BUTTONS.rShoulder || BUTTONS.lShoulder ||
