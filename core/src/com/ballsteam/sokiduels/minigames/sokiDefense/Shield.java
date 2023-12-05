@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
 
 public class Shield {
@@ -16,6 +17,8 @@ public class Shield {
     protected int LEFT_RIGHT;
     private final Duelist duelist;
     int damage;
+    private long timeOfDeath;
+    private boolean alive = true;
     public Shield(Texture Texture, Texture Texture2, Texture Texture3, Duelist duelist){
         this.texture = Texture;
         this.texture2 = Texture2;
@@ -27,11 +30,17 @@ public class Shield {
         damage = 1;
     }
     public void motion(){
+        if (alive){
         posEscudo.add(new Vector2(LEFT_RIGHT*4,UP_DOWN*4).clamp(0,4));
         if (posEscudo.x > 1366 - shieldSprite.getWidth()) posEscudo.x = 1366 - shieldSprite.getWidth();
         if (posEscudo.x < 0) posEscudo.x = 0;
         if (posEscudo.y > 768 - shieldSprite.getWidth()) posEscudo.y = 768 - shieldSprite.getWidth();
         if (posEscudo.y < 0) posEscudo.y = 0;
+        } else if (timeOfDeath+750<TimeUtils.millis()) {
+            alive = true;
+            shieldSprite.setAlpha(1f);
+        }
+
     }
     public void draw (SpriteBatch batch){
         motion();
@@ -47,10 +56,17 @@ public class Shield {
         }
     }
     public void addDamage(){
-        damage++;
-        if(damage > 3){
-            damage = 1;
-            duelist.subtractScore();
+        if (alive) {
+            damage++;
+            if (damage > 3) {
+                damage = 1;
+                timeOfDeath = TimeUtils.millis();
+                alive = false;
+                posEscudo.x = 683;
+                posEscudo.y = 384;
+                shieldSprite.setAlpha(0.5f);
+                duelist.subtractScore();
+            }
         }
     }
     public void dispose(){
