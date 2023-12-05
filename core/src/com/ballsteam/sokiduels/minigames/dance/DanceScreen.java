@@ -92,7 +92,8 @@ public class DanceScreen extends AbstractScreen implements GameState {
         arrowsBackground2 = new Sprite(new Texture("baile/flechas.png"));
 
         song = Gdx.audio.newMusic(Gdx.files.internal("song.mp3"));
-
+        song.setVolume(0.05f);
+        song.play();
 
 
     }
@@ -100,9 +101,6 @@ public class DanceScreen extends AbstractScreen implements GameState {
     @Override
     public void buildStage() {
         spawnArrows();
-        song.setVolume(0.05f);
-        song.setLooping(true);
-        song.play();
         timeGame = System.currentTimeMillis();
     }
 
@@ -223,7 +221,6 @@ public class DanceScreen extends AbstractScreen implements GameState {
 
             if(TimeUtils.nanoTime() - lastDrop > 333333333) spawnArrows();
             drawOnscreenText();
-
             P1Arrows.forEach(flechas1 -> flechas1.forEach(arrow -> arrow.draw(main.batch)));
             P2Arrows.forEach(flechas2 -> flechas2.forEach(arrow -> arrow.draw(main.batch)));
 
