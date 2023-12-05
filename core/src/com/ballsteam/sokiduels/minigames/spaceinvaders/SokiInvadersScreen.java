@@ -21,30 +21,30 @@ import java.util.HashMap;
 public class SokiInvadersScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Spaceship spaceShip;
     Spaceship spaceShip2;
-    Sprite fondo;
-    Array<Alien> soki;
-    int direccion;
+    Sprite background;
+    Array<Alien> aliens;
+    int direction;
     long lastDropTime;
     Music music_background;
     long timeGame;
     Duelist duelist1;
     Duelist duelist2;
     HashMap<Player, Spaceship> players = new HashMap<>();
-public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1, Duelist duelist2) {
+public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1, Duelist duelist2) {
     super(main);
     timeGame = System.currentTimeMillis();
     this.duelist1 = duelist1;
     this.duelist2 = duelist2;
     music_background = Gdx.audio.newMusic(Gdx.files.internal("sokiInvaders/InvadersMusic.mp3"));
-    spaceShip = new Spaceship(J1.isPlayerOne());
-    spaceShip2 = new Spaceship(J2.isPlayerOne());
-    players.put(J1,spaceShip);
-    players.put(J2, spaceShip2);
-    direccion = 1;
-    fondo = new Sprite(new Texture("sokiInvaders/fondo.png"));
-    fondo.setSize(getWidth(),getHeight());
-    soki = new Array<>();
-    spawnSoki();
+    spaceShip = new Spaceship(P1.isPlayerOne());
+    spaceShip2 = new Spaceship(P2.isPlayerOne());
+    players.put(P1,spaceShip);
+    players.put(P2, spaceShip2);
+    direction = 1;
+    background = new Sprite(new Texture("sokiInvaders/fondo.png"));
+    background.setSize(getWidth(),getHeight());
+    aliens = new Array<>();
+    spawnAlien();
 
     }
     @Override
@@ -58,7 +58,7 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
     public void render(float delta) {
         super.render(delta);
         main.batch.begin();
-        fondo.draw(main.batch);
+        background.draw(main.batch);
         action(30000);
         result(30000, 35000L);
         closure(35000);
@@ -69,16 +69,16 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
     public void dispose() {
         spaceShip.dispose();
         spaceShip2.dispose();
-        soki.forEach(Alien::dispose);
-        fondo.getTexture().dispose();
+        aliens.forEach(Alien::dispose);
+        background.getTexture().dispose();
         music_background.dispose();
     }
 
-    public void caidaAliens(){
-        soki.forEach(drop -> {
+    public void aliensFall(){
+        aliens.forEach(drop -> {
             drop.draw(main.batch);
             drop.posAlien.x += 150 * Gdx.graphics.getDeltaTime();
-            if (drop.posAlien.y + 64 < 0) soki.removeValue(drop, true);
+            if (drop.posAlien.y + 64 < 0) aliens.removeValue(drop, true);
             colisionBulletAlien(drop, spaceShip,duelist1);
             colisionBulletAlien(drop, spaceShip2,duelist2);
         });
@@ -87,7 +87,7 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
     public void colisionBulletAlien(Alien drop, Spaceship spaceShip,Duelist duelist){
         spaceShip.bullets.forEach(bullet -> {
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(drop.alienSprite.getBoundingRectangle())) {
-                soki.removeValue(drop, true);
+                aliens.removeValue(drop, true);
                 drop.dispose();
                 spaceShip.bullets.removeValue(bullet, true);
                 duelist.score++;
@@ -116,9 +116,9 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
         main.font.draw(main.batch, "Score: " + duelist1.score, 15, 20);
         main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-100, getHeight()-10);
     }
-    private void spawnSoki() {
+    private void spawnAlien() {
         Alien enemy = new Alien(new Vector2(0, MathUtils.random(getHeight()/5, (4*getHeight()/5))));
-        soki.add(enemy);
+        aliens.add(enemy);
         lastDropTime = TimeUtils.nanoTime();
     }
     private void updateSpaceship(PlayerInput player, Spaceship spaceShip){
@@ -133,9 +133,9 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
             for (Player player : players.keySet()) {
                 updateSpaceship(player.Input, players.get(player));
             }
-            caidaAliens();
+            aliensFall();
             colisionBullet();
-            if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnSoki();
+            if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnAlien();
             drawOnscreenText();
             spaceShip.draw(main.batch);
             spaceShip2.draw(main.batch);
