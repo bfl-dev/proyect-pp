@@ -21,22 +21,28 @@ public class CachipunScreen extends AbstractScreen {
 
     float SCREEN_HEIGHT = this.getHeight();
     float SCREEN_WIDTH = this.getWidth();
+
     boolean[] J1_ACTION = new boolean[]{false,false,false,false,false};
     boolean[] J2_ACTION = new boolean[]{false,false,false,false,false};
 
     Music music_background;
     Sprite fondo;
+
     Sprite player1Sprite;
     Sprite player2Sprite;
+
     Player J1;
     Player J2;
+
     Duelist duelist1;
     Duelist duelist2;
+
     boolean set = true;
     long timeout;
 
     HashMap<Player, boolean[]> players = new HashMap<>();
-    HashMap<Duelist, Integer> choice = new HashMap<>();
+    HashMap<Duelist, String> choice = new HashMap<>(); //1 = Attack, 2 = Dance, 3 = Defend
+
     //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     public CachipunScreen(SokiDuels main, Player J1, Player J2) {
         super(main);
@@ -44,8 +50,8 @@ public class CachipunScreen extends AbstractScreen {
         players.put(J2,J2_ACTION);
         duelist1 = new Duelist(J1.isPlayerOne());
         duelist2 = new Duelist(J2.isPlayerOne());
-        choice.put(duelist1,0);
-        choice.put(duelist2,0);
+        choice.put(duelist1,"NEUTRO");
+        choice.put(duelist2,"NEUTRO");
         player1Sprite = new Sprite(new Texture("soki.png"));
         player2Sprite = new Sprite(new Texture("soki.png"));
         fondo = new Sprite(new Texture("cachipun/cachipunBackground.png"));
@@ -80,11 +86,11 @@ public class CachipunScreen extends AbstractScreen {
         action(J2,duelist2);
         player1Sprite.draw(main.batch);
         player2Sprite.draw(main.batch);
-        if (choice.get(duelist1)!=0 && choice.get(duelist2)!=0 && set){
+        if (!choice.get(duelist1).equals("NEUTRO") && !choice.get(duelist2).equals("NEUTRO") && set){
             set = false;
             timeout = System.currentTimeMillis();
-            duelist1.setDuelistAction(choice.get(duelist1)==1?"Sword":choice.get(duelist1)==3?"Shield":"Dance");
-            duelist2.setDuelistAction(choice.get(duelist2)==1?"Sword":choice.get(duelist2)==3?"Shield":"Dance");
+            duelist1.setDuelistAction(choice.get(duelist1).equals("Attack") ? "Sword" : choice.get(duelist1).equals("Defend")?"Shield":"Dance");
+            duelist2.setDuelistAction(choice.get(duelist2).equals("Attack") ? "Sword" : choice.get(duelist2).equals("Defend")?"Shield":"Dance");
         }
 
         if (!set && System.currentTimeMillis()-timeout>3000){
@@ -97,72 +103,76 @@ public class CachipunScreen extends AbstractScreen {
     }
     public void action(Player player,Duelist duelist){ //TODO: Explain this method
         player.Input.update();
-        if(choice.get(duelist)==0) {
+        if(choice.get(duelist).equals("NEUTRO")) {
             if (player.Input.LEFT==1) {
-                choice.replace(duelist, 1);
+                choice.replace(duelist, "Attack");
             }
-            if (player.Input.DOWN==1) {
-                choice.replace(duelist, MathUtils.random(1, 3));
+            if (player.Input.DOWN == 1) {
+                choice.replace(duelist, randomChoice());
             }
-            if (player.Input.UP==1) {
-                choice.replace(duelist, 2);
+            if (player.Input.UP == 1) {
+                choice.replace(duelist, "Dance");
             }
             if (player.Input.RIGHT==1) {
-                choice.replace(duelist, 3);
+                choice.replace(duelist, "Defend");
             }
-            if (choice.get(duelist)!=0){
+            if (!choice.get(duelist).equals("NEUTRO")){
                 duelist.setDuelistAction("Ready");
             }
         }else if (player.Input.B) {
-            duelist.setDuelistAction(player.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
-            choice.put(duelist, 0);
+            duelist.setDuelistAction(player.Input.getClass() == ControllerInput.class ?
+                "ControllerCachipun" : "KeyboardCachipun");
+            choice.put(duelist, "NEUTRO");
         }
     }
     public void determineWinner(Duelist duelist1,Duelist duelist2){ // TODO: REFACTOR ALL THIS SHIT
         if(!Objects.equals(choice.get(duelist1), choice.get(duelist2))) {
-            duelist1.winner = ((choice.get(duelist1).equals(1) && choice.get(duelist2).equals(2))||
-                (choice.get(duelist1).equals(2)&&choice.get(duelist2).equals(3))||
-                choice.get(duelist1).equals(3)&&choice.get(duelist2).equals(1));
+            duelist1.winner = ((choice.get(duelist1).equals("Attack") && choice.get(duelist2).equals("Dance"))||
+                (choice.get(duelist1).equals("Dance")&&choice.get(duelist2).equals("Defend"))||
+                choice.get(duelist1).equals("Defend")&&choice.get(duelist2).equals("Attack"));
             duelist2.winner = !duelist1.winner;
-            if (duelist1.winner){
-                switch (choice.get(duelist1)) {
-                    case 1 -> main.setScreen(new SokiInvadersScreen(main, J1, J2, duelist1, duelist2));
-                    case 2 -> main.setScreen(new DanceScreen(main, J1, J2));
-                    case 3 -> main.setScreen(new SokiDefenseScreen(main, J1, J2, duelist1, duelist2));
-                }
-            }else {
-                switch (choice.get(duelist2)) {
-                    case 1 -> main.setScreen(new SokiInvadersScreen(main, J1, J2, duelist1, duelist2));
-                    case 2 -> main.setScreen(new DanceScreen(main, J1, J2));
-                    case 3 -> main.setScreen(new SokiDefenseScreen(main, J1, J2, duelist1, duelist2));
-                }
-            }
+            setDuelistScreen();
         }
     }
+
+    private void setDuelistScreen() {
+        switch (choice.get(winDuelist())) {
+            case "Attack" -> main.setScreen(new SokiInvadersScreen(main, J1, J2, duelist1, duelist2)); //Attack
+            case "Dance" -> main.setScreen(new DanceScreen(main, J1, J2)); // Dance
+            case "Defend" -> main.setScreen(new SokiDefenseScreen(main, J1, J2, duelist1, duelist2)); //Defend
+        }
+    }
+
     public void determineDamageWin() { //TODO: REMAKE THIS SHIT
         if(winDuelist().score>loseDuelist().score){
-            loseDuelist().health -= 30* winDuelist().loads[choice.get(winDuelist())];
+            loseDuelist().health -= 30* winDuelist().loads[loadsGet(choice.get(winDuelist()))];
         }
-        choice.replace(duelist1, 0);
-        choice.replace(duelist2, 0);
+        choice.replace(duelist1, "NEUTRO");
+        choice.replace(duelist2, "NEUTRO");
         duelist1.score = 0;
         duelist2.score = 0;
     }
+
+    public String randomChoice(){
+        int random = MathUtils.random(1, 3);
+        return (random == 1) ? "Attack" : (random == 2) ? "Dance" : "Defend";
+    }
+
+    private int loadsGet(String choice){
+        return choice.equals("Attack") ?
+            1 : choice.equals("Dance") ?
+                2 : 3;
+    }
+
     public void assignLoads(){
-        winDuelist().addLoad(choice.get(winDuelist()));
-        loseDuelist().subtractLoad(choice.get(loseDuelist()));
+        winDuelist().addLoad(loadsGet(choice.get(winDuelist())));
+        loseDuelist().subtractLoad(loadsGet(choice.get(loseDuelist())));
     }
     public Duelist winDuelist(){
-        if(duelist1.winner){
-            return duelist1;
-        }
-        return duelist2;
+        return duelist1.winner?duelist1:duelist2;
     }
     public Duelist loseDuelist(){
-        if (!duelist1.winner){
-            return duelist1;
-        }
-        return duelist2;
+        return !duelist1.winner?duelist1:duelist2;
     }
     @Override
     public void hide() {
