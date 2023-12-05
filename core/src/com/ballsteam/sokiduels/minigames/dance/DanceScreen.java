@@ -38,7 +38,6 @@ public class DanceScreen extends AbstractScreen implements GameState {
 
     private final Sprite arrowsBackground;
     private final Sprite arrowsBackground2;
-    //TODO: No se que es mejor esa wea u 8 bools pq si
     private final boolean[] P1_ARROWS = new boolean[]{false,false,false,false};
     private final boolean[] P2_ARROWS = new boolean[]{false,false,false,false};
     private long lastDrop;
@@ -212,8 +211,7 @@ public class DanceScreen extends AbstractScreen implements GameState {
 
             P1Arrows.forEach(flechas1 -> flechas1.forEach(arrow -> arrow.draw(main.batch)));
             P2Arrows.forEach(flechas2 -> flechas2.forEach(arrow -> arrow.draw(main.batch)));
-
-            //TODO:Tiene que haber una forma de hacer esta wea con funcional
+            
             if (P1_ARROWS[0]) {
                 addPoints(leftArrows, true);
             }

@@ -45,7 +45,6 @@ public class CachipunScreen extends AbstractScreen {
     HashMap<Player, boolean[]> players = new HashMap<>();
     HashMap<Duelist, String> choice = new HashMap<>(); //1 = Attack, 2 = Dance, 3 = Defend
 
-    //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     public CachipunScreen(SokiDuels main, Player P1, Player P2) {
         super(main);
         players.put(P1, P1_ACTION);
