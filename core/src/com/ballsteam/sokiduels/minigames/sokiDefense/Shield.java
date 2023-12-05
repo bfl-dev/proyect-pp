@@ -29,21 +29,36 @@ public class Shield {
         posEscudo = new Vector2(0,0);
         damage = 1;
     }
-    public void motion(){
+    public void update(){
         if (alive){
+            motion();
+        } else if (timeOfDeath+750<TimeUtils.millis()) {
+            resurrect();
+        }
+
+    }
+    private void motion(){
         posEscudo.add(new Vector2(LEFT_RIGHT*4,UP_DOWN*4).clamp(0,4));
         if (posEscudo.x > 1366 - shieldSprite.getWidth()) posEscudo.x = 1366 - shieldSprite.getWidth();
         if (posEscudo.x < 0) posEscudo.x = 0;
         if (posEscudo.y > 768 - shieldSprite.getWidth()) posEscudo.y = 768 - shieldSprite.getWidth();
         if (posEscudo.y < 0) posEscudo.y = 0;
-        } else if (timeOfDeath+750<TimeUtils.millis()) {
-            alive = true;
-            shieldSprite.setAlpha(1f);
-        }
-
+    }
+    private void resurrect(){
+        alive = true;
+        shieldSprite.setAlpha(1f);
+    }
+    private void die(){
+        damage = 1;
+        timeOfDeath = TimeUtils.millis();
+        alive = false;
+        posEscudo.x = 683;
+        posEscudo.y = 384;
+        shieldSprite.setAlpha(0.5f);
+        duelist.subtractScore();
     }
     public void draw (SpriteBatch batch){
-        motion();
+        update();
         status();
         shieldSprite.setPosition(posEscudo.x,posEscudo.y);
         shieldSprite.draw(batch);
@@ -59,13 +74,7 @@ public class Shield {
         if (alive) {
             damage++;
             if (damage > 3) {
-                damage = 1;
-                timeOfDeath = TimeUtils.millis();
-                alive = false;
-                posEscudo.x = 683;
-                posEscudo.y = 384;
-                shieldSprite.setAlpha(0.5f);
-                duelist.subtractScore();
+                die();
             }
         }
     }
