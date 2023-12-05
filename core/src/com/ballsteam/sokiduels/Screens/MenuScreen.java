@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
-import com.ballsteam.sokiduels.minigames.dance.DanceScreen;
 import com.ballsteam.sokiduels.player.Player;
 
 
@@ -90,7 +89,6 @@ public class MenuScreen extends AbstractScreen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                main.setScreen(new DanceScreen(main,J1, J2));
                 dispose();
             }
         });

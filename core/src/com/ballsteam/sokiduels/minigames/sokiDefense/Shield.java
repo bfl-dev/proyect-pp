@@ -50,7 +50,7 @@ public class Shield {
         damage++;
         if(damage > 3){
             damage = 1;
-            duelist.score -= 10;
+            duelist.subtractScore();
         }
     }
     public void dispose(){

@@ -81,7 +81,7 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
                 aliens.removeValue(drop, true);
                 drop.dispose();
                 spaceShip.bullets.removeValue(bullet, true);
-                duelist.score++;
+                duelist.addScore();
             }
         });
     }
@@ -90,11 +90,13 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
         spaceShip.bullets.forEach(bullet -> {
                 if (bullet.bulletSprite.getBoundingRectangle().overlaps(spaceShip2.shipSprite.getBoundingRectangle())) {
                     spaceShip.bullets.removeValue(bullet, true);
+                    duelist2.subtractScore();
                 }
         });
         spaceShip2.bullets.forEach(bullet -> {
                 if (bullet.bulletSprite.getBoundingRectangle().overlaps(spaceShip.shipSprite.getBoundingRectangle())) {
                     spaceShip2.bullets.removeValue(bullet, true);
+                    duelist1.subtractScore();
                 }
         });
     }

@@ -163,7 +163,7 @@ public class CachipunScreen extends AbstractScreen {
     private void setDuelistScreen() {
         switch (choice.get(winDuelist())) {
             case "Attack" -> main.setScreen(new SokiInvadersScreen(main, P1, P2, duelist1, duelist2)); //Attack
-            case "Dance" -> main.setScreen(new DanceScreen(main, P1, P2)); // Dance
+            case "Dance" -> main.setScreen(new DanceScreen(main, P1, P2,duelist1,duelist2)); // Dance
             case "Defend" -> main.setScreen(new SokiDefenseScreen(main, P1, P2, duelist1, duelist2)); //Defend
         }
     }

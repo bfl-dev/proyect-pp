@@ -11,6 +11,7 @@ import com.ballsteam.sokiduels.Screens.Screens;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.badlogic.gdx.utils.Array;
+import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
 import com.ballsteam.sokiduels.minigames.GameState;
 import com.ballsteam.sokiduels.player.ControllerInput;
 import com.ballsteam.sokiduels.player.KeyboardInput;
@@ -41,11 +42,12 @@ public class DanceScreen extends AbstractScreen implements GameState {
     private final boolean[] P1_ARROWS = new boolean[]{false,false,false,false};
     private final boolean[] P2_ARROWS = new boolean[]{false,false,false,false};
     private long lastDrop;
-    private int scoreP1;
-    private int scoreP2;
     private final Player P1;
     private final Player P2;
     long timeGame;
+
+    private final Duelist duelist1;
+    private final Duelist duelist2;
     private final HashMap<Player, boolean[]> players = new HashMap<>();
 
     /**
@@ -55,12 +57,13 @@ public class DanceScreen extends AbstractScreen implements GameState {
      * @param P2    Jugador 2.
      * @param main  Instancia principal del juego SokiDuels.
      */
-    public DanceScreen(SokiDuels main, Player P1, Player P2) { //TODO: IMPLEMENT CACHIPUN SCREEN CONECTION
+    public DanceScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1,Duelist duelist2) { //TODO: IMPLEMENT CACHIPUN SCREEN CONECTION
         super(main);
         this.P1 = P1;
         this.P2 = P2;
 
-        timeGame = System.currentTimeMillis();
+        this.duelist1 = duelist1;
+        this.duelist2 = duelist2;
 
         players.put(P1, P1_ARROWS);
         players.put(P2, P2_ARROWS);
@@ -84,15 +87,12 @@ public class DanceScreen extends AbstractScreen implements GameState {
 
         arrowsBackground = new Sprite(new Texture("baile/flechas.png"));
         arrowsBackground2 = new Sprite(new Texture("baile/flechas.png"));
-
-        spawnArrows();
-
-        scoreP2 = 0;
-        scoreP1 = 0;
     }
 
     @Override
     public void buildStage() {
+        spawnArrows();
+        timeGame = System.currentTimeMillis();
     }
 
     @Override
@@ -108,11 +108,11 @@ public class DanceScreen extends AbstractScreen implements GameState {
         arrows.forEach(arrow -> {
             if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x < getWidth()/2 && isPlayerOne){
                 arrows.removeValue(arrow, true);
-                scoreP1++;
+                duelist1.addScore();
                 pointsSound.play(1,2,1);
             } else if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x >= getWidth()/2 && !isPlayerOne){
                 arrows.removeValue(arrow, true);
-                scoreP2++;
+                duelist2.addScore();
                 pointsSound.play();
             }
         });
@@ -122,10 +122,10 @@ public class DanceScreen extends AbstractScreen implements GameState {
         arrows.forEach(arrow -> {
             if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x<getWidth()/2){
                 arrows.removeValue(arrow,true);
-                scoreP1--;
+                duelist1.subtractScore();
             } else if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x>getWidth()/2){
                 arrows.removeValue(arrow,true);
-                scoreP2--;
+                duelist2.subtractScore();
             }
         });
     }
@@ -186,10 +186,14 @@ public class DanceScreen extends AbstractScreen implements GameState {
         P2Arrows.forEach(arrows -> arrows.forEach(Arrow::dispose));
     }
     private void drawOnscreenText() {
-        main.font.draw(main.batch, "Score: " + scoreP1, (256)+256, 20);
-        main.font.draw(main.batch, "Score: " + scoreP2, (256)+256*3, 20);
+        main.font.draw(main.batch, "Score: " + duelist1.score, (256)+256, 20);
+        main.font.draw(main.batch, "Score: " + duelist2.score, (256)+256*3, 20);
     }
-
+    private void finalText() {
+        main.font.getData().setScale(2f);
+        main.font.draw(main.batch, "Score: " + duelist1.score, (getWidth()/3)-100, getHeight()/2);
+        main.font.draw(main.batch, "Score: " + duelist2.score, (getWidth()/3)*2-100, getHeight()/2);
+    }
     private void drawPointMessage(boolean isPlayerOne){
         main.font.draw(main.batch, "Punto!", isPlayerOne?(256):(256)+256, 20);
     }
@@ -211,7 +215,7 @@ public class DanceScreen extends AbstractScreen implements GameState {
 
             P1Arrows.forEach(flechas1 -> flechas1.forEach(arrow -> arrow.draw(main.batch)));
             P2Arrows.forEach(flechas2 -> flechas2.forEach(arrow -> arrow.draw(main.batch)));
-            
+
             if (P1_ARROWS[0]) {
                 addPoints(leftArrows, true);
             }
@@ -247,6 +251,7 @@ public class DanceScreen extends AbstractScreen implements GameState {
     @Override
     public void result(long timeStart, Long timeEnd) {
         if (timeGame + timeStart < System.currentTimeMillis() && timeGame + timeEnd > System.currentTimeMillis()) {
+            finalText();
         }
     }
 

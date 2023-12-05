@@ -59,6 +59,15 @@ public class Duelist {
         batch.draw(loadDance, loadDance.getX(), loadDance.getY(),32,32);
         batch.draw(loadDefend, loadDefend.getX(), loadDefend.getY(),32,32);
     }
+    public void addScore() {
+        this.score += 10;
+    }
+    public void subtractScore(){
+        if (this.score > 0){
+            this.score -= 10;
+        }
+    }
+
     public void damage(int damage){
         IntStream.range(0, damage).forEach(i -> health--);
     }

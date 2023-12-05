@@ -105,7 +105,7 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
         flagsBlue.forEach(flag -> {
             if (flag.flagSprite.getBoundingRectangle().overlaps(shield1.shieldSprite.getBoundingRectangle())) {
                 flagsBlue.removeValue(flag, true);
-                duelist.score += 10;
+                duelist.addScore();
                 shield1.damage = 1;
             }
             if (flag.flagSprite.getBoundingRectangle().overlaps(shield2.shieldSprite.getBoundingRectangle())) {
