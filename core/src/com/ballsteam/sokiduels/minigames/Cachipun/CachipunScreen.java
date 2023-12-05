@@ -103,9 +103,26 @@ public class CachipunScreen extends AbstractScreen {
         }
         main.batch.end();
     }
+    public void actionGame(){
+        action(J1,duelist1);
+        action(J2,duelist2);
+        if (!choice.get(duelist1).equals("NEUTRO") && !choice.get(duelist2).equals("NEUTRO") && set){
+            set = false;
+            timeout = System.currentTimeMillis();
+            duelist1.setDuelistAction(choice.get(duelist1).equals("Attack") ? "Sword" : choice.get(duelist1).equals("Defend")?"Shield":"Dance");
+            duelist2.setDuelistAction(choice.get(duelist2).equals("Attack") ? "Sword" : choice.get(duelist2).equals("Defend")?"Shield":"Dance");
+        }
+
+        if (!set && System.currentTimeMillis()-timeout>3000){
+            determineWinner(duelist1,duelist2);
+            set = true;
+        }
+        drawLoads();
+        duelist1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+        duelist2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+    }
     public void action(Player player,Duelist duelist){ //TODO: Explain this method
         player.Input.update();
-        duelist.random = false;
         if(choice.get(duelist).equals("NEUTRO")) {
             if (player.Input.LEFT==1) {
                 choice.replace(duelist, "Attack");
@@ -127,6 +144,7 @@ public class CachipunScreen extends AbstractScreen {
             duelist.setDuelistAction(player.Input.getClass() == ControllerInput.class ?
                 "ControllerCachipun" : "KeyboardCachipun");
             choice.put(duelist, "NEUTRO");
+            duelist.random = false;
         }
     }
     public void determineWinner(Duelist duelist1,Duelist duelist2){ // TODO: REFACTOR ALL THIS SHIT
@@ -153,7 +171,7 @@ public class CachipunScreen extends AbstractScreen {
         } else if (winDuelist().score==loseDuelist().score) {
             loseDuelist().health -= 30;
         } else {
-            loseDuelist().health += 30 * loseDuelist().loads[loadsGet(choice.get(loseDuelist()))];
+            winDuelist().health -= 30;
         }
     }
 
@@ -175,23 +193,6 @@ public class CachipunScreen extends AbstractScreen {
             0 : choice.equals("Dance") ?
                 1 : 2;
     }
-    public void actionGame(){
-        action(J1,duelist1);
-        action(J2,duelist2);
-        if (!choice.get(duelist1).equals("NEUTRO") && !choice.get(duelist2).equals("NEUTRO") && set){
-            set = false;
-            timeout = System.currentTimeMillis();
-            duelist1.setDuelistAction(choice.get(duelist1).equals("Attack") ? "Sword" : choice.get(duelist1).equals("Defend")?"Shield":"Dance");
-            duelist2.setDuelistAction(choice.get(duelist2).equals("Attack") ? "Sword" : choice.get(duelist2).equals("Defend")?"Shield":"Dance");
-        }
-
-        if (!set && System.currentTimeMillis()-timeout>3000){
-            determineWinner(duelist1,duelist2);
-            set = true;
-        }
-        duelist1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
-        duelist2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
-    }
     public void winnerGame(){
         if (duelist1.health <= 0) {
             player1Sprite.setTexture(new Texture("cachipun/lose.png"));
@@ -205,6 +206,14 @@ public class CachipunScreen extends AbstractScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             main.setScreen(new MenuScreen(J1,J2,main));
         }
+    }
+    public void drawLoads(){
+        main.font.draw(main.batch, "x" + duelist1.loads[0],(SCREEN_WIDTH/3)-125, (SCREEN_HEIGHT-125));
+        main.font.draw(main.batch, "x" + duelist1.loads[1],(SCREEN_WIDTH/3)-100, (SCREEN_HEIGHT-125));
+        main.font.draw(main.batch, "x" + duelist1.loads[2],(SCREEN_WIDTH/3)-75, (SCREEN_HEIGHT-125));
+        main.font.draw(main.batch, "x" + duelist2.loads[0],((SCREEN_WIDTH/3)*2)-125, (SCREEN_HEIGHT-125));
+        main.font.draw(main.batch, "x" + duelist2.loads[1],((SCREEN_WIDTH/3)*2)-100, (SCREEN_HEIGHT-125));
+        main.font.draw(main.batch, "x" + duelist2.loads[2],((SCREEN_WIDTH/3)*2)-75, (SCREEN_HEIGHT-125));
     }
     public void assignLoads(){ //TODO : ARREGLAR CRIMEN DE GUERRA
         if (winDuelist().random){
