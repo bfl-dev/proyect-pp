@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class SokiDefenseScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Escudo escudo1;
     Escudo escudo2;
-    Array<Bala> balas;
+    Array<Bullet> balas;
     long lastBulletTime;
     Array<Flag> flagsBlue;
     Array<Flag> flagsRed;
@@ -57,21 +57,21 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         main.batch.end();
     }
     public void colisionBullet(){
-        balas.forEach(bala -> {
-            if (bala.bulletSprite.getBoundingRectangle().overlaps(escudo1.escudoSprite.getBoundingRectangle())){
-                balas.removeValue(bala,true);
+        balas.forEach(bullet -> {
+            if (bullet.bulletSprite.getBoundingRectangle().overlaps(escudo1.escudoSprite.getBoundingRectangle())){
+                balas.removeValue(bullet,true);
                 escudo1.addDamage();
             }
-            if (bala.bulletSprite.getBoundingRectangle().overlaps(escudo2.escudoSprite.getBoundingRectangle())){
-                balas.removeValue(bala,true);
+            if (bullet.bulletSprite.getBoundingRectangle().overlaps(escudo2.escudoSprite.getBoundingRectangle())){
+                balas.removeValue(bullet,true);
                 escudo2.addDamage();
             }
         });
     }
     public void drawBullets(){
-        balas.forEach(bala -> {
-            bala.draw(main.batch);
-            if (bala.posBullet.y > getHeight() || bala.posBullet.y < 0 || bala.posBullet.x > getWidth() || bala.posBullet.x < 0) balas.removeValue(bala,true);
+        balas.forEach(bullet -> {
+            bullet.draw(main.batch);
+            if (bullet.posBullet.y > getHeight() || bullet.posBullet.y < 0 || bullet.posBullet.x > getWidth() || bullet.posBullet.x < 0) balas.removeValue(bullet,true);
         });
     }
     public void spawnFlagBlue() {
@@ -83,14 +83,14 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         flagsRed.add(flagRed);
     }
     private void spawnBullet() {
-        Bala balaFromDown = new Bala(new Vector2(MathUtils.random(32, getWidth()-32),0 ),0);
-        Bala balaFromRight = new Bala(new Vector2(getWidth(),MathUtils.random(32, getHeight()-32)),1);
-        Bala balaFromUp = new Bala(new Vector2(MathUtils.random(32, getWidth()-32), getHeight()),2);
-        Bala balaFromLeft = new Bala(new Vector2(0,MathUtils.random(32, getHeight()-32)),3);
-        balas.add(balaFromDown);
-        balas.add(balaFromUp);
-        balas.add(balaFromLeft);
-        balas.add(balaFromRight);
+        Bullet bulletFromDown = new Bullet(new Vector2(MathUtils.random(32, getWidth()-32),0 ),0);
+        Bullet bulletFromRight = new Bullet(new Vector2(getWidth(),MathUtils.random(32, getHeight()-32)),1);
+        Bullet bulletFromUp = new Bullet(new Vector2(MathUtils.random(32, getWidth()-32), getHeight()),2);
+        Bullet bulletFromLeft = new Bullet(new Vector2(0,MathUtils.random(32, getHeight()-32)),3);
+        balas.add(bulletFromDown);
+        balas.add(bulletFromUp);
+        balas.add(bulletFromLeft);
+        balas.add(bulletFromRight);
         lastBulletTime = TimeUtils.nanoTime();
     }
     private void finalText() {
