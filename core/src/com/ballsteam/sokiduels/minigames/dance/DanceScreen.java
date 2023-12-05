@@ -2,6 +2,7 @@ package com.ballsteam.sokiduels.minigames.dance;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -50,6 +51,8 @@ public class DanceScreen extends AbstractScreen implements GameState {
     private final Duelist duelist2;
     private final HashMap<Player, boolean[]> players = new HashMap<>();
 
+    public Music song;
+
     /**
      * Constructor de la clase Baile.
      *
@@ -87,11 +90,19 @@ public class DanceScreen extends AbstractScreen implements GameState {
 
         arrowsBackground = new Sprite(new Texture("baile/flechas.png"));
         arrowsBackground2 = new Sprite(new Texture("baile/flechas.png"));
+
+        song = Gdx.audio.newMusic(Gdx.files.internal("song.mp3"));
+
+
+
     }
 
     @Override
     public void buildStage() {
         spawnArrows();
+        song.setVolume(0.05f);
+        song.setLooping(true);
+        song.play();
         timeGame = System.currentTimeMillis();
     }
 
@@ -210,7 +221,7 @@ public class DanceScreen extends AbstractScreen implements GameState {
             arrowsBackground2.draw(main.batch);
             arrowsBackground2.setPosition((256)+(256*2),0);
 
-            if(TimeUtils.nanoTime() - lastDrop > 500000000) spawnArrows();
+            if(TimeUtils.nanoTime() - lastDrop > 333333333) spawnArrows();
             drawOnscreenText();
 
             P1Arrows.forEach(flechas1 -> flechas1.forEach(arrow -> arrow.draw(main.batch)));
@@ -258,6 +269,7 @@ public class DanceScreen extends AbstractScreen implements GameState {
     @Override
     public void closure(long timeEnd) {
         if (timeGame + timeEnd < System.currentTimeMillis()) {
+            song.dispose();
             main.setScreen(Screens.cachipunScreen);
         }
     }
