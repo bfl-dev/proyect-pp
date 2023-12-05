@@ -117,6 +117,12 @@ public class CachipunScreen extends AbstractScreen {
             set = true;
         }
         drawLoads();
+        if (duelist1.health != duelist1.healthDistance) {
+            animationDamage(duelist1);
+        }
+        if (duelist2.health != duelist2.healthDistance) {
+            animationDamage(duelist2);
+        }
         duelist1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
         duelist2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
     }
@@ -170,19 +176,19 @@ public class CachipunScreen extends AbstractScreen {
 
     public void determineDamageWin() { //TODO: REMAKE THIS SHIT
         if(winDuelist().score>loseDuelist().score){
-            loseDuelist().health -= 30 * winDuelist().loads[loadsGet(choice.get(winDuelist()))];
+            loseDuelist().healthDistance -= 30 * winDuelist().loads[loadsGet(choice.get(winDuelist()))];
         } else if (winDuelist().score==loseDuelist().score) {
-            loseDuelist().health -= 30;
+            loseDuelist().healthDistance -= 30;
         } else {
-            winDuelist().health -= 30;
+            winDuelist().healthDistance -= 30;
         }
     }
 
     public void determineDamageTie(){
         if(duelist1.score>duelist2.score){
-            duelist2.health -= 30 * duelist1.loads[loadsGet(choice.get(duelist1))];
+            duelist2.healthDistance -= 30 * duelist1.loads[loadsGet(choice.get(duelist1))];
         } else if (duelist2.score>duelist1.score) {
-            duelist1.health -= 30 * duelist2.loads[loadsGet(choice.get(duelist2))];
+            duelist1.healthDistance -= 30 * duelist2.loads[loadsGet(choice.get(duelist2))];
         }
     }
 
@@ -208,6 +214,11 @@ public class CachipunScreen extends AbstractScreen {
     public void finishGame(){
         if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)){
             main.setScreen(new MenuScreen(P1, P2,main));
+        }
+    }
+    public void animationDamage(Duelist duelist){ //TODO : EXAMINAR ESTE CRIMEN DE GUERRA
+        if (duelist.health != duelist.healthDistance) {
+            duelist.health -= 0.1f*Gdx.graphics.getDeltaTime();
         }
     }
     public void drawLoads(){

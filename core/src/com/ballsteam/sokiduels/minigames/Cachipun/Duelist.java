@@ -3,12 +3,13 @@ package com.ballsteam.sokiduels.minigames.Cachipun;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.util.HashMap;
-import java.util.stream.IntStream;
 
 public class Duelist {
     public int score;
     public int health;
+    public int healthDistance;
     public boolean winner;
     private final Sprite bar;
     private final HashMap<String,Sprite> textures;
@@ -24,6 +25,7 @@ public class Duelist {
         this.isPlayerOne = isPlayerOne;
         this.textures = new HashMap<>();
         this.health = 300;
+        this.healthDistance = 300;
         this.random = false;
         loads = new int[]{1,1,1};
         loadAttack = new Sprite(new Texture("cachipun/sword.png"));
@@ -48,9 +50,9 @@ public class Duelist {
             loadDance.setPosition(((width/3)*2)-110, (height-180));
             loadDefend.setPosition(((width/3)*2)-80, (height-180));
         }
-        if(health < 25) {
+        if(health < 75) {
             bar.setTexture(new Texture("cachipun/red.png"));
-        }else if(health < 50) {
+        }else if(health < 150) {
             bar.setTexture(new Texture("cachipun/yellow.png"));
         }
         batch.draw(bar, bar.getX(), bar.getY(), health, 20);
@@ -72,9 +74,6 @@ public class Duelist {
         return isPlayerOne;
     }
 
-    public void damage(int damage){
-        IntStream.range(0, damage).forEach(i -> health--);
-    }
     private void poblarHashmap(){
         textures.put("KeyboardCachipun",new Sprite(new Texture("cachipun/KeyboardCachipun.png")));
         textures.put("ControllerCachipun",new Sprite(new Texture("cachipun/ControllerCachipun.png")));
