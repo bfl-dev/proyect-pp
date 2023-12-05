@@ -61,10 +61,12 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(escudo1.escudoSprite.getBoundingRectangle())){
                 balas.removeValue(bullet,true);
                 escudo1.addDamage();
+                duelist1.score -= 10;
             }
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(escudo2.escudoSprite.getBoundingRectangle())){
                 balas.removeValue(bullet,true);
                 escudo2.addDamage();
+                duelist2.score -= 10;
             }
         });
     }
