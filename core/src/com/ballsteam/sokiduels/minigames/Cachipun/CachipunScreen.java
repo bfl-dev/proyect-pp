@@ -2,11 +2,13 @@ package com.ballsteam.sokiduels.minigames.Cachipun;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
+import com.ballsteam.sokiduels.Screens.MenuScreen;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.baile.DanceScreen;
 import com.ballsteam.sokiduels.minigames.sokiDefense.SokiDefenseScreen;
@@ -64,6 +66,7 @@ public class CachipunScreen extends AbstractScreen {
 
     @Override
     public void buildStage() {
+        main.font.getData().setScale(0.5f);
         player2Sprite.setScale(1.5f);
         player1Sprite.setScale(1.5f);
         music_background.setVolume(0.05f);
@@ -86,27 +89,18 @@ public class CachipunScreen extends AbstractScreen {
         duelist2.random = false;
     }
     @Override
-    public void render(float delta) {
+    public void render(float delta) {//TODO: END THE GAME WHEN LIFE ENDS
         super.render(delta);
         main.batch.begin();
         fondo.draw(main.batch);
-        action(J1,duelist1);
-        action(J2,duelist2);
         player1Sprite.draw(main.batch);
         player2Sprite.draw(main.batch);
-        if (!choice.get(duelist1).equals("NEUTRO") && !choice.get(duelist2).equals("NEUTRO") && set){
-            set = false;
-            timeout = System.currentTimeMillis();
-            duelist1.setDuelistAction(choice.get(duelist1).equals("Attack") ? "Sword" : choice.get(duelist1).equals("Defend")?"Shield":"Dance");
-            duelist2.setDuelistAction(choice.get(duelist2).equals("Attack") ? "Sword" : choice.get(duelist2).equals("Defend")?"Shield":"Dance");
+        if(duelist1.health > 0 && duelist2.health > 0) {
+            actionGame();
+        }else {
+            winnerGame();
+            finishGame();
         }
-
-        if (!set && System.currentTimeMillis()-timeout>3000){
-            determineWinner(duelist1,duelist2);
-            set = true;
-        }
-        duelist1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
-        duelist2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
         main.batch.end();
     }
     public void action(Player player,Duelist duelist){ //TODO: Explain this method
@@ -181,7 +175,37 @@ public class CachipunScreen extends AbstractScreen {
             0 : choice.equals("Dance") ?
                 1 : 2;
     }
+    public void actionGame(){
+        action(J1,duelist1);
+        action(J2,duelist2);
+        if (!choice.get(duelist1).equals("NEUTRO") && !choice.get(duelist2).equals("NEUTRO") && set){
+            set = false;
+            timeout = System.currentTimeMillis();
+            duelist1.setDuelistAction(choice.get(duelist1).equals("Attack") ? "Sword" : choice.get(duelist1).equals("Defend")?"Shield":"Dance");
+            duelist2.setDuelistAction(choice.get(duelist2).equals("Attack") ? "Sword" : choice.get(duelist2).equals("Defend")?"Shield":"Dance");
+        }
 
+        if (!set && System.currentTimeMillis()-timeout>3000){
+            determineWinner(duelist1,duelist2);
+            set = true;
+        }
+        duelist1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+        duelist2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
+    }
+    public void winnerGame(){
+        if (duelist1.health <= 0) {
+            player1Sprite.setTexture(new Texture("cachipun/lose.png"));
+            player2Sprite.setTexture(new Texture("cachipun/win.png"));
+        } else {
+            player1Sprite.setTexture(new Texture("cachipun/win.png"));
+            player2Sprite.setTexture(new Texture("cachipun/lose.png"));
+        }
+    }
+    public void finishGame(){//TODO : ARREGLAR CRIMEN DE GUERRA2
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            main.setScreen(new MenuScreen(J1,J2,main));
+        }
+    }
     public void assignLoads(){ //TODO : ARREGLAR CRIMEN DE GUERRA
         if (winDuelist().random){
             winDuelist().addLoad(loadsGet(choice.get(winDuelist())));

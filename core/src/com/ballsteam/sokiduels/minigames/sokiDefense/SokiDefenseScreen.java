@@ -93,6 +93,11 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         balas.add(balaFromRight);
         lastBulletTime = TimeUtils.nanoTime();
     }
+    private void finalText() {
+        main.font.getData().setScale(2f);
+        main.font.draw(main.batch, "Score: " + duelist1.score, (getWidth()/3)-100, getHeight()/2);
+        main.font.draw(main.batch, "Score: " + duelist2.score, (getWidth()/3)*2-100, getHeight()/2);
+    }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + duelist1.score, 15, 20);
         main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-100, 20);
@@ -134,14 +139,12 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
             drawOnscreenText();
         }
     }
-
     @Override
     public void result(long timeStart, Long timeEnd) {
         if (timeGame + timeStart < System.currentTimeMillis() && timeGame + timeEnd > System.currentTimeMillis()) {
-
+            finalText();
         }
     }
-
     @Override
     public void closure(long timeEnd) {
         if (timeGame + timeEnd < System.currentTimeMillis()) {

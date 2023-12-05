@@ -107,13 +107,14 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
                 }
         });
     }
-    private void drawOnScreenFinalText() {
-        main.font.draw(main.batch, "Score: " + duelist1.score , 20, 20);
-        main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-69, getHeight()-10);
+    private void finalText() {
+        main.font.getData().setScale(2f);
+        main.font.draw(main.batch, "Score: " + duelist1.score, (getWidth()/3)-100, getHeight()/2);
+        main.font.draw(main.batch, "Score: " + duelist2.score, (getWidth()/3)*2-100, getHeight()/2);
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + duelist1.score, 15, 20);
-        main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-69, getHeight()-10);
+        main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-100, getHeight()-10);
     }
     private void spawnSoki() {
         Alien enemy = new Alien(new Vector2(0, MathUtils.random(getHeight()/5, (4*getHeight()/5))));
@@ -144,7 +145,7 @@ public SokiInvadersScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1
     @Override
     public void result(long timeStart, Long timeEnd) {
         if (timeGame + timeStart < System.currentTimeMillis() && timeGame + timeEnd > System.currentTimeMillis()) {
-            drawOnScreenFinalText();
+            finalText();
         }
     }
 
