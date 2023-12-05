@@ -103,8 +103,10 @@ public class CachipunScreen extends AbstractScreen {
         main.batch.end();
     }
     public void actionGame(){
-        action(P1,duelist1);
-        action(P2,duelist2);
+        if (set) {
+            action(P1,duelist1);
+            action(P2,duelist2);
+        }
         if (!choice.get(duelist1).equals("NEUTRO") && !choice.get(duelist2).equals("NEUTRO") && set){
             set = false;
             timeout = System.currentTimeMillis();
@@ -112,7 +114,7 @@ public class CachipunScreen extends AbstractScreen {
             duelist2.setDuelistAction(choice.get(duelist2).equals("Attack") ? "Sword" : choice.get(duelist2).equals("Defend")?"Shield":"Dance");
         }
 
-        if (!set && System.currentTimeMillis()-timeout>3000){
+        if (!set && System.currentTimeMillis()-timeout>1000){
             determineWinner(duelist1,duelist2);
             set = true;
         }
