@@ -18,7 +18,7 @@ import com.ballsteam.sokiduels.player.PlayerInput;
 
 import java.util.HashMap;
 
-public class SokiInvadersScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
+public class SokiInvadersScreen extends AbstractScreen implements GameState {
     Spaceship spaceShip;
     Spaceship spaceShip2;
     Sprite background;
