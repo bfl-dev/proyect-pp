@@ -77,13 +77,19 @@ public class Shield {
     public void addDamage(){
         if (alive) {
             damage++;
-            impact.play(0.05f);
+            impact();
             if (damage > 3) {
                 die();
             }
         }
     }
-
+    private void impact(){
+        if (duelist.isPlayerOne()){
+            impact.play(0.05f);
+        } else {
+            impact.play(0.05f,2f,1f);
+        }
+    }
     public void dispose(){
         shieldSprite.getTexture().dispose();
     }

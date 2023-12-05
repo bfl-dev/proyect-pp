@@ -68,6 +68,10 @@ public class Duelist {
         }
     }
 
+    public boolean isPlayerOne() {
+        return isPlayerOne;
+    }
+
     public void damage(int damage){
         IntStream.range(0, damage).forEach(i -> health--);
     }
