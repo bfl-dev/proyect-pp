@@ -1,20 +1,22 @@
 package com.ballsteam.sokiduels.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Align;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.Cachipun.CachipunScreen;
 import com.ballsteam.sokiduels.player.Player;
 
 
 public class MenuScreen extends AbstractScreen {
-    private final Label text = new Label("Proyecto PP", new Skin(Gdx.files.internal("ui/uiskin.json")));
     private final Skin UI_SKIN = new Skin(Gdx.files.internal("ui/uiskin.json"));
+    private Music menu_music;
+    private Sprite background;
     private final Player J1;
     private final Player J2;
 
@@ -22,49 +24,33 @@ public class MenuScreen extends AbstractScreen {
         super(main);
         this.J1=J1;
         this.J2=J2;
+        background = new Sprite(new Texture("TitleScreen.png"));
+        menu_music = Gdx.audio.newMusic(Gdx.files.internal("A STEP FORWARD INTO TERROR.mp3"));
     }
 
     @Override
     public void buildStage() {
+        menu_music.setVolume(0.05f);
+        menu_music.setLooping(true);
+        menu_music.play();
 
-        text.setPosition(getWidth() / 2f, 440, Align.center);
-        addActor(text);
-
-        //buttonCachipunScreen
         TextButton buttonCachipunScreen = createButtonCachipunScreen();
         addActor(buttonCachipunScreen);
 
-        //buttonBaile
-        TextButton buttonBaile = createButtonBaile();
-        addActor(buttonBaile);
-
-        //buttonSokiInvaders
-        TextButton buttonSokiInvaders = createButtonSokiInvaders();
-        addActor(buttonSokiInvaders);
-
-        TextButton buttonSokiDefense = createButtonSokiDefense();
-        addActor(buttonSokiDefense);
 
     }
 
-    private TextButton createButtonSokiDefense(){
-        TextButton buttonSokiDefense = createTextButton("SokiDefenseScreen",
-            (text.getX() - 50),(text.getY() - 250));
-        buttonSokiDefense.addListener(new InputListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                dispose();
-            }
-        });
-        return buttonSokiDefense;
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        main.batch.begin();
+        background.draw(main.batch);
+        main.batch.end();
     }
 
     private TextButton createButtonCachipunScreen(){
-        TextButton buttonCachipun = createTextButton("CachipunScreen",
-                (text.getX() - 50),(text.getY() - 100));
+        TextButton buttonCachipun = createTextButton("Quick Play",
+            (getWidth()/2)-100,getHeight()/2);
         buttonCachipun.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -72,6 +58,7 @@ public class MenuScreen extends AbstractScreen {
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 Screens.cachipunScreen = new CachipunScreen(main, J1, J2);
+                menu_music.dispose();
                 main.setScreen(Screens.cachipunScreen);
                 dispose();
             }
@@ -80,32 +67,6 @@ public class MenuScreen extends AbstractScreen {
     }
 
 
-    private TextButton createButtonBaile(){
-        TextButton buttonBaile = createTextButton("BaileScreen",
-                (text.getX() - 50), (text.getY() - 150));
-        buttonBaile.addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                dispose();
-            }
-        });
-        return buttonBaile;
-    }
-
-    private TextButton createButtonSokiInvaders(){
-        TextButton buttonSokiInvaders = createTextButton("SokiInvadersScreen",
-                (text.getX() - 50),(text.getY() - 200));
-        buttonSokiInvaders.addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {return true;}
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                dispose();
-            }
-        });
-        return buttonSokiInvaders;
-    }
     private TextButton createTextButton(String title, float posX, float posY){
         TextButton textButton = new TextButton(title, UI_SKIN);
         textButton.setPosition(posX, posY);
