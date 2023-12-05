@@ -24,17 +24,17 @@ public class CachipunScreen extends AbstractScreen {
     float SCREEN_HEIGHT = this.getHeight();
     float SCREEN_WIDTH = this.getWidth();
 
-    boolean[] J1_ACTION = new boolean[]{false,false,false,false,false};
-    boolean[] J2_ACTION = new boolean[]{false,false,false,false,false};
+    boolean[] P1_ACTION = new boolean[]{false,false,false,false,false};
+    boolean[] P2_ACTION = new boolean[]{false,false,false,false,false};
 
     Music music_background;
-    Sprite fondo;
+    Sprite background;
 
     Sprite player1Sprite;
     Sprite player2Sprite;
 
-    Player J1;
-    Player J2;
+    Player P1;
+    Player P2;
 
     Duelist duelist1;
     Duelist duelist2;
@@ -46,22 +46,22 @@ public class CachipunScreen extends AbstractScreen {
     HashMap<Duelist, String> choice = new HashMap<>(); //1 = Attack, 2 = Dance, 3 = Defend
 
     //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
-    public CachipunScreen(SokiDuels main, Player J1, Player J2) {
+    public CachipunScreen(SokiDuels main, Player P1, Player P2) {
         super(main);
-        players.put(J1,J1_ACTION);
-        players.put(J2,J2_ACTION);
-        duelist1 = new Duelist(J1.isPlayerOne());
-        duelist2 = new Duelist(J2.isPlayerOne());
+        players.put(P1, P1_ACTION);
+        players.put(P2, P2_ACTION);
+        duelist1 = new Duelist(P1.isPlayerOne());
+        duelist2 = new Duelist(P2.isPlayerOne());
         choice.put(duelist1,"NEUTRO");
         choice.put(duelist2,"NEUTRO");
         player1Sprite = new Sprite(new Texture("soki.png"));
         player2Sprite = new Sprite(new Texture("soki.png"));
-        fondo = new Sprite(new Texture("cachipun/cachipunBackground.png"));
-        fondo.setSize(getWidth(),getHeight());
+        background = new Sprite(new Texture("cachipun/cachipunBackground.png"));
+        background.setSize(getWidth(),getHeight());
         music_background = Gdx.audio.newMusic(Gdx.files.internal("cachipun/background_music.mp3"));
         music_background.setLooping(true);
-        this.J1=J1;
-        this.J2=J2;
+        this.P1 = P1;
+        this.P2 = P2;
     }
 
     @Override
@@ -73,8 +73,8 @@ public class CachipunScreen extends AbstractScreen {
         music_background.play();
         player1Sprite.setPosition(SCREEN_WIDTH/3,SCREEN_HEIGHT-300);
         player2Sprite.setPosition((SCREEN_WIDTH/3)*2,SCREEN_HEIGHT-300);
-        duelist1.setDuelistAction(J1.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
-        duelist2.setDuelistAction(J2.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
+        duelist1.setDuelistAction(P1.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
+        duelist2.setDuelistAction(P2.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
         if (duelist1.winner || duelist2.winner) {
             determineDamageWin();
             assignLoads();
@@ -92,7 +92,7 @@ public class CachipunScreen extends AbstractScreen {
     public void render(float delta) {//TODO: END THE GAME WHEN LIFE ENDS
         super.render(delta);
         main.batch.begin();
-        fondo.draw(main.batch);
+        background.draw(main.batch);
         player1Sprite.draw(main.batch);
         player2Sprite.draw(main.batch);
         if(duelist1.health > 0 && duelist2.health > 0) {
@@ -104,8 +104,8 @@ public class CachipunScreen extends AbstractScreen {
         main.batch.end();
     }
     public void actionGame(){
-        action(J1,duelist1);
-        action(J2,duelist2);
+        action(P1,duelist1);
+        action(P2,duelist2);
         if (!choice.get(duelist1).equals("NEUTRO") && !choice.get(duelist2).equals("NEUTRO") && set){
             set = false;
             timeout = System.currentTimeMillis();
@@ -147,21 +147,25 @@ public class CachipunScreen extends AbstractScreen {
             duelist.random = false;
         }
     }
-    public void determineWinner(Duelist duelist1,Duelist duelist2){ // TODO: REFACTOR ALL THIS SHIT
+    public void determineWinner(Duelist duelist1,Duelist duelist2){
         if(!Objects.equals(choice.get(duelist1), choice.get(duelist2))) {
-            duelist1.winner = ((choice.get(duelist1).equals("Attack") && choice.get(duelist2).equals("Dance"))||
-                (choice.get(duelist1).equals("Dance")&&choice.get(duelist2).equals("Defend"))||
-                choice.get(duelist1).equals("Defend")&&choice.get(duelist2).equals("Attack"));
+            duelist1.winner = (
+                    (checkChoice(duelist1, "Attack")&& checkChoice(duelist2, "Dance"))||
+                    (checkChoice(duelist1, "Dance") && checkChoice(duelist2, "Defend"))||
+                    (checkChoice(duelist1, "Defend")&& checkChoice(duelist2, "Attack")));
             duelist2.winner = !duelist1.winner;
         }
         setDuelistScreen();
     }
+    private boolean checkChoice(Duelist duelist, String pick){
+        return choice.get(duelist).equals(pick);
+    }
 
     private void setDuelistScreen() {
         switch (choice.get(winDuelist())) {
-            case "Attack" -> main.setScreen(new SokiInvadersScreen(main, J1, J2, duelist1, duelist2)); //Attack
-            case "Dance" -> main.setScreen(new DanceScreen(main, J1, J2)); // Dance
-            case "Defend" -> main.setScreen(new SokiDefenseScreen(main, J1, J2, duelist1, duelist2)); //Defend
+            case "Attack" -> main.setScreen(new SokiInvadersScreen(main, P1, P2, duelist1, duelist2)); //Attack
+            case "Dance" -> main.setScreen(new DanceScreen(main, P1, P2)); // Dance
+            case "Defend" -> main.setScreen(new SokiDefenseScreen(main, P1, P2, duelist1, duelist2)); //Defend
         }
     }
 
@@ -204,7 +208,7 @@ public class CachipunScreen extends AbstractScreen {
     }
     public void finishGame(){//TODO : ARREGLAR CRIMEN DE GUERRA2
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            main.setScreen(new MenuScreen(J1,J2,main));
+            main.setScreen(new MenuScreen(P1, P2,main));
         }
     }
     public void drawLoads(){
