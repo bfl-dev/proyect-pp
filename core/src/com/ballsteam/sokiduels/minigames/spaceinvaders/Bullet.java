@@ -8,13 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Bullet {
     Vector2 bullet;
-    Sprite bulletSprite;
+    Sprite bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/laserBullet.png")));;
     boolean isPlayerOne;
 
     public Bullet(boolean isPlayerOne) {
         // Inicialización de la bala y su sprite.
-        if (isPlayerOne) bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/laserBullet.png")));
-        else bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/boice.png"))); //TODO: CHANGE THE TEXTURE
+        if (!isPlayerOne) bulletSprite.flip(false,true);
         bulletSprite.setScale(0.69f);
         bullet = new Vector2(0,0);
         this.isPlayerOne = isPlayerOne;
