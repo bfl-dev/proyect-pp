@@ -107,11 +107,11 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
     }
     private void addPoints(Array<Arrow> arrows, boolean isPlayerOne){
         arrows.forEach(arrow -> {
-            if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x < (256)+256 && isPlayerOne){
+            if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x < getWidth()/2 && isPlayerOne){
                 arrows.removeValue(arrow, true);
                 scoreP1++;
                 pointsSound.play(1,2,1);
-            } else if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x >= (256)+256*2 && !isPlayerOne){
+            } else if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x >= getWidth()/2 && !isPlayerOne){
                 arrows.removeValue(arrow, true);
                 scoreP2++;
                 pointsSound.play();
@@ -119,12 +119,12 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
         });
     }
 
-    private void minusPoints(Array<Arrow> arrows){ // TODO: LEFT ARROW BUG, FIX IT!
+    private void minusPoints(Array<Arrow> arrows){
         arrows.forEach(arrow -> {
-            if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x<(256)+256){
+            if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x<getWidth()/2){
                 arrows.removeValue(arrow,true);
                 scoreP1--;
-            } else if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x>(256)+256*2){
+            } else if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x>getWidth()/2){
                 arrows.removeValue(arrow,true);
                 scoreP2--;
             }
