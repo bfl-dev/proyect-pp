@@ -15,13 +15,13 @@ import com.ballsteam.sokiduels.player.Player;
 import java.util.HashMap;
 
 public class SokiDefenseScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
-    Escudo escudo1;
-    Escudo escudo2;
+    Shield shield1;
+    Shield shield2;
     Array<Bullet> balas;
     long lastBulletTime;
     Array<Flag> flagsBlue;
     Array<Flag> flagsRed;
-    HashMap<Player, Escudo> players = new HashMap<>();
+    HashMap<Player, Shield> players = new HashMap<>();
     Duelist duelist1;
     Duelist duelist2;
     long timeGame;
@@ -29,10 +29,10 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         super(main);
         this.duelist1 = duelist1;
         this.duelist2 = duelist2;
-        escudo1 = new Escudo(new Texture("sokidefense/shield1.png"),new Texture("sokidefense/shield2.png"),new Texture("sokidefense/shield3.png"),duelist1);
-        escudo2 = new Escudo(new Texture("sokidefense/shield4.png"),new Texture("sokidefense/shield5.png"),new Texture("sokidefense/shield6.png"),duelist2);
-        players.put(J1,escudo1);
-        players.put(J2,escudo2);
+        shield1 = new Shield(new Texture("sokidefense/shield1.png"),new Texture("sokidefense/shield2.png"),new Texture("sokidefense/shield3.png"),duelist1);
+        shield2 = new Shield(new Texture("sokidefense/shield4.png"),new Texture("sokidefense/shield5.png"),new Texture("sokidefense/shield6.png"),duelist2);
+        players.put(J1, shield1);
+        players.put(J2, shield2);
         balas = new Array<>();
         flagsBlue = new Array<>();
         flagsRed = new Array<>();
@@ -57,13 +57,13 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
     }
     public void colisionBullet(){
         balas.forEach(bullet -> {
-            if (bullet.bulletSprite.getBoundingRectangle().overlaps(escudo1.escudoSprite.getBoundingRectangle())){
+            if (bullet.bulletSprite.getBoundingRectangle().overlaps(shield1.shieldSprite.getBoundingRectangle())){
                 balas.removeValue(bullet,true);
-                escudo1.addDamage();
+                shield1.addDamage();
             }
-            if (bullet.bulletSprite.getBoundingRectangle().overlaps(escudo2.escudoSprite.getBoundingRectangle())){
+            if (bullet.bulletSprite.getBoundingRectangle().overlaps(shield2.shieldSprite.getBoundingRectangle())){
                 balas.removeValue(bullet,true);
-                escudo2.addDamage();
+                shield2.addDamage();
             }
         });
     }
@@ -101,30 +101,30 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         main.font.draw(main.batch, "Score: " + duelist1.score, 15, 20);
         main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-100, 20);
     }
-    public void colisionFlag(Array<Flag> flagsBlue, Escudo escudo1, Escudo escudo2,Duelist duelist) {
+    public void colisionFlag(Array<Flag> flagsBlue, Shield shield1, Shield shield2, Duelist duelist) {
         flagsBlue.forEach(flag -> {
-            if (flag.flagSprite.getBoundingRectangle().overlaps(escudo1.escudoSprite.getBoundingRectangle())) {
+            if (flag.flagSprite.getBoundingRectangle().overlaps(shield1.shieldSprite.getBoundingRectangle())) {
                 flagsBlue.removeValue(flag, true);
                 duelist.score += 10;
-                escudo1.damage = 1;
+                shield1.damage = 1;
             }
-            if (flag.flagSprite.getBoundingRectangle().overlaps(escudo2.escudoSprite.getBoundingRectangle())) {
+            if (flag.flagSprite.getBoundingRectangle().overlaps(shield2.shieldSprite.getBoundingRectangle())) {
                 flagsBlue.removeValue(flag, true);
             }
         });
     }
 
-    private void updateShield(Player player, Escudo escudo){
+    private void updateShield(Player player, Shield shield){
         player.Input.update();
-        escudo.UP_DOWN = Integer.compare((int) player.Input.UP, (int) player.Input.DOWN);
-        escudo.LEFT_RIGHT = Integer.compare((int) player.Input.RIGHT, (int) player.Input.LEFT);
+        shield.UP_DOWN = Integer.compare((int) player.Input.UP, (int) player.Input.DOWN);
+        shield.LEFT_RIGHT = Integer.compare((int) player.Input.RIGHT, (int) player.Input.LEFT);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        escudo1.dispose();
-        escudo2.dispose();
+        shield1.dispose();
+        shield2.dispose();
         flagsBlue.forEach(Flag::dispose);
         flagsRed.forEach(Flag::dispose);
     }
@@ -138,12 +138,12 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
             flagsRed.forEach(flag -> flag.draw(main.batch));
             flagsBlue.forEach(flag -> flag.draw(main.batch));
             players.forEach(this::updateShield);
-            escudo1.draw(main.batch);
-            escudo2.draw(main.batch);
+            shield1.draw(main.batch);
+            shield2.draw(main.batch);
             drawBullets();
             colisionBullet();
-            colisionFlag(flagsBlue, escudo1, escudo2, duelist1);
-            colisionFlag(flagsRed, escudo2, escudo1, duelist2);
+            colisionFlag(flagsBlue, shield1, shield2, duelist1);
+            colisionFlag(flagsRed, shield2, shield1, duelist2);
             drawOnscreenText();
         }
     }
