@@ -84,7 +84,6 @@ public class ControllerInput extends PlayerInput {
         RT = rightTriggerFuse && AXES.rt >= TRIGGER_DEAD_ZONE;
         rightTriggerFuse = !RT && AXES.rt < TRIGGER_DEAD_ZONE;
     }
-    private int margin(int motorValue){return Math.max(Math.min(motorValue,65535),0);}
     private float valueDeltaX(){return dPadX()!=0? dPadX():leftStickX();}
     private float valueDeltaY(){return dPadY()!=0? dPadY():leftStickY();}
     private float dPadY(){return Boolean.compare(BUTTONS.up, BUTTONS.down);}
