@@ -16,6 +16,9 @@ public class Duelist {
     private final boolean isPlayerOne;
     public boolean random;
     public int [] loads;
+    private final Sprite loadAttack;
+    private final Sprite loadDance;
+    private final Sprite loadDefend;
     public Duelist(boolean isPlayerOne){
         this.score = 0;
         this.isPlayerOne = isPlayerOne;
@@ -23,6 +26,9 @@ public class Duelist {
         this.health = 300;
         this.random = false;
         loads = new int[]{1,1,1};
+        loadAttack = new Sprite(new Texture("cachipun/sword.png"));
+        loadDance = new Sprite(new Texture("cachipun/jojo.png"));
+        loadDefend = new Sprite(new Texture("cachipun/shield.png"));
         poblarHashmap();
         this.bar = new Sprite(new Texture("cachipun/green.png"));
         this.playerAction = new Sprite(new Texture("cachipun/ControllerCachipun.png"));
@@ -32,9 +38,15 @@ public class Duelist {
         if (isPlayerOne) {
             bar.setPosition((width/3)-125, (height-100));
             playerAction.setPosition((width/3)-110,height-700);
+            loadAttack.setPosition((width/3)-130, (height-180));
+            loadDance.setPosition((width/3)-110, (height-180));
+            loadDefend.setPosition((width/3)-80, (height-180));
         } else {
             bar.setPosition((((width/3)*2)-125), (height-100));
             playerAction.setPosition(((width/3)*2)-110,height-700);
+            loadAttack.setPosition(((width/3)*2)-130, (height-180));
+            loadDance.setPosition(((width/3)*2)-110, (height-180));
+            loadDefend.setPosition(((width/3)*2)-80, (height-180));
         }
         if(health < 25) {
             bar.setTexture(new Texture("cachipun/red.png"));
@@ -43,6 +55,9 @@ public class Duelist {
         }
         batch.draw(bar, bar.getX(), bar.getY(), health, 20);
         batch.draw(playerAction, playerAction.getX(), playerAction.getY());
+        batch.draw(loadAttack, loadAttack.getX(), loadAttack.getY(),32,32);
+        batch.draw(loadDance, loadDance.getX(), loadDance.getY(),32,32);
+        batch.draw(loadDefend, loadDefend.getX(), loadDefend.getY(),32,32);
     }
     public void damage(int damage){
         IntStream.range(0, damage).forEach(i -> health--);
