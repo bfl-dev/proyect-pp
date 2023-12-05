@@ -14,10 +14,10 @@ import com.ballsteam.sokiduels.player.Player;
 
 import java.util.HashMap;
 
-public class SokiDefenseScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
+public class SokiDefenseScreen extends AbstractScreen implements GameState {
     Shield shield1;
     Shield shield2;
-    Array<Bullet> balas;
+    Array<Bullet> bullets;
     long lastBulletTime;
     Array<Flag> flagsBlue;
     Array<Flag> flagsRed;
@@ -33,7 +33,7 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         shield2 = new Shield(new Texture("sokidefense/shield4.png"),new Texture("sokidefense/shield5.png"),new Texture("sokidefense/shield6.png"),duelist2);
         players.put(J1, shield1);
         players.put(J2, shield2);
-        balas = new Array<>();
+        bullets = new Array<>();
         flagsBlue = new Array<>();
         flagsRed = new Array<>();
     }
@@ -56,21 +56,21 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         main.batch.end();
     }
     public void colisionBullet(){
-        balas.forEach(bullet -> {
+        bullets.forEach(bullet -> {
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(shield1.shieldSprite.getBoundingRectangle())){
-                balas.removeValue(bullet,true);
+                bullets.removeValue(bullet,true);
                 shield1.addDamage();
             }
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(shield2.shieldSprite.getBoundingRectangle())){
-                balas.removeValue(bullet,true);
+                bullets.removeValue(bullet,true);
                 shield2.addDamage();
             }
         });
     }
     public void drawBullets(){
-        balas.forEach(bullet -> {
+        bullets.forEach(bullet -> {
             bullet.draw(main.batch);
-            if (bullet.posBullet.y > getHeight() || bullet.posBullet.y < 0 || bullet.posBullet.x > getWidth() || bullet.posBullet.x < 0) balas.removeValue(bullet,true);
+            if (bullet.posBullet.y > getHeight() || bullet.posBullet.y < 0 || bullet.posBullet.x > getWidth() || bullet.posBullet.x < 0) bullets.removeValue(bullet,true);
         });
     }
     public void spawnFlagBlue() {
@@ -86,10 +86,10 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         Bullet bulletFromRight = new Bullet(new Vector2(getWidth(),MathUtils.random(32, getHeight()-32)),1);
         Bullet bulletFromUp = new Bullet(new Vector2(MathUtils.random(32, getWidth()-32), getHeight()),2);
         Bullet bulletFromLeft = new Bullet(new Vector2(0,MathUtils.random(32, getHeight()-32)),3);
-        balas.add(bulletFromDown);
-        balas.add(bulletFromUp);
-        balas.add(bulletFromLeft);
-        balas.add(bulletFromRight);
+        bullets.add(bulletFromDown);
+        bullets.add(bulletFromUp);
+        bullets.add(bulletFromLeft);
+        bullets.add(bulletFromRight);
         lastBulletTime = TimeUtils.nanoTime();
     }
     private void finalText() {

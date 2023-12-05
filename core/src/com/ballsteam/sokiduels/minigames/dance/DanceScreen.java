@@ -22,7 +22,7 @@ import java.util.HashMap;
  * Los jugadores deben seguir las flechas que aparecen en la pantalla utilizando
  * sus respectivos controles para ganar puntos.
  */
-public class DanceScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
+public class DanceScreen extends AbstractScreen implements GameState {
     private final Sprite DOWN_ARROW = new Sprite(new Texture("baile/flechaAbajo.png"));
     private final Sprite UP_ARROW = new Sprite(new Texture("baile/flechaArriba.png"));
     private final Sprite RIGHT_ARROW = new Sprite(new Texture("baile/flechaDerecha.png"));
@@ -38,7 +38,7 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
 
     private final Sprite arrowsBackground;
     private final Sprite arrowsBackground2;
-    //No se que es mejor esa wea u 8 bools pq si
+    //TODO: No se que es mejor esa wea u 8 bools pq si
     private final boolean[] P1_ARROWS = new boolean[]{false,false,false,false};
     private final boolean[] P2_ARROWS = new boolean[]{false,false,false,false};
     private long lastDrop;
@@ -213,7 +213,7 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
             P1Arrows.forEach(flechas1 -> flechas1.forEach(arrow -> arrow.draw(main.batch)));
             P2Arrows.forEach(flechas2 -> flechas2.forEach(arrow -> arrow.draw(main.batch)));
 
-            //Tiene que haber una forma de hacer esta wea con funcional
+            //TODO:Tiene que haber una forma de hacer esta wea con funcional
             if (P1_ARROWS[0]) {
                 addPoints(leftArrows, true);
             }
