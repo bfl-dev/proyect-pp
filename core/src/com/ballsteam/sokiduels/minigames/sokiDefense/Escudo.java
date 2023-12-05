@@ -1,10 +1,10 @@
 package com.ballsteam.sokiduels.minigames.sokiDefense;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
 
 public class Escudo { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Sprite escudoSprite;
@@ -14,18 +14,20 @@ public class Escudo { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
     Texture texture3;
     protected int UP_DOWN;
     protected int LEFT_RIGHT;
+    private final Duelist duelist;
     int damage;
-    public Escudo (Texture Texture,Texture Texture2,Texture Texture3){
+    public Escudo (Texture Texture, Texture Texture2,Texture Texture3,Duelist duelist){
         this.texture = Texture;
         this.texture2 = Texture2;
         this.texture3 = Texture3;
+        this.duelist = duelist;
         escudoSprite = new Sprite(texture);
         escudoSprite.setSize(45,45);
         posEscudo = new Vector2(0,0);
         damage = 1;
     }
     public void motion(){
-        posEscudo.add(new Vector2(LEFT_RIGHT*10,UP_DOWN*10).clamp(0,10));
+        posEscudo.add(new Vector2(LEFT_RIGHT*4,UP_DOWN*4).clamp(0,4));
         if (posEscudo.x > 1366 - escudoSprite.getWidth()) posEscudo.x = 1366 - escudoSprite.getWidth();
         if (posEscudo.x < 0) posEscudo.x = 0;
         if (posEscudo.y > 768 - escudoSprite.getWidth()) posEscudo.y = 768 - escudoSprite.getWidth();
@@ -48,6 +50,7 @@ public class Escudo { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
         damage++;
         if(damage > 3){
             damage = 1;
+            duelist.score -= 10;
         }
     }
     public void dispose(){

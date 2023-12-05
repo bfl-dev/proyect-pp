@@ -27,24 +27,23 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
     long timeGame;
     public SokiDefenseScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1, Duelist duelist2) {
         super(main);
-        timeGame = System.currentTimeMillis();
         this.duelist1 = duelist1;
         this.duelist2 = duelist2;
-        escudo1 = new Escudo(new Texture("sokidefense/shield1.png"),new Texture("sokidefense/shield2.png"),new Texture("sokidefense/shield3.png"));
-        escudo2 = new Escudo(new Texture("sokidefense/shield4.png"),new Texture("sokidefense/shield5.png"),new Texture("sokidefense/shield6.png"));
+        escudo1 = new Escudo(new Texture("sokidefense/shield1.png"),new Texture("sokidefense/shield2.png"),new Texture("sokidefense/shield3.png"),duelist1);
+        escudo2 = new Escudo(new Texture("sokidefense/shield4.png"),new Texture("sokidefense/shield5.png"),new Texture("sokidefense/shield6.png"),duelist2);
         players.put(J1,escudo1);
         players.put(J2,escudo2);
         balas = new Array<>();
         flagsBlue = new Array<>();
         flagsRed = new Array<>();
-        spawnBullet();
-        spawnFlagBlue();
-        spawnFlagRed();
     }
 
     @Override
     public void buildStage() {
-
+        spawnBullet();
+        spawnFlagBlue();
+        spawnFlagRed();
+        timeGame = System.currentTimeMillis();
     }
 
     @Override
@@ -61,12 +60,10 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(escudo1.escudoSprite.getBoundingRectangle())){
                 balas.removeValue(bullet,true);
                 escudo1.addDamage();
-                duelist1.score -= 10;
             }
             if (bullet.bulletSprite.getBoundingRectangle().overlaps(escudo2.escudoSprite.getBoundingRectangle())){
                 balas.removeValue(bullet,true);
                 escudo2.addDamage();
-                duelist2.score -= 10;
             }
         });
     }
@@ -121,6 +118,15 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         player.Input.update();
         escudo.UP_DOWN = Integer.compare((int) player.Input.UP, (int) player.Input.DOWN);
         escudo.LEFT_RIGHT = Integer.compare((int) player.Input.RIGHT, (int) player.Input.LEFT);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        escudo1.dispose();
+        escudo2.dispose();
+        flagsBlue.forEach(Flag::dispose);
+        flagsRed.forEach(Flag::dispose);
     }
 
     @Override
