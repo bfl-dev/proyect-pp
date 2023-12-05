@@ -72,10 +72,18 @@ public class CachipunScreen extends AbstractScreen {
         player2Sprite.setPosition((SCREEN_WIDTH/3)*2,SCREEN_HEIGHT-300);
         duelist1.setDuelistAction(J1.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
         duelist2.setDuelistAction(J2.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
-        if (duelist1.score != 0 || duelist2.score != 0) {
+        if (duelist1.winner || duelist2.winner) {
             determineDamageWin();
             assignLoads();
+        } else {
+            determineDamageTie();
         }
+        choice.replace(duelist1, "NEUTRO");
+        choice.replace(duelist2, "NEUTRO");
+        duelist1.score = 0;
+        duelist2.score = 0;
+        duelist1.random = false;
+        duelist2.random = false;
     }
     @Override
     public void render(float delta) {
@@ -103,12 +111,14 @@ public class CachipunScreen extends AbstractScreen {
     }
     public void action(Player player,Duelist duelist){ //TODO: Explain this method
         player.Input.update();
+        duelist.random = false;
         if(choice.get(duelist).equals("NEUTRO")) {
             if (player.Input.LEFT==1) {
                 choice.replace(duelist, "Attack");
             }
             if (player.Input.DOWN == 1) {
                 choice.replace(duelist, randomChoice());
+                duelist.random = true;
             }
             if (player.Input.UP == 1) {
                 choice.replace(duelist, "Dance");
@@ -131,8 +141,8 @@ public class CachipunScreen extends AbstractScreen {
                 (choice.get(duelist1).equals("Dance")&&choice.get(duelist2).equals("Defend"))||
                 choice.get(duelist1).equals("Defend")&&choice.get(duelist2).equals("Attack"));
             duelist2.winner = !duelist1.winner;
-            setDuelistScreen();
         }
+        setDuelistScreen();
     }
 
     private void setDuelistScreen() {
@@ -145,12 +155,20 @@ public class CachipunScreen extends AbstractScreen {
 
     public void determineDamageWin() { //TODO: REMAKE THIS SHIT
         if(winDuelist().score>loseDuelist().score){
-            loseDuelist().health -= 30* winDuelist().loads[loadsGet(choice.get(winDuelist()))];
+            loseDuelist().health -= 30 * winDuelist().loads[loadsGet(choice.get(winDuelist()))];
+        } else if (winDuelist().score==loseDuelist().score) {
+            loseDuelist().health -= 30;
+        } else {
+            loseDuelist().health += 30 * loseDuelist().loads[loadsGet(choice.get(loseDuelist()))];
         }
-        choice.replace(duelist1, "NEUTRO");
-        choice.replace(duelist2, "NEUTRO");
-        duelist1.score = 0;
-        duelist2.score = 0;
+    }
+
+    public void determineDamageTie(){
+        if(duelist1.score>duelist2.score){
+            duelist2.health -= 30 * duelist1.loads[loadsGet(choice.get(duelist1))];
+        } else if (duelist2.score>duelist1.score) {
+            duelist1.health -= 30 * duelist2.loads[loadsGet(choice.get(duelist2))];
+        }
     }
 
     public String randomChoice(){
@@ -160,12 +178,17 @@ public class CachipunScreen extends AbstractScreen {
 
     private int loadsGet(String choice){
         return choice.equals("Attack") ?
-            1 : choice.equals("Dance") ?
-                2 : 3;
+            0 : choice.equals("Dance") ?
+                1 : 2;
     }
 
-    public void assignLoads(){
-        winDuelist().addLoad(loadsGet(choice.get(winDuelist())));
+    public void assignLoads(){ //TODO : ARREGLAR CRIMEN DE GUERRA
+        if (winDuelist().random){
+            winDuelist().addLoad(loadsGet(choice.get(winDuelist())));
+            winDuelist().addLoad(loadsGet(choice.get(winDuelist())));
+        }else {
+            winDuelist().addLoad(loadsGet(choice.get(winDuelist())));
+        }
         loseDuelist().subtractLoad(loadsGet(choice.get(loseDuelist())));
     }
     public Duelist winDuelist(){

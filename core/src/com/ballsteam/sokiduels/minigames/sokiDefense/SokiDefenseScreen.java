@@ -52,6 +52,8 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
         super.render(delta);
         main.batch.begin();
         action(30000);
+        result(30000, 35000L);
+        closure(35000L);
         main.batch.end();
     }
     public void colisionBullet(){
@@ -93,7 +95,7 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState { //T
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + duelist1.score, 15, 20);
-        main.font.draw(main.batch, "Score: " + duelist1.score, getWidth()-100, 20);
+        main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-100, 20);
     }
     public void colisionFlag(Array<Flag> flagsBlue, Escudo escudo1, Escudo escudo2,Duelist duelist) {
         flagsBlue.forEach(flag -> {

@@ -14,12 +14,14 @@ public class Duelist {
     private final HashMap<String,Sprite> textures;
     public Sprite playerAction;
     private final boolean isPlayerOne;
-    public int[] loads;
+    public boolean random;
+    public int [] loads;
     public Duelist(boolean isPlayerOne){
         this.score = 0;
         this.isPlayerOne = isPlayerOne;
         this.textures = new HashMap<>();
         this.health = 300;
+        this.random = false;
         loads = new int[]{1,1,1};
         poblarHashmap();
         this.bar = new Sprite(new Texture("cachipun/green.png"));
@@ -60,6 +62,6 @@ public class Duelist {
         loads[i]++;
     }
     public void subtractLoad(int i){
-        if (loads[i] > 0) loads[i]--;
+        if (loads[i] > 1) loads[i]--;
     }
 }
