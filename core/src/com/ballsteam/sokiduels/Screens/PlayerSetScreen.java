@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public class PlayerSetScreen extends AbstractScreen {
-    private final Label text = new Label("P1", new Skin(Gdx.files.internal("ui/uiskin.json")));
+    private final Label text = new Label("Player 1", new Skin(Gdx.files.internal("ui/uiskin.json")));
     private final Label text2 = new Label("Press Any Button...", new Skin(Gdx.files.internal("ui/uiskin.json")));
     Player player1;
     Player player2;
@@ -27,7 +27,6 @@ public class PlayerSetScreen extends AbstractScreen {
 
     public PlayerSetScreen(SokiDuels main) throws XInputNotLoadedException {
         super(main);
-
         player1 = new Player(true);
         player2 = new Player(false);
 
@@ -55,7 +54,7 @@ public class PlayerSetScreen extends AbstractScreen {
         inputs.forEach(PlayerInput::update);
         if (isPlayerInputDefined(player1) && (inputs.stream().anyMatch(PlayerInput::interacted))){
             player1.setInput(inputs.stream().filter(PlayerInput::interacted).findFirst().get());
-            text.setText("P2");
+            text.setText("Player 2");
         } else if (isPlayerInputDefined(player2) && (inputs.stream().anyMatch(PlayerInput::interacted))){
             player2.setInput(inputs.stream().filter(PlayerInput::interacted).findFirst().get());
             main.setScreen(new MenuScreen(player1, player2, main));
