@@ -60,7 +60,7 @@ public class DanceScreen extends AbstractScreen implements GameState {
      * @param P2    Jugador 2.
      * @param main  Instancia principal del juego SokiDuels.
      */
-    public DanceScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1,Duelist duelist2) { //TODO: IMPLEMENT CACHIPUN SCREEN CONECTION
+    public DanceScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1,Duelist duelist2) {
         super(main);
         this.P1 = P1;
         this.P2 = P2;

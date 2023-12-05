@@ -37,13 +37,13 @@ public class Duelist {
     public void draw(SpriteBatch batch, float width, float height){
         if (isPlayerOne) {
             bar.setPosition((width/3)-125, (height-100));
-            playerAction.setPosition((width/3)-110,height-700);
+            playerAction.setPosition((width/3)-170,height-700);
             loadAttack.setPosition((width/3)-130, (height-180));
             loadDance.setPosition((width/3)-110, (height-180));
             loadDefend.setPosition((width/3)-80, (height-180));
         } else {
             bar.setPosition((((width/3)*2)-125), (height-100));
-            playerAction.setPosition(((width/3)*2)-110,height-700);
+            playerAction.setPosition(((width/3)*2)-170,height-700);
             loadAttack.setPosition(((width/3)*2)-130, (height-180));
             loadDance.setPosition(((width/3)*2)-110, (height-180));
             loadDefend.setPosition(((width/3)*2)-80, (height-180));
