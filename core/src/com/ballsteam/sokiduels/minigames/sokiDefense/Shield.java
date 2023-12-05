@@ -1,5 +1,7 @@
 package com.ballsteam.sokiduels.minigames.sokiDefense;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,12 +20,14 @@ public class Shield {
     private final Duelist duelist;
     int damage;
     private long timeOfDeath;
+    Sound impact;
     private boolean alive = true;
     public Shield(Texture Texture, Texture Texture2, Texture Texture3, Duelist duelist){
         this.texture = Texture;
         this.texture2 = Texture2;
         this.texture3 = Texture3;
         this.duelist = duelist;
+        impact = Gdx.audio.newSound(Gdx.files.internal("sokidefense/impact.ogg"));
         shieldSprite = new Sprite(texture);
         shieldSprite.setSize(45,45);
         posEscudo = new Vector2(0,0);
@@ -73,11 +77,13 @@ public class Shield {
     public void addDamage(){
         if (alive) {
             damage++;
+            impact.play(0.05f);
             if (damage > 3) {
                 die();
             }
         }
     }
+
     public void dispose(){
         shieldSprite.getTexture().dispose();
     }
