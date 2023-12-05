@@ -1,4 +1,4 @@
-package com.ballsteam.sokiduels.minigames.baile;
+package com.ballsteam.sokiduels.minigames.dance;
 
 
 import com.badlogic.gdx.Gdx;
@@ -27,12 +27,12 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
     private final Sprite UP_ARROW = new Sprite(new Texture("baile/flechaArriba.png"));
     private final Sprite RIGHT_ARROW = new Sprite(new Texture("baile/flechaDerecha.png"));
     private final Sprite LEFT_ARROW = new Sprite(new Texture("baile/flechaIzquierda.png"));
-    private final Array<Flecha> upArrows;
-    private final Array<Flecha> downArrows;
-    private final Array<Flecha> leftArrows;
-    private final Array<Flecha> rightArrows;
-    private final Array<Array<Flecha>> P1Arrows;
-    private final Array<Array<Flecha>> P2Arrows;
+    private final Array<Arrow> upArrows;
+    private final Array<Arrow> downArrows;
+    private final Array<Arrow> leftArrows;
+    private final Array<Arrow> rightArrows;
+    private final Array<Array<Arrow>> P1Arrows;
+    private final Array<Array<Arrow>> P2Arrows;
 
     private final Sound pointsSound = Gdx.audio.newSound(Gdx.files.internal("baile/soundCoin.wav"));
 
@@ -86,7 +86,7 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
         arrowsBackground = new Sprite(new Texture("baile/flechas.png"));
         arrowsBackground2 = new Sprite(new Texture("baile/flechas.png"));
 
-        spawnFlechas();
+        spawnArrows();
 
         scoreP2 = 0;
         scoreP1 = 0;
@@ -105,7 +105,7 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
         closure(35000);
         main.batch.end();
     }
-    private void addPoints(Array<Flecha> arrows, boolean isPlayerOne){
+    private void addPoints(Array<Arrow> arrows, boolean isPlayerOne){
         arrows.forEach(arrow -> {
             if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x < (256)+256 && isPlayerOne){
                 arrows.removeValue(arrow, true);
@@ -119,7 +119,7 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
         });
     }
 
-    private void minusPoints(Array<Flecha> arrows){ // TODO: LEFT ARROW BUG, FIX IT!
+    private void minusPoints(Array<Arrow> arrows){ // TODO: LEFT ARROW BUG, FIX IT!
         arrows.forEach(arrow -> {
             if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x<(256)+256){
                 arrows.removeValue(arrow,true);
@@ -152,39 +152,39 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
         players.get(player)[3] = player.Input.RIGHT == 1 && player.rightFuse;
         player.danceFuses();
     }
-    public void spawnFlechas() {
+    public void spawnArrows() {
         int random = (int) (Math.random() * 4);
         switch (random) {
             case 0 -> {
-                Flecha upArrowP1 = new Flecha(UP_ARROW,new Vector2((256)+128, getHeight()));
+                Arrow upArrowP1 = new Arrow(UP_ARROW,new Vector2((256)+128, getHeight()));
                 upArrows.add(upArrowP1);
-                Flecha upArrowP2 = new Flecha(UP_ARROW,new Vector2((256)+(128+256*2), getHeight()));
+                Arrow upArrowP2 = new Arrow(UP_ARROW,new Vector2((256)+(128+256*2), getHeight()));
                 upArrows.add(upArrowP2);
             }
             case 1 -> {
-                Flecha downArrowP1 = new Flecha(DOWN_ARROW,new Vector2((256)+64, getHeight()));
+                Arrow downArrowP1 = new Arrow(DOWN_ARROW,new Vector2((256)+64, getHeight()));
                 downArrows.add(downArrowP1);
-                Flecha downArrowP2 = new Flecha(DOWN_ARROW,new Vector2((256)+64+ (256*2), getHeight()));
+                Arrow downArrowP2 = new Arrow(DOWN_ARROW,new Vector2((256)+64+ (256*2), getHeight()));
                 downArrows.add(downArrowP2);
             }
             case 2 -> {
-                Flecha flechaIzquierdaJ1 = new Flecha(LEFT_ARROW,new Vector2((256), getHeight()));
-                leftArrows.add(flechaIzquierdaJ1);
-                Flecha flechaIzquierdaJ2 = new Flecha(LEFT_ARROW,new Vector2(((256)+512), getHeight()));
-                leftArrows.add(flechaIzquierdaJ2);
+                Arrow leftArrowP1 = new Arrow(LEFT_ARROW,new Vector2((256), getHeight()));
+                leftArrows.add(leftArrowP1);
+                Arrow leftArrowP2 = new Arrow(LEFT_ARROW,new Vector2(((256)+512), getHeight()));
+                leftArrows.add(leftArrowP2);
             }
             case 3 -> {
-                Flecha flechaDerechaJ1 = new Flecha(RIGHT_ARROW,new Vector2((256)+192, getHeight()));
-                rightArrows.add(flechaDerechaJ1);
-                Flecha flechaDerechaJ2 = new Flecha(RIGHT_ARROW,new Vector2((256)+192+ (256*2), getHeight()));
-                rightArrows.add(flechaDerechaJ2);
+                Arrow rightArrowP1 = new Arrow(RIGHT_ARROW,new Vector2((256)+192, getHeight()));
+                rightArrows.add(rightArrowP1);
+                Arrow rightArrowP2 = new Arrow(RIGHT_ARROW,new Vector2((256)+192+ (256*2), getHeight()));
+                rightArrows.add(rightArrowP2);
             }
         }
         lastDrop = TimeUtils.nanoTime();
     }
     public void dispose() {
-        P1Arrows.forEach(flechas -> flechas.forEach(Flecha::dispose));
-        P2Arrows.forEach(flechas -> flechas.forEach(Flecha::dispose));
+        P1Arrows.forEach(arrows -> arrows.forEach(Arrow::dispose));
+        P2Arrows.forEach(arrows -> arrows.forEach(Arrow::dispose));
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + scoreP1, (256)+256, 20);
@@ -207,11 +207,11 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
             arrowsBackground2.draw(main.batch);
             arrowsBackground2.setPosition((256)+(256*2),0);
 
-            if(TimeUtils.nanoTime() - lastDrop > 500000000) spawnFlechas();
+            if(TimeUtils.nanoTime() - lastDrop > 500000000) spawnArrows();
             drawOnscreenText();
 
-            P1Arrows.forEach(flechas1 -> flechas1.forEach(flecha -> flecha.draw(main.batch)));
-            P2Arrows.forEach(flechas2 -> flechas2.forEach(flecha -> flecha.draw(main.batch)));
+            P1Arrows.forEach(flechas1 -> flechas1.forEach(arrow -> arrow.draw(main.batch)));
+            P2Arrows.forEach(flechas2 -> flechas2.forEach(arrow -> arrow.draw(main.batch)));
 
             //Tiene que haber una forma de hacer esta wea con funcional
             if (P1_ARROWS[0]) {

@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.Screens.MenuScreen;
 import com.ballsteam.sokiduels.SokiDuels;
-import com.ballsteam.sokiduels.minigames.baile.DanceScreen;
+import com.ballsteam.sokiduels.minigames.dance.DanceScreen;
 import com.ballsteam.sokiduels.minigames.sokiDefense.SokiDefenseScreen;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
 import com.ballsteam.sokiduels.player.ControllerInput;
