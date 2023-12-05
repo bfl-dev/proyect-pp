@@ -42,16 +42,16 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
     players.put(P2, spaceShip2);
     direction = 1;
     background = new Sprite(new Texture("sokiInvaders/fondo.png"));
-    background.setSize(getWidth(),getHeight());
     aliens = new Array<>();
-    spawnAlien();
 
     }
     @Override
     public void buildStage() {
+    background.setSize(getWidth(),getHeight());
     music_background.setVolume(0.05f);
     music_background.setLooping(true);
     music_background.play();
+    spawnAlien();
     }
 
     @Override
@@ -63,15 +63,6 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
         result(30000, 35000L);
         closure(35000);
         main.batch.end();
-    }
-
-    @Override
-    public void dispose() {
-        spaceShip.dispose();
-        spaceShip2.dispose();
-        aliens.forEach(Alien::dispose);
-        background.getTexture().dispose();
-        music_background.dispose();
     }
 
     public void aliensFall(){
@@ -127,6 +118,15 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
         spaceShip.RIGHT = player.RIGHT == 1;
         spaceShip.SHOOT = player.UP== 1;
     }
+    @Override
+    public void dispose() {
+        spaceShip.dispose();
+        spaceShip2.dispose();
+        aliens.forEach(Alien::dispose);
+        background.getTexture().dispose();
+        music_background.dispose();
+    }
+
     @Override
     public void action(long timeEnd) {
         if (timeGame + timeEnd > System.currentTimeMillis()) {
