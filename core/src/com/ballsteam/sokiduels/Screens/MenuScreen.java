@@ -15,8 +15,8 @@ import com.ballsteam.sokiduels.player.Player;
 
 public class MenuScreen extends AbstractScreen {
     private final Skin UI_SKIN = new Skin(Gdx.files.internal("ui/uiskin.json"));
-    private Music menu_music;
-    private Sprite background;
+    private final Music menu_music = Gdx.audio.newMusic(Gdx.files.internal("A STEP FORWARD INTO TERROR.mp3"));
+    private final Sprite background = new Sprite(new Texture("TitleScreen.png"));
     private final Player J1;
     private final Player J2;
 
@@ -24,8 +24,6 @@ public class MenuScreen extends AbstractScreen {
         super(main);
         this.J1=J1;
         this.J2=J2;
-        background = new Sprite(new Texture("TitleScreen.png"));
-        menu_music = Gdx.audio.newMusic(Gdx.files.internal("A STEP FORWARD INTO TERROR.mp3"));
     }
 
     @Override
@@ -34,12 +32,9 @@ public class MenuScreen extends AbstractScreen {
         menu_music.setLooping(true);
         menu_music.play();
 
-        TextButton buttonCachipunScreen = createButtonCachipunScreen();
+        TextButton buttonCachipunScreen = createQuickPlayButton();
         addActor(buttonCachipunScreen);
-
-
     }
-
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -48,10 +43,12 @@ public class MenuScreen extends AbstractScreen {
         main.batch.end();
     }
 
-    private TextButton createButtonCachipunScreen(){
-        TextButton buttonCachipun = createTextButton("Quick Play",
-            (getWidth()/2)-100,getHeight()/2);
-        buttonCachipun.addListener(new InputListener() {
+    private TextButton createQuickPlayButton(){
+        TextButton quickPlayButton = new TextButton("Quick Play", UI_SKIN);
+        quickPlayButton.setPosition((getWidth()/2)-100, getHeight()/2);
+        quickPlayButton.setWidth(200);
+        quickPlayButton.setHeight(50);
+        quickPlayButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
@@ -63,18 +60,7 @@ public class MenuScreen extends AbstractScreen {
                 dispose();
             }
         });
-        return buttonCachipun;
-    }
-
-
-    private TextButton createTextButton(String title, float posX, float posY){
-        TextButton textButton = new TextButton(title, UI_SKIN);
-        textButton.setPosition(posX, posY);
-        int BUTTON_WIDTH = 200;
-        int BUTTON_HEIGHT = 50;
-        textButton.setWidth(BUTTON_WIDTH);
-        textButton.setHeight(BUTTON_HEIGHT);
-        return textButton;
+        return quickPlayButton;
     }
 }
 
