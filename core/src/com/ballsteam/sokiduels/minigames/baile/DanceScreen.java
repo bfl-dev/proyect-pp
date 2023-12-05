@@ -23,73 +23,73 @@ import java.util.HashMap;
  * sus respectivos controles para ganar puntos.
  */
 public class DanceScreen extends AbstractScreen implements GameState { //TODO: RENAME ALL THE VARIABLES AND METHODS TO ENGLISH
-    private final Sprite FLECHA_ABAJO = new Sprite(new Texture("baile/flechaAbajo.png"));
-    private final Sprite FLECHA_ARRIBA = new Sprite(new Texture("baile/flechaArriba.png"));
-    private final Sprite FLECHA_DERECHA = new Sprite(new Texture("baile/flechaDerecha.png"));
-    private final Sprite FLECHA_IZQUIERDA = new Sprite(new Texture("baile/flechaIzquierda.png"));
-    private final Array<Flecha> flechasArriba;
-    private final Array<Flecha> flechasAbajo;
-    private final Array<Flecha> flechasIzquierda;
-    private final Array<Flecha> flechasDerecha;
-    private final Array<Array<Flecha>> flechasJ1;
-    private final Array<Array<Flecha>> flechasJ2;
+    private final Sprite DOWN_ARROW = new Sprite(new Texture("baile/flechaAbajo.png"));
+    private final Sprite UP_ARROW = new Sprite(new Texture("baile/flechaArriba.png"));
+    private final Sprite RIGHT_ARROW = new Sprite(new Texture("baile/flechaDerecha.png"));
+    private final Sprite LEFT_ARROW = new Sprite(new Texture("baile/flechaIzquierda.png"));
+    private final Array<Flecha> upArrows;
+    private final Array<Flecha> downArrows;
+    private final Array<Flecha> leftArrows;
+    private final Array<Flecha> rightArrows;
+    private final Array<Array<Flecha>> P1Arrows;
+    private final Array<Array<Flecha>> P2Arrows;
 
-    private final Sound sonidoPuntos = Gdx.audio.newSound(Gdx.files.internal("baile/soundCoin.wav"));
+    private final Sound pointsSound = Gdx.audio.newSound(Gdx.files.internal("baile/soundCoin.wav"));
 
-    private final Sprite fondoFlechas;
-    private final Sprite fondoFlechas2;
+    private final Sprite arrowsBackground;
+    private final Sprite arrowsBackground2;
     //No se que es mejor esa wea u 8 bools pq si
-    private final boolean[] J1_ARROWS = new boolean[]{false,false,false,false};
-    private final boolean[] J2_ARROWS = new boolean[]{false,false,false,false};
+    private final boolean[] P1_ARROWS = new boolean[]{false,false,false,false};
+    private final boolean[] P2_ARROWS = new boolean[]{false,false,false,false};
     private long lastDrop;
-    private int scoreJ1;
-    private int scoreJ2;
-    private final Player J1;
-    private final Player J2;
+    private int scoreP1;
+    private int scoreP2;
+    private final Player P1;
+    private final Player P2;
     long timeGame;
     private final HashMap<Player, boolean[]> players = new HashMap<>();
 
     /**
      * Constructor de la clase Baile.
      *
-     * @param J1    Jugador 1.
-     * @param J2    Jugador 2.
+     * @param P1    Jugador 1.
+     * @param P2    Jugador 2.
      * @param main  Instancia principal del juego SokiDuels.
      */
-    public DanceScreen(SokiDuels main,Player J1, Player J2) { //TODO: IMPLEMENT CACHIPUN SCREEN CONECTION
+    public DanceScreen(SokiDuels main, Player P1, Player P2) { //TODO: IMPLEMENT CACHIPUN SCREEN CONECTION
         super(main);
-        this.J1 = J1;
-        this.J2 = J2;
+        this.P1 = P1;
+        this.P2 = P2;
 
         timeGame = System.currentTimeMillis();
 
-        players.put(J1,J1_ARROWS);
-        players.put(J2,J2_ARROWS);
+        players.put(P1, P1_ARROWS);
+        players.put(P2, P2_ARROWS);
 
-        flechasIzquierda = new Array<>();
-        flechasAbajo = new Array<>();
-        flechasArriba = new Array<>();
-        flechasDerecha = new Array<>();
+        leftArrows = new Array<>();
+        downArrows = new Array<>();
+        upArrows = new Array<>();
+        rightArrows = new Array<>();
 
-        flechasJ1 = new Array<>();
-        flechasJ1.add(flechasIzquierda);
-        flechasJ1.add(flechasAbajo);
-        flechasJ1.add(flechasArriba);
-        flechasJ1.add(flechasDerecha);
+        P1Arrows = new Array<>();
+        P1Arrows.add(leftArrows);
+        P1Arrows.add(downArrows);
+        P1Arrows.add(upArrows);
+        P1Arrows.add(rightArrows);
 
-        flechasJ2 = new Array<>();
-        flechasJ2.add(flechasIzquierda);
-        flechasJ2.add(flechasAbajo);
-        flechasJ2.add(flechasArriba);
-        flechasJ2.add(flechasDerecha);
+        P2Arrows = new Array<>();
+        P2Arrows.add(leftArrows);
+        P2Arrows.add(downArrows);
+        P2Arrows.add(upArrows);
+        P2Arrows.add(rightArrows);
 
-        fondoFlechas = new Sprite(new Texture("baile/flechas.png"));
-        fondoFlechas2 = new Sprite(new Texture("baile/flechas.png"));
+        arrowsBackground = new Sprite(new Texture("baile/flechas.png"));
+        arrowsBackground2 = new Sprite(new Texture("baile/flechas.png"));
 
         spawnFlechas();
 
-        scoreJ2 = 0;
-        scoreJ1 = 0;
+        scoreP2 = 0;
+        scoreP1 = 0;
     }
 
     @Override
@@ -105,28 +105,28 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
         closure(35000);
         main.batch.end();
     }
-    private void addPoints(Array<Flecha> flechas, boolean isPlayerOne){
-        flechas.forEach(flecha -> {
-            if (flecha.getPosition().y < 100 && flecha.getPosition().y > -5 && flecha.getPosition().x < (256)+256 && isPlayerOne){
-                flechas.removeValue(flecha, true);
-                scoreJ1++;
-                sonidoPuntos.play(1,2,1);
-            } else if (flecha.getPosition().y < 100 && flecha.getPosition().y > -5 && flecha.getPosition().x >= (256)+256*2 && !isPlayerOne){
-                flechas.removeValue(flecha, true);
-                scoreJ2++;
-                sonidoPuntos.play();
+    private void addPoints(Array<Flecha> arrows, boolean isPlayerOne){
+        arrows.forEach(arrow -> {
+            if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x < (256)+256 && isPlayerOne){
+                arrows.removeValue(arrow, true);
+                scoreP1++;
+                pointsSound.play(1,2,1);
+            } else if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x >= (256)+256*2 && !isPlayerOne){
+                arrows.removeValue(arrow, true);
+                scoreP2++;
+                pointsSound.play();
             }
         });
     }
 
-    private void minusPoints(Array<Flecha> flechas){ // TODO: LEFT ARROW BUG, FIX IT!
-        flechas.forEach(flecha -> {
-            if (flecha.getPosition().y< -20 && flecha.getPosition().y>-100 && flecha.getPosition().x<(256)+256){
-                flechas.removeValue(flecha,true);
-                scoreJ1--;
-            } else if (flecha.getPosition().y< -20 && flecha.getPosition().y>-100 && flecha.getPosition().x>(256)+256*2){
-                flechas.removeValue(flecha,true);
-                scoreJ2--;
+    private void minusPoints(Array<Flecha> arrows){ // TODO: LEFT ARROW BUG, FIX IT!
+        arrows.forEach(arrow -> {
+            if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x<(256)+256){
+                arrows.removeValue(arrow,true);
+                scoreP1--;
+            } else if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x>(256)+256*2){
+                arrows.removeValue(arrow,true);
+                scoreP2--;
             }
         });
     }
@@ -156,39 +156,39 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
         int random = (int) (Math.random() * 4);
         switch (random) {
             case 0 -> {
-                Flecha flechaArribaJ1 = new Flecha(FLECHA_ARRIBA,new Vector2((256)+128, getHeight()));
-                flechasArriba.add(flechaArribaJ1);
-                Flecha flechaArribaJ2 = new Flecha(FLECHA_ARRIBA,new Vector2((256)+(128+256*2), getHeight()));
-                flechasArriba.add(flechaArribaJ2);
+                Flecha upArrowP1 = new Flecha(UP_ARROW,new Vector2((256)+128, getHeight()));
+                upArrows.add(upArrowP1);
+                Flecha upArrowP2 = new Flecha(UP_ARROW,new Vector2((256)+(128+256*2), getHeight()));
+                upArrows.add(upArrowP2);
             }
             case 1 -> {
-                Flecha flechaAbajoJ1 = new Flecha(FLECHA_ABAJO,new Vector2((256)+64, getHeight()));
-                flechasAbajo.add(flechaAbajoJ1);
-                Flecha flechaAbajoJ2 = new Flecha(FLECHA_ABAJO,new Vector2((256)+64+ (256*2), getHeight()));
-                flechasAbajo.add(flechaAbajoJ2);
+                Flecha downArrowP1 = new Flecha(DOWN_ARROW,new Vector2((256)+64, getHeight()));
+                downArrows.add(downArrowP1);
+                Flecha downArrowP2 = new Flecha(DOWN_ARROW,new Vector2((256)+64+ (256*2), getHeight()));
+                downArrows.add(downArrowP2);
             }
             case 2 -> {
-                Flecha flechaIzquierdaJ1 = new Flecha(FLECHA_IZQUIERDA,new Vector2((256), getHeight()));
-                flechasIzquierda.add(flechaIzquierdaJ1);
-                Flecha flechaIzquierdaJ2 = new Flecha(FLECHA_IZQUIERDA,new Vector2(((256)+512), getHeight()));
-                flechasIzquierda.add(flechaIzquierdaJ2);
+                Flecha flechaIzquierdaJ1 = new Flecha(LEFT_ARROW,new Vector2((256), getHeight()));
+                leftArrows.add(flechaIzquierdaJ1);
+                Flecha flechaIzquierdaJ2 = new Flecha(LEFT_ARROW,new Vector2(((256)+512), getHeight()));
+                leftArrows.add(flechaIzquierdaJ2);
             }
             case 3 -> {
-                Flecha flechaDerechaJ1 = new Flecha(FLECHA_DERECHA,new Vector2((256)+192, getHeight()));
-                flechasDerecha.add(flechaDerechaJ1);
-                Flecha flechaDerechaJ2 = new Flecha(FLECHA_DERECHA,new Vector2((256)+192+ (256*2), getHeight()));
-                flechasDerecha.add(flechaDerechaJ2);
+                Flecha flechaDerechaJ1 = new Flecha(RIGHT_ARROW,new Vector2((256)+192, getHeight()));
+                rightArrows.add(flechaDerechaJ1);
+                Flecha flechaDerechaJ2 = new Flecha(RIGHT_ARROW,new Vector2((256)+192+ (256*2), getHeight()));
+                rightArrows.add(flechaDerechaJ2);
             }
         }
         lastDrop = TimeUtils.nanoTime();
     }
     public void dispose() {
-        flechasJ1.forEach(flechas -> flechas.forEach(Flecha::dispose));
-        flechasJ2.forEach(flechas -> flechas.forEach(Flecha::dispose));
+        P1Arrows.forEach(flechas -> flechas.forEach(Flecha::dispose));
+        P2Arrows.forEach(flechas -> flechas.forEach(Flecha::dispose));
     }
     private void drawOnscreenText() {
-        main.font.draw(main.batch, "Score: " + scoreJ1, (256)+256, 20);
-        main.font.draw(main.batch, "Score: " + scoreJ2, (256)+256*3, 20);
+        main.font.draw(main.batch, "Score: " + scoreP1, (256)+256, 20);
+        main.font.draw(main.batch, "Score: " + scoreP2, (256)+256*3, 20);
     }
 
     private void drawPointMessage(boolean isPlayerOne){
@@ -199,49 +199,49 @@ public class DanceScreen extends AbstractScreen implements GameState { //TODO: R
     public void action(long timeEnd) {
         if (timeGame + timeEnd > System.currentTimeMillis()) {
 
-            updatePlayerArrows(J1);
-            updatePlayerArrows(J2);
+            updatePlayerArrows(P1);
+            updatePlayerArrows(P2);
 
-            fondoFlechas.draw(main.batch);
-            fondoFlechas.setPosition(256,0);
-            fondoFlechas2.draw(main.batch);
-            fondoFlechas2.setPosition((256)+(256*2),0);
+            arrowsBackground.draw(main.batch);
+            arrowsBackground.setPosition(256,0);
+            arrowsBackground2.draw(main.batch);
+            arrowsBackground2.setPosition((256)+(256*2),0);
 
             if(TimeUtils.nanoTime() - lastDrop > 500000000) spawnFlechas();
             drawOnscreenText();
 
-            flechasJ1.forEach(flechas1 -> flechas1.forEach(flecha -> flecha.draw(main.batch)));
-            flechasJ2.forEach(flechas2 -> flechas2.forEach(flecha -> flecha.draw(main.batch)));
+            P1Arrows.forEach(flechas1 -> flechas1.forEach(flecha -> flecha.draw(main.batch)));
+            P2Arrows.forEach(flechas2 -> flechas2.forEach(flecha -> flecha.draw(main.batch)));
 
             //Tiene que haber una forma de hacer esta wea con funcional
-            if (J1_ARROWS[0]) {
-                addPoints(flechasIzquierda, true);
+            if (P1_ARROWS[0]) {
+                addPoints(leftArrows, true);
             }
-            if (J1_ARROWS[1]) {
-                addPoints(flechasAbajo, true);
+            if (P1_ARROWS[1]) {
+                addPoints(downArrows, true);
             }
-            if (J1_ARROWS[2]) {
-                addPoints(flechasArriba, true);
+            if (P1_ARROWS[2]) {
+                addPoints(upArrows, true);
             }
-            if (J1_ARROWS[3]) {
-                addPoints(flechasDerecha, true);
-            }
-
-            if (J2_ARROWS[0]) {
-                addPoints(flechasIzquierda, false);
-            }
-            if (J2_ARROWS[1]) {
-                addPoints(flechasAbajo, false);
-            }
-            if (J2_ARROWS[2]) {
-                addPoints(flechasArriba, false);
-            }
-            if (J2_ARROWS[3]) {
-                addPoints(flechasDerecha, false);
+            if (P1_ARROWS[3]) {
+                addPoints(rightArrows, true);
             }
 
-            flechasJ1.forEach(this::minusPoints);
-            flechasJ2.forEach(this::minusPoints);
+            if (P2_ARROWS[0]) {
+                addPoints(leftArrows, false);
+            }
+            if (P2_ARROWS[1]) {
+                addPoints(downArrows, false);
+            }
+            if (P2_ARROWS[2]) {
+                addPoints(upArrows, false);
+            }
+            if (P2_ARROWS[3]) {
+                addPoints(rightArrows, false);
+            }
+
+            P1Arrows.forEach(this::minusPoints);
+            P2Arrows.forEach(this::minusPoints);
 
         }
     }
