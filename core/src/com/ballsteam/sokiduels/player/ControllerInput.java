@@ -31,7 +31,7 @@ public class ControllerInput extends PlayerInput {
     }
     @Override
     public boolean interacted(){
-        poll();
+        update();
         return !hasPlayer && anyPressed();
     }
     private boolean anyPressed(){

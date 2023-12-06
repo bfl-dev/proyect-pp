@@ -9,6 +9,7 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
+
   }
 }
 
@@ -45,6 +46,7 @@ project(":core") {
   dependencies {
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation 'com.xenoamess:JXInput:1.0.1'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
   }
 
   eclipse.project.name = 'ProyectPP' + '-parent'
