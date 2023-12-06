@@ -110,12 +110,12 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
     }
     private void finalText() {
         main.font.getData().setScale(2f);
-        main.font.draw(main.batch, "Score: " + duelist1.score, (getWidth()/3)-100, getHeight()/2);
-        main.font.draw(main.batch, "Score: " + duelist2.score, (getWidth()/3)*2-100, getHeight()/2);
+        main.font.draw(main.batch, "Score: " + duelist1.getScore(), (getWidth()/3)-100, getHeight()/2);
+        main.font.draw(main.batch, "Score: " + duelist2.getScore(), (getWidth()/3)*2-100, getHeight()/2);
     }
     private void drawOnscreenText() {
-        main.font.draw(main.batch, "Score: " + duelist1.score, 15, 20);
-        main.font.draw(main.batch, "Score: " + duelist2.score, getWidth()-100, getHeight()-10);
+        main.font.draw(main.batch, "Score: " + duelist1.getScore(), 15, 20);
+        main.font.draw(main.batch, "Score: " + duelist2.getScore(), getWidth()-100, getHeight()-10);
     }
     private void spawnAlien() {
         Alien enemyLeft = new Alien(new Vector2(0, MathUtils.random(getHeight()/5, (4*getHeight()/5))));

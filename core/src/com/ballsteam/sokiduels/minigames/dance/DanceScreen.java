@@ -209,13 +209,13 @@ public class DanceScreen extends AbstractScreen implements GameState {
         P2Arrows.forEach(arrows -> arrows.forEach(DanceArrow::dispose));
     }
     private void drawOnscreenText() {
-        main.font.draw(main.batch, "Score: " + duelist1.score, (256)+256, 20);
-        main.font.draw(main.batch, "Score: " + duelist2.score, (256)+256*3, 20);
+        main.font.draw(main.batch, "Score: " + duelist1.getScore(), (256)+256, 20);
+        main.font.draw(main.batch, "Score: " + duelist2.getScore(), (256)+256*3, 20);
     }
     private void finalText() {
         main.font.getData().setScale(2f);
-        main.font.draw(main.batch, "Score: " + duelist1.score, (getWidth()/3)-100, getHeight()/2);
-        main.font.draw(main.batch, "Score: " + duelist2.score, (getWidth()/3)*2-100, getHeight()/2);
+        main.font.draw(main.batch, "Score: " + duelist1.getScore(), (getWidth()/3)-100, getHeight()/2);
+        main.font.draw(main.batch, "Score: " + duelist2.getScore(), (getWidth()/3)*2-100, getHeight()/2);
     }
 
     @Override
