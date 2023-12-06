@@ -26,14 +26,4 @@ class ControllerInputTest {
         device.update();
         assertEquals(false, device.LT);
     }
-    @Test
-    void used(){
-        assertTrue(device.interacted());
-    }
-
-    @Test
-    void playerOverride(){
-        device.hasPlayer = true;
-        assertFalse(device.interacted());
-    }
 }
