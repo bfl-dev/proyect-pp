@@ -36,6 +36,7 @@ public class Duelist {
         this.playerAction = new Sprite(new Texture("cachipun/ControllerCachipun.png"));
     }
 
+
     public void draw(SpriteBatch batch, float width, float height){
         if (isPlayerOne) {
             bar.setPosition((width/3)-125, (height-100));
