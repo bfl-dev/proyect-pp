@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.Screens.MenuScreen;
 import com.ballsteam.sokiduels.SokiDuels;
+import com.ballsteam.sokiduels.exceptions.NegativeScoreException;
 import com.ballsteam.sokiduels.minigames.dance.DanceScreen;
 import com.ballsteam.sokiduels.minigames.sokiDefense.SokiDefenseScreen;
 import com.ballsteam.sokiduels.minigames.spaceinvaders.SokiInvadersScreen;
@@ -173,13 +174,17 @@ public class CachipunScreen extends AbstractScreen {
         }
     }
 
-    public void determineDamageWin() {
+    public void determineDamageWin() throws NegativeScoreException {
+        if (winDuelist().score<0 || loseDuelist().score<0){
+            throw new NegativeScoreException("player score out of bounds (score>0)");
+        } else {
         if(winDuelist().score>loseDuelist().score){
             loseDuelist().healthDistance -= 30 * winDuelist().loads[loadsGet(choice.get(winDuelist()))];
         } else if (winDuelist().score==loseDuelist().score) {
             loseDuelist().healthDistance -= 30;
         } else {
             winDuelist().healthDistance -= 30;
+        }
         }
     }
 
