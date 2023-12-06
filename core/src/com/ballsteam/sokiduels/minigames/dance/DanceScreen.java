@@ -12,11 +12,14 @@ import com.ballsteam.sokiduels.Screens.Screens;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.badlogic.gdx.utils.Array;
+import com.ballsteam.sokiduels.exceptions.NoPlayerOneException;
 import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
 import com.ballsteam.sokiduels.interfaces.GameState;
 import com.ballsteam.sokiduels.player.ControllerInput;
 import com.ballsteam.sokiduels.player.KeyboardInput;
 import com.ballsteam.sokiduels.player.Player;
+
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -24,6 +27,7 @@ import java.util.HashMap;
  * Los jugadores deben seguir las flechas que aparecen en la pantalla utilizando
  * sus respectivos controles para ganar puntos.
  */
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 public class DanceScreen extends AbstractScreen implements GameState {
     private final Sprite DOWN_ARROW = new Sprite(new Texture("baile/flechaAbajo.png"));
     private final Sprite UP_ARROW = new Sprite(new Texture("baile/flechaArriba.png"));
@@ -62,7 +66,9 @@ public class DanceScreen extends AbstractScreen implements GameState {
      * @param main  Instancia principal del juego SokiDuels.
      */
     public DanceScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1,Duelist duelist2) {
+
         super(main);
+
         this.P1 = P1;
         this.P2 = P2;
 
@@ -230,35 +236,39 @@ public class DanceScreen extends AbstractScreen implements GameState {
             P2Arrows.forEach(flechas2 -> flechas2.forEach(danceArrow -> danceArrow.draw(main.batch)));
 
             if (P1_ARROWS[0]) {
-                addPoints(leftArrows, true);
+                addPoints(leftArrows, isPlayerOne(P1_ARROWS));
             }
             if (P1_ARROWS[1]) {
-                addPoints(downArrows, true);
+                addPoints(downArrows, isPlayerOne(P1_ARROWS));
             }
             if (P1_ARROWS[2]) {
-                addPoints(upArrows, true);
+                addPoints(upArrows, isPlayerOne(P1_ARROWS));
             }
             if (P1_ARROWS[3]) {
-                addPoints(rightArrows, true);
+                addPoints(rightArrows, isPlayerOne(P1_ARROWS));
             }
 
             if (P2_ARROWS[0]) {
-                addPoints(leftArrows, false);
+                addPoints(leftArrows, isPlayerOne(P2_ARROWS));
             }
             if (P2_ARROWS[1]) {
-                addPoints(downArrows, false);
+                addPoints(downArrows, isPlayerOne(P2_ARROWS));
             }
             if (P2_ARROWS[2]) {
-                addPoints(upArrows, false);
+                addPoints(upArrows, isPlayerOne(P2_ARROWS));
             }
             if (P2_ARROWS[3]) {
-                addPoints(rightArrows, false);
+                addPoints(rightArrows, isPlayerOne(P2_ARROWS));
             }
 
             P1Arrows.forEach(this::minusPoints);
             P2Arrows.forEach(this::minusPoints);
 
         }
+    }
+    private boolean isPlayerOne(boolean[] ARROWS){
+        return players.keySet().stream()
+            .filter(player -> Arrays.equals(players.get(player), ARROWS)).findFirst().get().isPlayerOne();
     }
 
     @Override

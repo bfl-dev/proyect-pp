@@ -17,13 +17,13 @@ public class MenuScreen extends AbstractScreen {
     private final Skin UI_SKIN = new Skin(Gdx.files.internal("ui/uiskin.json"));
     private final Music menu_music = Gdx.audio.newMusic(Gdx.files.internal("A STEP FORWARD INTO TERROR.mp3"));
     private final Sprite background = new Sprite(new Texture("TitleScreen.png"));
-    private final Player J1;
-    private final Player J2;
+    private final Player P1;
+    private final Player P2;
 
-    public MenuScreen(Player J1, Player J2, SokiDuels main) {
+    public MenuScreen(Player P1, Player P2, SokiDuels main) {
         super(main);
-        this.J1=J1;
-        this.J2=J2;
+        this.P1 = P1;
+        this.P2 = P2;
     }
 
     @Override
@@ -54,10 +54,12 @@ public class MenuScreen extends AbstractScreen {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Screens.cachipunScreen = new CachipunScreen(main, J1, J2);
-                menu_music.dispose();
-                main.setScreen(Screens.cachipunScreen);
-                dispose();
+                if (P1.onePlayerOne(P2)){
+                    Screens.cachipunScreen = new CachipunScreen(main, P1, P2);
+                    menu_music.dispose();
+                    main.setScreen(Screens.cachipunScreen);
+                    dispose();
+                }
             }
         });
         return quickPlayButton;
