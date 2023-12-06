@@ -7,15 +7,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Arrow {
-    final Sprite bulletSprite;
+    final Sprite  arrowSprite;
     final Vector2 posBullet;
     final int direction;
 
     public Arrow(Vector2 vector2, int direction) {
         // Inicialización de la bala y su sprite.
-        bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokidefense/arrow.png")));
-        bulletSprite.setScale(0.5f);
-        bulletSprite.rotate(90* direction);
+        arrowSprite = new Sprite(new Texture(Gdx.files.internal("sokidefense/arrow.png")));
+        arrowSprite.setScale(0.5f);
+        arrowSprite.rotate(90* direction);
         this.posBullet = vector2;
         this.direction = direction;
     }
@@ -33,7 +33,7 @@ public class Arrow {
     public void draw(SpriteBatch batch) {
         // Método para dibujar la bala.
         motion(direction);
-        bulletSprite.setPosition(posBullet.x, posBullet.y);
-        bulletSprite.draw(batch);
+        arrowSprite.setPosition(posBullet.x, posBullet.y);
+        arrowSprite.draw(batch);
     }
 }

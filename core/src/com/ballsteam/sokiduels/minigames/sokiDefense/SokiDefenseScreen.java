@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class SokiDefenseScreen extends AbstractScreen implements GameState {
     final Shield shield1;
     final Shield shield2;
-    final Array<Arrow> bullets;
+    final Array<Arrow> arrows;
     long lastBulletTime;
     final Array<Flag> flagsBlue;
     final Array<Flag> flagsRed;
@@ -39,7 +39,7 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
         background = new Sprite(new Texture("sokidefense/fondo.jpg"));
         players.put(J1, shield1);
         players.put(J2, shield2);
-        bullets = new Array<>();
+        arrows = new Array<>();
         flagsBlue = new Array<>();
         flagsRed = new Array<>();
         music_background = Gdx.audio.newMusic(Gdx.files.internal("sokidefense/defense.mp3"));
@@ -67,21 +67,21 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
         main.batch.end();
     }
     public void colisionBullet(){
-        bullets.forEach(arrow -> {
-            if (arrow.bulletSprite.getBoundingRectangle().overlaps(shield1.shieldSprite.getBoundingRectangle())){
-                bullets.removeValue(arrow,true);
+        arrows.forEach(arrow -> {
+            if (arrow.arrowSprite.getBoundingRectangle().overlaps(shield1.shieldSprite.getBoundingRectangle())){
+                arrows.removeValue(arrow,true);
                 shield1.addDamage();
             }
-            if (arrow.bulletSprite.getBoundingRectangle().overlaps(shield2.shieldSprite.getBoundingRectangle())){
-                bullets.removeValue(arrow,true);
+            if (arrow.arrowSprite.getBoundingRectangle().overlaps(shield2.shieldSprite.getBoundingRectangle())){
+                arrows.removeValue(arrow,true);
                 shield2.addDamage();
             }
         });
     }
     public void drawBullets(){
-        bullets.forEach(arrow -> {
+        arrows.forEach(arrow -> {
             arrow.draw(main.batch);
-            if (arrow.posBullet.y > getHeight() || arrow.posBullet.y < 0 || arrow.posBullet.x > getWidth() || arrow.posBullet.x < 0) bullets.removeValue(arrow,true);
+            if (arrow.posBullet.y > getHeight() || arrow.posBullet.y < 0 || arrow.posBullet.x > getWidth() || arrow.posBullet.x < 0) arrows.removeValue(arrow,true);
         });
     }
     public void spawnFlagBlue() {
@@ -97,10 +97,10 @@ public class SokiDefenseScreen extends AbstractScreen implements GameState {
         Arrow arrowFromRight = new Arrow(new Vector2(getWidth(),MathUtils.random(32, getHeight()-32)),1);
         Arrow arrowFromUp = new Arrow(new Vector2(MathUtils.random(32, getWidth()-32), getHeight()),2);
         Arrow arrowFromLeft = new Arrow(new Vector2(0,MathUtils.random(32, getHeight()-32)),3);
-        bullets.add(arrowFromDown);
-        bullets.add(arrowFromUp);
-        bullets.add(arrowFromLeft);
-        bullets.add(arrowFromRight);
+        arrows.add(arrowFromDown);
+        arrows.add(arrowFromUp);
+        arrows.add(arrowFromLeft);
+        arrows.add(arrowFromRight);
         lastBulletTime = TimeUtils.nanoTime();
     }
     private void finalText() {
