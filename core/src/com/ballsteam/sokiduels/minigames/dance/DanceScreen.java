@@ -13,7 +13,7 @@ import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.badlogic.gdx.utils.Array;
 import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
-import com.ballsteam.sokiduels.minigames.GameState;
+import com.ballsteam.sokiduels.interfaces.GameState;
 import com.ballsteam.sokiduels.player.ControllerInput;
 import com.ballsteam.sokiduels.player.KeyboardInput;
 import com.ballsteam.sokiduels.player.Player;
@@ -29,17 +29,18 @@ public class DanceScreen extends AbstractScreen implements GameState {
     private final Sprite UP_ARROW = new Sprite(new Texture("baile/flechaArriba.png"));
     private final Sprite RIGHT_ARROW = new Sprite(new Texture("baile/flechaDerecha.png"));
     private final Sprite LEFT_ARROW = new Sprite(new Texture("baile/flechaIzquierda.png"));
-    private final Array<Arrow> upArrows;
-    private final Array<Arrow> downArrows;
-    private final Array<Arrow> leftArrows;
-    private final Array<Arrow> rightArrows;
-    private final Array<Array<Arrow>> P1Arrows;
-    private final Array<Array<Arrow>> P2Arrows;
+    private final Array<DanceArrow> upArrows;
+    private final Array<DanceArrow> downArrows;
+    private final Array<DanceArrow> leftArrows;
+    private final Array<DanceArrow> rightArrows;
+    private final Array<Array<DanceArrow>> P1Arrows;
+    private final Array<Array<DanceArrow>> P2Arrows;
 
-    private final Sound pointsSound = Gdx.audio.newSound(Gdx.files.internal("baile/soundCoin.wav"));
+    private final Sound pointsSound;
 
     private final Sprite arrowsBackground;
     private final Sprite arrowsBackground2;
+    private final Sprite background;
     private final boolean[] P1_ARROWS = new boolean[]{false,false,false,false};
     private final boolean[] P2_ARROWS = new boolean[]{false,false,false,false};
     private long lastDrop;
@@ -90,8 +91,10 @@ public class DanceScreen extends AbstractScreen implements GameState {
 
         arrowsBackground = new Sprite(new Texture("baile/flechas.png"));
         arrowsBackground2 = new Sprite(new Texture("baile/flechas.png"));
+        background = new Sprite(new Texture("baile/fondo.png"));
 
-        song = Gdx.audio.newMusic(Gdx.files.internal("song.mp3"));
+        pointsSound = Gdx.audio.newSound(Gdx.files.internal("baile/soundCoin.wav"));
+        song = Gdx.audio.newMusic(Gdx.files.internal("baile/backgroundMusic.mp3"));
         song.setVolume(0.05f);
         song.play();
 
@@ -101,39 +104,44 @@ public class DanceScreen extends AbstractScreen implements GameState {
     @Override
     public void buildStage() {
         spawnArrows();
+        background.setSize(getWidth(),getHeight());
         timeGame = System.currentTimeMillis();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
+
         main.batch.begin();
+        background.draw(main.batch);
+
         action(30000);
         result(30000, 35000L);
         closure(35000);
+
         main.batch.end();
     }
-    private void addPoints(Array<Arrow> arrows, boolean isPlayerOne){
-        arrows.forEach(arrow -> {
-            if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x < getWidth()/2 && isPlayerOne){
-                arrows.removeValue(arrow, true);
+    private void addPoints(Array<DanceArrow> arrows, boolean isPlayerOne){
+        arrows.forEach(danceArrow -> {
+            if (danceArrow.getPosition().y < 100 && danceArrow.getPosition().y > -5 && danceArrow.getPosition().x < getWidth()/2 && isPlayerOne){
+                arrows.removeValue(danceArrow, true);
                 duelist1.addScore();
                 pointsSound.play(1,2,1);
-            } else if (arrow.getPosition().y < 100 && arrow.getPosition().y > -5 && arrow.getPosition().x >= getWidth()/2 && !isPlayerOne){
-                arrows.removeValue(arrow, true);
+            } else if (danceArrow.getPosition().y < 100 && danceArrow.getPosition().y > -5 && danceArrow.getPosition().x >= getWidth()/2 && !isPlayerOne){
+                arrows.removeValue(danceArrow, true);
                 duelist2.addScore();
                 pointsSound.play();
             }
         });
     }
 
-    private void minusPoints(Array<Arrow> arrows){
-        arrows.forEach(arrow -> {
-            if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x<getWidth()/2){
-                arrows.removeValue(arrow,true);
+    private void minusPoints(Array<DanceArrow> arrows){
+        arrows.forEach(danceArrow -> {
+            if (danceArrow.getPosition().y< -20 && danceArrow.getPosition().y>-100 && danceArrow.getPosition().x<getWidth()/2){
+                arrows.removeValue(danceArrow,true);
                 duelist1.subtractScore();
-            } else if (arrow.getPosition().y< -20 && arrow.getPosition().y>-100 && arrow.getPosition().x>getWidth()/2){
-                arrows.removeValue(arrow,true);
+            } else if (danceArrow.getPosition().y< -20 && danceArrow.getPosition().y>-100 && danceArrow.getPosition().x>getWidth()/2){
+                arrows.removeValue(danceArrow,true);
                 duelist2.subtractScore();
             }
         });
@@ -164,35 +172,35 @@ public class DanceScreen extends AbstractScreen implements GameState {
         int random = (int) (Math.random() * 4);
         switch (random) {
             case 0 -> {
-                Arrow upArrowP1 = new Arrow(UP_ARROW,new Vector2((256)+128, getHeight()));
-                upArrows.add(upArrowP1);
-                Arrow upArrowP2 = new Arrow(UP_ARROW,new Vector2((256)+(128+256*2), getHeight()));
-                upArrows.add(upArrowP2);
+                DanceArrow upDanceArrowP1 = new DanceArrow(UP_ARROW,new Vector2((256)+128, getHeight()));
+                upArrows.add(upDanceArrowP1);
+                DanceArrow upDanceArrowP2 = new DanceArrow(UP_ARROW,new Vector2((256)+(128+256*2), getHeight()));
+                upArrows.add(upDanceArrowP2);
             }
             case 1 -> {
-                Arrow downArrowP1 = new Arrow(DOWN_ARROW,new Vector2((256)+64, getHeight()));
-                downArrows.add(downArrowP1);
-                Arrow downArrowP2 = new Arrow(DOWN_ARROW,new Vector2((256)+64+ (256*2), getHeight()));
-                downArrows.add(downArrowP2);
+                DanceArrow downDanceArrowP1 = new DanceArrow(DOWN_ARROW,new Vector2((256)+64, getHeight()));
+                downArrows.add(downDanceArrowP1);
+                DanceArrow downDanceArrowP2 = new DanceArrow(DOWN_ARROW,new Vector2((256)+64+ (256*2), getHeight()));
+                downArrows.add(downDanceArrowP2);
             }
             case 2 -> {
-                Arrow leftArrowP1 = new Arrow(LEFT_ARROW,new Vector2((256), getHeight()));
-                leftArrows.add(leftArrowP1);
-                Arrow leftArrowP2 = new Arrow(LEFT_ARROW,new Vector2(((256)+512), getHeight()));
-                leftArrows.add(leftArrowP2);
+                DanceArrow leftDanceArrowP1 = new DanceArrow(LEFT_ARROW,new Vector2((256), getHeight()));
+                leftArrows.add(leftDanceArrowP1);
+                DanceArrow leftDanceArrowP2 = new DanceArrow(LEFT_ARROW,new Vector2(((256)+512), getHeight()));
+                leftArrows.add(leftDanceArrowP2);
             }
             case 3 -> {
-                Arrow rightArrowP1 = new Arrow(RIGHT_ARROW,new Vector2((256)+192, getHeight()));
-                rightArrows.add(rightArrowP1);
-                Arrow rightArrowP2 = new Arrow(RIGHT_ARROW,new Vector2((256)+192+ (256*2), getHeight()));
-                rightArrows.add(rightArrowP2);
+                DanceArrow rightDanceArrowP1 = new DanceArrow(RIGHT_ARROW,new Vector2((256)+192, getHeight()));
+                rightArrows.add(rightDanceArrowP1);
+                DanceArrow rightDanceArrowP2 = new DanceArrow(RIGHT_ARROW,new Vector2((256)+192+ (256*2), getHeight()));
+                rightArrows.add(rightDanceArrowP2);
             }
         }
         lastDrop = TimeUtils.nanoTime();
     }
     public void dispose() {
-        P1Arrows.forEach(arrows -> arrows.forEach(Arrow::dispose));
-        P2Arrows.forEach(arrows -> arrows.forEach(Arrow::dispose));
+        P1Arrows.forEach(arrows -> arrows.forEach(DanceArrow::dispose));
+        P2Arrows.forEach(arrows -> arrows.forEach(DanceArrow::dispose));
     }
     private void drawOnscreenText() {
         main.font.draw(main.batch, "Score: " + duelist1.score, (256)+256, 20);
@@ -202,9 +210,6 @@ public class DanceScreen extends AbstractScreen implements GameState {
         main.font.getData().setScale(2f);
         main.font.draw(main.batch, "Score: " + duelist1.score, (getWidth()/3)-100, getHeight()/2);
         main.font.draw(main.batch, "Score: " + duelist2.score, (getWidth()/3)*2-100, getHeight()/2);
-    }
-    private void drawPointMessage(boolean isPlayerOne){
-        main.font.draw(main.batch, "Punto!", isPlayerOne?(256):(256)+256, 20);
     }
 
     @Override
@@ -221,8 +226,8 @@ public class DanceScreen extends AbstractScreen implements GameState {
 
             if(TimeUtils.nanoTime() - lastDrop > 333333333) spawnArrows();
             drawOnscreenText();
-            P1Arrows.forEach(flechas1 -> flechas1.forEach(arrow -> arrow.draw(main.batch)));
-            P2Arrows.forEach(flechas2 -> flechas2.forEach(arrow -> arrow.draw(main.batch)));
+            P1Arrows.forEach(flechas1 -> flechas1.forEach(danceArrow -> danceArrow.draw(main.batch)));
+            P2Arrows.forEach(flechas2 -> flechas2.forEach(danceArrow -> danceArrow.draw(main.batch)));
 
             if (P1_ARROWS[0]) {
                 addPoints(leftArrows, true);

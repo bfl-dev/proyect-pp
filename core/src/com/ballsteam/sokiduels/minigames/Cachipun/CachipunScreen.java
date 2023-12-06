@@ -176,7 +176,7 @@ public class CachipunScreen extends AbstractScreen {
         }
     }
 
-    public void determineDamageWin() { //TODO: REMAKE THIS SHIT
+    public void determineDamageWin() {
         if(winDuelist().score>loseDuelist().score){
             loseDuelist().healthDistance -= 30 * winDuelist().loads[loadsGet(choice.get(winDuelist()))];
         } else if (winDuelist().score==loseDuelist().score) {
@@ -220,7 +220,7 @@ public class CachipunScreen extends AbstractScreen {
     }
     public void animationDamage(Duelist duelist){ //TODO : EXAMINAR ESTE CRIMEN DE GUERRA
         if (duelist.health != duelist.healthDistance) {
-            duelist.health -= 0.1f*Gdx.graphics.getDeltaTime();
+            duelist.health -= (int) (0.1f*Gdx.graphics.getDeltaTime());
         }
     }
     public void drawLoads(){

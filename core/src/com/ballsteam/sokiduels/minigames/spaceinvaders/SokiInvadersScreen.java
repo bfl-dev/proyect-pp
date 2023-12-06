@@ -12,7 +12,7 @@ import com.ballsteam.sokiduels.Screens.AbstractScreen;
 import com.ballsteam.sokiduels.Screens.Screens;
 import com.ballsteam.sokiduels.SokiDuels;
 import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
-import com.ballsteam.sokiduels.minigames.GameState;
+import com.ballsteam.sokiduels.interfaces.GameState;
 import com.ballsteam.sokiduels.player.Player;
 import com.ballsteam.sokiduels.player.PlayerInput;
 
