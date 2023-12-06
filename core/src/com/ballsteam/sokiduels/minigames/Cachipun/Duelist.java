@@ -7,16 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.HashMap;
 
 public class Duelist {
-    public int score;
-    public float health;
-    public float healthDistance;
-    public boolean winner;
+    private int score;
+    private float health;
+    private float healthDistance;
+    private boolean winner;
     private final Sprite bar;
     private final HashMap<String,Sprite> textures;
-    public Sprite playerAction;
+    private Sprite playerAction;
     private final boolean isPlayerOne;
-    public boolean random;
-    public final int [] loads;
+    private boolean random;
+    private final int [] loads;
     private final Sprite loadAttack;
     private final Sprite loadDance;
     private final Sprite loadDefend;
@@ -90,5 +90,49 @@ public class Duelist {
     }
     public void subtractLoad(int i){
         if (loads[i] > 1) loads[i]--;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public float getHealth() {
+        return health;
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    public float getHealthDistance() {
+        return healthDistance;
+    }
+
+    public void setHealthDistance(float healthDistance) {
+        this.healthDistance = healthDistance;
+    }
+
+    public boolean isWinner() {
+        return winner;
+    }
+
+    public void setWinner(boolean winner) {
+        this.winner = winner;
+    }
+
+    public boolean isRandom() {
+        return random;
+    }
+
+    public void setRandom(boolean random) {
+        this.random = random;
+    }
+
+    public int getLoads(int i) {
+        return loads[i];
     }
 }
