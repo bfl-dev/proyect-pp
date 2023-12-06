@@ -9,10 +9,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Spaceship {
-    protected Sprite shipSprite;
+    protected final Sprite shipSprite;
     private final Vector2 spaceShip;
-    Array<Bullet>  bullets;
-    boolean isPlayerOne;
+    final Array<Bullet>  bullets;
+    final boolean isPlayerOne;
     protected boolean LEFT;
     protected boolean RIGHT;
     boolean SHOOT;

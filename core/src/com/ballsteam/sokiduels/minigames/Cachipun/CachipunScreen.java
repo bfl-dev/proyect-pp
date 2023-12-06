@@ -21,29 +21,29 @@ import java.util.Objects;
 
 public class CachipunScreen extends AbstractScreen {
 
-    float SCREEN_HEIGHT = this.getHeight();
-    float SCREEN_WIDTH = this.getWidth();
+    final float SCREEN_HEIGHT = this.getHeight();
+    final float SCREEN_WIDTH = this.getWidth();
 
-    boolean[] P1_ACTION = new boolean[]{false,false,false,false,false};
-    boolean[] P2_ACTION = new boolean[]{false,false,false,false,false};
+    final boolean[] P1_ACTION = new boolean[]{false,false,false,false,false};
+    final boolean[] P2_ACTION = new boolean[]{false,false,false,false,false};
 
-    Music music_background;
-    Sprite background;
+    final Music music_background;
+    final Sprite background;
 
-    Sprite player1Sprite;
-    Sprite player2Sprite;
+    final Sprite player1Sprite;
+    final Sprite player2Sprite;
 
-    Player P1;
-    Player P2;
+    final Player P1;
+    final Player P2;
 
-    Duelist duelist1;
-    Duelist duelist2;
+    final Duelist duelist1;
+    final Duelist duelist2;
 
     boolean set = true;
     long timeout;
 
-    HashMap<Player, boolean[]> players = new HashMap<>();
-    HashMap<Duelist, String> choice = new HashMap<>(); //1 = Attack, 2 = Dance, 3 = Defend
+    final HashMap<Player, boolean[]> players = new HashMap<>();
+    final HashMap<Duelist, String> choice = new HashMap<>(); //1 = Attack, 2 = Dance, 3 = Defend
 
     public CachipunScreen(SokiDuels main, Player P1, Player P2) {
         super(main);

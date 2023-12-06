@@ -12,25 +12,6 @@ public class KeyboardInput extends PlayerInput {
     private int KEY_A;
     private int KEY_B;
 
-    /*
-        public KeyboardInput(){
-        if (isPlayerOne){
-            KEY_LEFT = Keys.A;
-            KEY_RIGHT = Keys.D;
-            KEY_UP = Keys.W;
-            KEY_DOWN = Keys.S;
-            KEY_A = Keys.E;
-            KEY_B = Keys.SPACE;
-        } else {
-            KEY_LEFT = Keys.J;
-            KEY_RIGHT = Keys.L;
-            KEY_UP = Keys.I;
-            KEY_DOWN = Keys.K;
-            KEY_A = Keys.U;
-            KEY_B = Keys.M;
-        }
-    }*/
-
     public KeyboardInput(boolean configOne){
         this.hasConfigOne = configOne;
         mapping();

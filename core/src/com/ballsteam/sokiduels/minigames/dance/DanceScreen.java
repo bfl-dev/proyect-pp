@@ -52,7 +52,7 @@ public class DanceScreen extends AbstractScreen implements GameState {
     private final Duelist duelist2;
     private final HashMap<Player, boolean[]> players = new HashMap<>();
 
-    public Music song;
+    public final Music song;
 
     /**
      * Constructor de la clase Baile.

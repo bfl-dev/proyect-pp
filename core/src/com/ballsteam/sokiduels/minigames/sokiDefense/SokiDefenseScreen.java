@@ -18,18 +18,18 @@ import com.ballsteam.sokiduels.player.Player;
 import java.util.HashMap;
 
 public class SokiDefenseScreen extends AbstractScreen implements GameState {
-    Shield shield1;
-    Shield shield2;
-    Array<Arrow> bullets;
+    final Shield shield1;
+    final Shield shield2;
+    final Array<Arrow> bullets;
     long lastBulletTime;
-    Array<Flag> flagsBlue;
-    Array<Flag> flagsRed;
-    HashMap<Player, Shield> players = new HashMap<>();
-    Duelist duelist1;
-    Duelist duelist2;
+    final Array<Flag> flagsBlue;
+    final Array<Flag> flagsRed;
+    final HashMap<Player, Shield> players = new HashMap<>();
+    final Duelist duelist1;
+    final Duelist duelist2;
     long timeGame;
-    Music music_background;
-    Sprite background;
+    final Music music_background;
+    final Sprite background;
     public SokiDefenseScreen(SokiDuels main, Player J1, Player J2, Duelist duelist1, Duelist duelist2) {
         super(main);
         this.duelist1 = duelist1;

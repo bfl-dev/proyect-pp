@@ -19,18 +19,17 @@ import com.ballsteam.sokiduels.player.PlayerInput;
 import java.util.HashMap;
 
 public class SokiInvadersScreen extends AbstractScreen implements GameState {
-    Spaceship spaceShip;
-    Spaceship spaceShip2;
-    Sprite background;
-    Array<Alien> aliensLeft;
-    Array<Alien> aliensRight;
-    int direction;
-    long lastDropTime;
-    Music music_background;
-    long timeGame;
-    Duelist duelist1;
-    Duelist duelist2;
-    HashMap<Player, Spaceship> players = new HashMap<>();
+    private final Spaceship spaceShip;
+    private final Spaceship spaceShip2;
+    private final Sprite background;
+    private final Array<Alien> aliensLeft;
+    private final Array<Alien> aliensRight;
+    private long lastDropTime;
+    private final Music music_background;
+    private final long timeGame;
+    private final Duelist duelist1;
+    private final Duelist duelist2;
+    private final HashMap<Player, Spaceship> players = new HashMap<>();
 public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1, Duelist duelist2) {
     super(main);
     timeGame = System.currentTimeMillis();
@@ -41,7 +40,6 @@ public SokiInvadersScreen(SokiDuels main, Player P1, Player P2, Duelist duelist1
     spaceShip2 = new Spaceship(P2.isPlayerOne());
     players.put(P1,spaceShip);
     players.put(P2, spaceShip2);
-    direction = 1;
     background = new Sprite(new Texture("sokiInvaders/fondo.png"));
     aliensLeft = new Array<>();
     aliensRight = new Array<>();

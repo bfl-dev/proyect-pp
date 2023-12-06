@@ -9,10 +9,12 @@ import com.ballsteam.sokiduels.Screens.PlayerSetScreen;
 import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 
 public class SokiDuels extends Game {
+
 	public OrthographicCamera camera;
 
 	public SpriteBatch batch;
     public BitmapFont font;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -27,6 +29,5 @@ public class SokiDuels extends Game {
         }
 
     }
-
 
 }

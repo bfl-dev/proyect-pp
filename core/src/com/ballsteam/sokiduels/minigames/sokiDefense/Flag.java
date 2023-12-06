@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Flag {
-    Sprite flagSprite;
-    Vector2 vector2;
+    final Sprite flagSprite;
+    final Vector2 vector2;
     public Flag (Vector2 vector2,String texture){
         flagSprite = new Sprite(new Texture(texture));
         flagSprite.setSize(35,35);

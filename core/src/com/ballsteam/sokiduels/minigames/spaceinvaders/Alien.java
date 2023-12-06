@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Alien { //
-    Sprite alienSprite;
-    Vector2 posAlien;
+    final Sprite alienSprite;
+    final Vector2 posAlien;
     public Alien (Vector2 vector2){
         alienSprite = new Sprite(new Texture("sokiInvaders/alien.png"));
         alienSprite.setScale(1f);

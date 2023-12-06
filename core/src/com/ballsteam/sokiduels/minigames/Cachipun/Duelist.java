@@ -16,7 +16,7 @@ public class Duelist {
     public Sprite playerAction;
     private final boolean isPlayerOne;
     public boolean random;
-    public int [] loads;
+    public final int [] loads;
     private final Sprite loadAttack;
     private final Sprite loadDance;
     private final Sprite loadDefend;

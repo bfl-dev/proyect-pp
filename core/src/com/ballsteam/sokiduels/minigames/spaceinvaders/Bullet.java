@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bullet {
-    Vector2 bullet;
-    Sprite bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/laserBullet.png")));;
-    boolean isPlayerOne;
+    final Vector2 bullet;
+    final Sprite bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokiInvaders/laserBullet.png")));
+    final boolean isPlayerOne;
 
     public Bullet(boolean isPlayerOne) {
         // Inicialización de la bala y su sprite.

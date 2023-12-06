@@ -1,7 +1,5 @@
 package com.ballsteam.sokiduels.player;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-
 public class Player {
     public boolean leftFuse = true;
     public boolean downFuse = true;
@@ -10,10 +8,6 @@ public class Player {
     private final boolean isPlayerOne;
 
     public PlayerInput Input = new PlayerInput() {
-        @Override
-        public void update() {
-            super.update();
-        }
     };
     public Player(boolean isPlayerOne){
         this.isPlayerOne = isPlayerOne;

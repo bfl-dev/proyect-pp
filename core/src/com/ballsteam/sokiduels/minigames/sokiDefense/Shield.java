@@ -10,17 +10,17 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.ballsteam.sokiduels.minigames.Cachipun.Duelist;
 
 public class Shield {
-    Sprite shieldSprite;
-    Vector2 posEscudo;
-    Texture texture;
-    Texture texture2;
-    Texture texture3;
+    final Sprite shieldSprite;
+    final Vector2 posEscudo;
+    final Texture texture;
+    final Texture texture2;
+    final Texture texture3;
     protected int UP_DOWN;
     protected int LEFT_RIGHT;
     private final Duelist duelist;
     int damage;
     private long timeOfDeath;
-    Sound impact;
+    final Sound impact;
     private boolean alive = true;
     public Shield(Texture Texture, Texture Texture2, Texture Texture3, Duelist duelist){
         this.texture = Texture;

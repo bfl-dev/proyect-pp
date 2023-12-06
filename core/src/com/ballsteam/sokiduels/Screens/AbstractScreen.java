@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.ballsteam.sokiduels.SokiDuels;
 
 public abstract class AbstractScreen extends Stage implements Screen {
-    protected SokiDuels main;
+    protected final SokiDuels main;
     public AbstractScreen(SokiDuels main) {
         this.main = main;
     }
