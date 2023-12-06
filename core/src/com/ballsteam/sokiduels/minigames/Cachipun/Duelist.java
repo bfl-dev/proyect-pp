@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 public class Duelist {
     public int score;
-    public int health;
-    public int healthDistance;
+    public float health;
+    public float healthDistance;
     public boolean winner;
     private final Sprite bar;
     private final HashMap<String,Sprite> textures;
@@ -25,7 +25,7 @@ public class Duelist {
         this.isPlayerOne = isPlayerOne;
         this.textures = new HashMap<>();
         this.health = 300;
-        this.healthDistance = 300;
+        this.healthDistance = 300f;
         this.random = false;
         loads = new int[]{1,1,1};
         loadAttack = new Sprite(new Texture("cachipun/sword.png"));

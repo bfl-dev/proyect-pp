@@ -53,8 +53,8 @@ public class CachipunScreen extends AbstractScreen {
         duelist2 = new Duelist(P2.isPlayerOne());
         choice.put(duelist1,"NEUTRO");
         choice.put(duelist2,"NEUTRO");
-        player1Sprite = new Sprite(new Texture("soki.png"));
-        player2Sprite = new Sprite(new Texture("soki.png"));
+        player1Sprite = new Sprite(new Texture("cachipun/player.png"));
+        player2Sprite = new Sprite(new Texture("cachipun/player2.png"));
         background = new Sprite(new Texture("cachipun/cachipunBackground.png"));
         background.setSize(getWidth(),getHeight());
         music_background = Gdx.audio.newMusic(Gdx.files.internal("cachipun/background_music.mp3"));
@@ -66,12 +66,12 @@ public class CachipunScreen extends AbstractScreen {
     @Override
     public void buildStage() {
         main.font.getData().setScale(0.5f);
-        player2Sprite.setScale(1.5f);
-        player1Sprite.setScale(1.5f);
+        player2Sprite.setScale(4f);
+        player1Sprite.setScale(4f);
         music_background.setVolume(0.05f);
         music_background.play();
-        player1Sprite.setPosition(SCREEN_WIDTH/3,SCREEN_HEIGHT-300);
-        player2Sprite.setPosition((SCREEN_WIDTH/3)*2,SCREEN_HEIGHT-300);
+        player1Sprite.setPosition(SCREEN_WIDTH/3,SCREEN_HEIGHT-275);
+        player2Sprite.setPosition((SCREEN_WIDTH/3)*2,SCREEN_HEIGHT-275);
         duelist1.setDuelistAction(P1.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
         duelist2.setDuelistAction(P2.Input.getClass()==ControllerInput.class?"ControllerCachipun":"KeyboardCachipun");
         if (duelist1.winner || duelist2.winner) {
@@ -84,6 +84,8 @@ public class CachipunScreen extends AbstractScreen {
         choice.replace(duelist2, "NEUTRO");
         duelist1.score = 0;
         duelist2.score = 0;
+        duelist1.winner = false;
+        duelist2.winner = false;
         duelist1.random = false;
         duelist2.random = false;
     }
@@ -94,7 +96,7 @@ public class CachipunScreen extends AbstractScreen {
         background.draw(main.batch);
         player1Sprite.draw(main.batch);
         player2Sprite.draw(main.batch);
-        if(duelist1.health > 0 && duelist2.health > 0) {
+        if(duelist1.health > 0f && duelist2.health > 0f) {
             actionGame();
         }else {
             winnerGame();
@@ -119,12 +121,7 @@ public class CachipunScreen extends AbstractScreen {
             set = true;
         }
         drawLoads();
-        if (duelist1.health != duelist1.healthDistance) {
-            animationDamage(duelist1);
-        }
-        if (duelist2.health != duelist2.healthDistance) {
-            animationDamage(duelist2);
-        }
+        animationDamage();
         duelist1.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
         duelist2.draw(main.batch,SCREEN_WIDTH,SCREEN_HEIGHT);
     }
@@ -205,7 +202,7 @@ public class CachipunScreen extends AbstractScreen {
                 1 : 2;
     }
     public void winnerGame(){
-        if (duelist1.health <= 0) {
+        if (duelist1.health <= 0f) {
             player1Sprite.setTexture(new Texture("cachipun/lose.png"));
             player2Sprite.setTexture(new Texture("cachipun/win.png"));
         } else {
@@ -218,9 +215,12 @@ public class CachipunScreen extends AbstractScreen {
             main.setScreen(new MenuScreen(P1, P2,main));
         }
     }
-    public void animationDamage(Duelist duelist){ //TODO : EXAMINAR ESTE CRIMEN DE GUERRA
-        if (duelist.health != duelist.healthDistance) {
-            duelist.health -= (int) (0.1f*Gdx.graphics.getDeltaTime());
+    public void animationDamage(){
+        if (duelist1.health != duelist1.healthDistance) {
+            duelist1.health -= 0.5f;
+        }
+        if (duelist2.health != duelist2.healthDistance) {
+            duelist2.health -= 0.5f;
         }
     }
     public void drawLoads(){
@@ -231,7 +231,7 @@ public class CachipunScreen extends AbstractScreen {
         main.font.draw(main.batch, "x" + duelist2.loads[1],((SCREEN_WIDTH/3)*2)-100, (SCREEN_HEIGHT-125));
         main.font.draw(main.batch, "x" + duelist2.loads[2],((SCREEN_WIDTH/3)*2)-75, (SCREEN_HEIGHT-125));
     }
-    public void assignLoads(){ //TODO : ARREGLAR CRIMEN DE GUERRA
+    public void assignLoads(){
         if (winDuelist().random){
             winDuelist().addLoad(loadsGet(choice.get(winDuelist())));
             winDuelist().addLoad(loadsGet(choice.get(winDuelist())));
