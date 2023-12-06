@@ -16,7 +16,6 @@ public class Player {
     }
 
     public void setInput(PlayerInput input) {
-
         Input = input;
         Input.hasPlayer=true;
     }

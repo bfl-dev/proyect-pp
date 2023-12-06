@@ -12,6 +12,10 @@ public class PlayerTest {
     @BeforeEach
     void setUp(){
         player = new Player(true);
+        playerInput = new KeyboardInput(true);
+        player.setInput(playerInput);
+        player.Input.UP = 1;
+        player.danceFuses();
     }
     @Test
     void onePlayerOne(){
@@ -20,11 +24,14 @@ public class PlayerTest {
     }
     @Test
     void fuse(){
-        playerInput = new KeyboardInput(true);
-        player.setInput(playerInput);
-        player.Input.UP = 1;
         player.danceFuses();
         assertFalse(player.upFuse);
+    }
+    @Test
+    void fuse2(){
+        player.Input.UP = 0;
+        player.danceFuses();
+        assertTrue(player.upFuse);
     }
     @Test
     void exceptionThrow(){
