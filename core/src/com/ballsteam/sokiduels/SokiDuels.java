@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ballsteam.sokiduels.Screens.PlayerSetScreen;
-import com.ballsteam.sokiduels.exceptions.ImportantAssetNotFoundedException;
+import com.ballsteam.sokiduels.exceptions.ImportantAssetNotFoundException;
 import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 
 public class SokiDuels extends Game {
@@ -33,11 +33,11 @@ public class SokiDuels extends Game {
         }
     }
 
-    private Sprite checkForSoki() throws ImportantAssetNotFoundedException {
+    public Sprite checkForSoki() throws ImportantAssetNotFoundException {
         try {
             return new Sprite(new Texture("soki.png"));
         } catch (Exception e){
-            throw new ImportantAssetNotFoundedException("There's a vital file missing...");
+            throw new ImportantAssetNotFoundException("There's a vital file missing...");
         }
     }
 }
