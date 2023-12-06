@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Arrow {
+public class DanceArrow {
     private final Sprite arrow;
     private final Vector2 position;
-    public Arrow(Sprite sprite, Vector2 vector2) {
+    public DanceArrow(Sprite sprite, Vector2 vector2) {
         arrow = sprite;
         position = vector2;
     }

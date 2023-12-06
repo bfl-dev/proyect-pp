@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Bullet {
-    Sprite bulletSprite;
-    Vector2 posBullet;
-    int direction;
+public class Arrow {
+    final Sprite bulletSprite;
+    final Vector2 posBullet;
+    final int direction;
 
-    public Bullet(Vector2 vector2, int direction) {
+    public Arrow(Vector2 vector2, int direction) {
         // Inicialización de la bala y su sprite.
-        bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokidefense/laserBullet.png")));
+        bulletSprite = new Sprite(new Texture(Gdx.files.internal("sokidefense/arrow.png")));
         bulletSprite.setScale(0.5f);
         bulletSprite.rotate(90* direction);
         this.posBullet = vector2;

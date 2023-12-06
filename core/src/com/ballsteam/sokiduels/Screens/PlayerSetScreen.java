@@ -14,16 +14,17 @@ import com.github.strikerx3.jxinput.exceptions.XInputNotLoadedException;
 import java.util.List;
 
 
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal"})
 public class PlayerSetScreen extends AbstractScreen {
     private final Label text = new Label("Player 1", new Skin(Gdx.files.internal("ui/uiskin.json")));
     private final Label text2 = new Label("Press Any Button...", new Skin(Gdx.files.internal("ui/uiskin.json")));
-    Player player1;
-    Player player2;
-    ControllerInput device1;
-    ControllerInput device2;
-    KeyboardInput keyboardInput;
-    KeyboardInput keyboardInput2;
-    List<PlayerInput> inputs;
+    final Player player1;
+    final Player player2;
+    private final ControllerInput device1;
+    private final ControllerInput device2;
+    private final KeyboardInput keyboardInput;
+    private final KeyboardInput keyboardInput2;
+    private final List<PlayerInput> inputs;
 
     public PlayerSetScreen(SokiDuels main) throws XInputNotLoadedException {
         super(main);
