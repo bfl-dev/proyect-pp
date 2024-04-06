@@ -77,7 +77,7 @@ public class ControllerInput extends PlayerInput {
         LB = BUTTONS_DELTA.isPressed(XInputButton.LEFT_SHOULDER);
 
         LT = leftTriggerFuse && AXES.lt>= TRIGGER_DEAD_ZONE;
-        leftTriggerFuse = !RT && AXES.rt< TRIGGER_DEAD_ZONE;
+        leftTriggerFuse = !LT && AXES.lt< TRIGGER_DEAD_ZONE;
 
         RB = BUTTONS_DELTA.isPressed(XInputButton.RIGHT_SHOULDER);
 
