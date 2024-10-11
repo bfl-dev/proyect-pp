@@ -9,9 +9,9 @@ name: Buildear con Gradle
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master","main","develop" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master","main","develop" ]
 
 jobs:
   build:
